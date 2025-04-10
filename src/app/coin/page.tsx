@@ -19,30 +19,44 @@ const CoinMainPage = () => {
     queryKey: ["AllCoins"],
     queryFn: getAllCoinName,
   });
-
+  // webSocket
   const ws = useRef<WebSocket | null>(null);
-  const [allCoinMarketData, setAllCoinMarketData] = useState<AllCoinNameType[]>(
+
+  // KRW, BTC 탭
+  const [tab, setTab] = useState("KRW");
+
+  // KRW 코인 마켓데이터
+  const [allKRWCoinMarketData, setAllKRWCoinMarketData] = useState<
+    AllCoinNameType[]
+  >([]);
+
+  // KRW 코인 마켓 이름
+  const [allKRWCoinMarketNames, setAllKRWCoinMarketNames] = useState<string[]>(
     []
-  ); // 코인 마켓데이터
-  const [allCoinMarketNames, setAllCoinMarketNames] = useState<string[]>([]); // 코인 마켓 이름
+  );
+
+  // 코인 시세 데이터
   const [coinData, setCoinData] = useState<CoinDataType>({});
 
   useEffect(() => {
-    console.log(allCoinNameData);
+    console.log(allCoinNameData?.filter((coin) => coin.market.includes("KRW")));
     if (allCoinNameData) {
       const marketNames = allCoinNameData
+        .filter((coin) => coin.market.includes("KRW"))
         .slice(0, 21)
         .map((coin) => coin.market);
       console.log(marketNames);
-      setAllCoinMarketNames(marketNames);
+      setAllKRWCoinMarketNames(marketNames);
 
-      const marketData = allCoinNameData.slice(0, 21);
-      setAllCoinMarketData(marketData);
+      const marketData = allCoinNameData
+        .filter((coin) => coin.market.includes("KRW"))
+        .slice(0, 21);
+      setAllKRWCoinMarketData(marketData);
     }
   }, [allCoinNameData]);
 
   useEffect(() => {
-    if (allCoinMarketNames.length === 0) return;
+    if (allKRWCoinMarketNames.length === 0) return;
     ws.current = new WebSocket("wss://api.upbit.com/websocket/v1");
     ws.current.binaryType = "arraybuffer";
 
@@ -51,7 +65,7 @@ const CoinMainPage = () => {
         { ticket: "monico-ticker" },
         {
           type: "ticker",
-          codes: allCoinMarketNames,
+          codes: allKRWCoinMarketNames,
         },
         { format: "DEFAULT" },
       ];
@@ -86,7 +100,7 @@ const CoinMainPage = () => {
 
       console.log(json);
     };
-  }, [allCoinMarketNames]);
+  }, [allKRWCoinMarketNames]);
 
   useEffect(() => {
     console.log(coinData);
@@ -94,37 +108,59 @@ const CoinMainPage = () => {
 
   return (
     <div>
-      <h1>암호화페 시세</h1>
+      <div className="max-w-[1440px]  m-auto">
+        <h1 className="text-[32px] font-bold my-[20px]">암호화페 시세</h1>
 
-      <table className="max-w-[1440px] w-full m-auto border-t border-[#d8d8d8]">
-        <thead className="h-[42px]">
-          <tr>
-            <th className="text-left pl-4">코인</th>
-            <th className="">현재가</th>
-            <th className=" w-[100px]">전일대비</th>
-            <th className="">거래량</th>
-            <th className="">거래대금</th>
-          </tr>
-          <tr className="border-b border-[#d8d8d8]"></tr>
-        </thead>
-        <tbody>
-          {allCoinMarketData.map((coin) => {
-            const coinInfo = coinData[coin.market];
+        {/* KRW, BTC 탭 */}
+        <ul className="bg-[#e9e9e9] h-[35px] w-[100px] flex justify-center items-center rounded-[5px] px-1 py-1 mb-[5px]">
+          <li
+            className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
+              tab === "KRW" ? "bg-white text-[#09090b]" : "text-[#71717a]"
+            }`}
+            onClick={() => setTab("KRW")}
+          >
+            KRW
+          </li>
+          <li
+            className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
+              tab === "BTC" ? "bg-white text-[#09090b]" : "text-[#71717a]"
+            }`}
+            onClick={() => setTab("BTC")}
+          >
+            BTC
+          </li>
+        </ul>
 
-            return (
-              <CoinListBox
-                key={coin.market}
-                coinName={coin.korean_name}
-                market={coin.market}
-                price={coinInfo?.trade_price}
-                changeRate={coinInfo?.signed_change_rate}
-                accTradeVolume24h={coinInfo?.acc_trade_volume_24h}
-                accTradePrice24h={coinInfo?.acc_trade_price_24h}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+        <table className="w-full m-auto border-t border-[#d8d8d8]">
+          <thead className="h-[42px]">
+            <tr>
+              <th className="text-left pl-4">코인</th>
+              <th className="">현재가</th>
+              <th className=" w-[100px]">전일대비</th>
+              <th className="">거래량(24H)</th>
+              <th className="">거래대금(24H)</th>
+            </tr>
+            <tr className="border-b border-[#d8d8d8]"></tr>
+          </thead>
+          <tbody>
+            {allKRWCoinMarketData.map((coin) => {
+              const coinInfo = coinData[coin.market];
+
+              return (
+                <CoinListBox
+                  key={coin.market}
+                  coinName={coin.korean_name}
+                  market={coin.market}
+                  price={coinInfo?.trade_price}
+                  changeRate={coinInfo?.signed_change_rate}
+                  accTradeVolume24h={coinInfo?.acc_trade_volume_24h}
+                  accTradePrice24h={coinInfo?.acc_trade_price_24h}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
