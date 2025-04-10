@@ -2,7 +2,11 @@
 
 import CoinListBox from "@/components/coin/CoinListBox";
 import { getAllCoinName } from "@/utils/api/getAllCoinName";
-import { useQuery } from "@tanstack/react-query";
+import {
+  QueryFunctionContext,
+  useInfiniteQuery,
+  useQuery,
+} from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 interface CoinDataType {
@@ -14,20 +18,49 @@ interface CoinDataType {
   };
 }
 
+interface AllCoinsPageType {
+  coins: AllCoinNameType[];
+  nextPage: number | undefined;
+}
+
+// interface AllCoinDataType{
+//   pageParams: number[];
+//   pages: {coins: AllCoinNameType[], nextPage: number}[]
+// }
+
 const CoinMainPage = () => {
-  const { data: allCoinNameData } = useQuery<AllCoinNameType[]>({
+  // coin api 호출 함수
+  const fetchAllCoinName = async ({
+    pageParam,
+  }: QueryFunctionContext): Promise<AllCoinsPageType> => {
+    return await getAllCoinName({ pageParam: pageParam as number });
+  };
+
+  const {
+    data: allCoinNameData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery<AllCoinsPageType>({
     queryKey: ["AllCoins"],
-    queryFn: getAllCoinName,
+    queryFn: fetchAllCoinName,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
   });
+  console.log(allCoinNameData);
   // webSocket
   const ws = useRef<WebSocket | null>(null);
 
+  // 무한스크롤 obserberRef
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
   // KRW, BTC 탭
-  const [tab, setTab] = useState("KRW");
+  const [tab, setTab] = useState<"KRW" | "BTC">("KRW");
 
   // KRW 코인 마켓데이터
   const [allKRWCoinMarketData, setAllKRWCoinMarketData] = useState<
-    AllCoinNameType[]
+    AllCoinsPageType[]
   >([]);
 
   // KRW 코인 마켓 이름
@@ -39,19 +72,14 @@ const CoinMainPage = () => {
   const [coinData, setCoinData] = useState<CoinDataType>({});
 
   useEffect(() => {
-    console.log(allCoinNameData?.filter((coin) => coin.market.includes("KRW")));
-    if (allCoinNameData) {
-      const marketNames = allCoinNameData
-        .filter((coin) => coin.market.includes("KRW"))
-        .slice(0, 21)
+    if (allCoinNameData?.pages) {
+      const allMarketsNames = allCoinNameData.pages
+        .flatMap((page) => page.coins)
         .map((coin) => coin.market);
-      console.log(marketNames);
-      setAllKRWCoinMarketNames(marketNames);
 
-      const marketData = allCoinNameData
-        .filter((coin) => coin.market.includes("KRW"))
-        .slice(0, 21);
-      setAllKRWCoinMarketData(marketData);
+      setAllKRWCoinMarketNames(allMarketsNames);
+
+      setAllKRWCoinMarketData(allCoinNameData.pages);
     }
   }, [allCoinNameData]);
 
@@ -102,9 +130,27 @@ const CoinMainPage = () => {
     };
   }, [allKRWCoinMarketNames]);
 
+  // 무한 스크롤
   useEffect(() => {
-    console.log(coinData);
-  }, [coinData]);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1 }
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [hasNextPage, fetchNextPage]);
 
   return (
     <div>
@@ -143,23 +189,26 @@ const CoinMainPage = () => {
             <tr className="border-b border-[#d8d8d8]"></tr>
           </thead>
           <tbody>
-            {allKRWCoinMarketData.map((coin) => {
-              const coinInfo = coinData[coin.market];
+            {allKRWCoinMarketData.map((page) => {
+              return page.coins.map((coin) => {
+                const coinInfo = coinData[coin.market];
 
-              return (
-                <CoinListBox
-                  key={coin.market}
-                  coinName={coin.korean_name}
-                  market={coin.market}
-                  price={coinInfo?.trade_price}
-                  changeRate={coinInfo?.signed_change_rate}
-                  accTradeVolume24h={coinInfo?.acc_trade_volume_24h}
-                  accTradePrice24h={coinInfo?.acc_trade_price_24h}
-                />
-              );
+                return (
+                  <CoinListBox
+                    key={coin.market}
+                    coinName={coin.korean_name}
+                    market={coin.market}
+                    price={coinInfo?.trade_price}
+                    changeRate={coinInfo?.signed_change_rate}
+                    accTradeVolume24h={coinInfo?.acc_trade_volume_24h}
+                    accTradePrice24h={coinInfo?.acc_trade_price_24h}
+                  />
+                );
+              });
             })}
           </tbody>
         </table>
+        <div ref={observerRef}></div>
       </div>
     </div>
   );

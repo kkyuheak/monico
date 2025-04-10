@@ -1,4 +1,6 @@
-import Image from "next/image";
+"use client";
+
+import { useRouter } from "next/navigation";
 
 interface CoinLiostBoxProps {
   coinName: string;
@@ -17,12 +19,16 @@ const CoinListBox = ({
   accTradePrice24h,
   accTradeVolume24h,
 }: CoinLiostBoxProps) => {
+  const router = useRouter();
+
   const coinSymbol = market.split("-")[1];
   return (
-    <tr className="border-b border-[#d8d8d8] h-[68px] cursor-pointer ">
+    <tr
+      className="border-b border-[#d8d8d8] h-[68px] cursor-pointer "
+      onClick={() => router.push(`/coin/${market}`)}
+    >
       <td className="">
         <div className="flex h-full items-center gap-3 pl-4">
-          {/* <div className="w-5 h-5 bg-blue-200 rounded-full"></div> */}
           <img
             src={`https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/${coinSymbol.toLowerCase()}.png`}
             alt={coinSymbol + "icon"}
@@ -33,7 +39,7 @@ const CoinListBox = ({
       </td>
       <td className="text-center text-[18px] font-semibold">
         {price?.toLocaleString("ko-KR")}
-        <span className="text-[10px] font-medium">KRW</span>
+        <span className="text-[10px] font-medium"> KRW</span>
       </td>
       <td
         className={`text-center font-bold ${
@@ -43,13 +49,13 @@ const CoinListBox = ({
         {changeRate > 0 && "+"}
         {(changeRate * 100).toFixed(2)}%
       </td>
-      <td className="text-center">
+      <td className="text-center font-semibold">
         {accTradeVolume24h?.toLocaleString("ko-KR")}
-        {coinSymbol}
+        <span className="text-[10px] font-medium"> {coinSymbol}</span>
       </td>
-      <td className="text-center">
-        {accTradePrice24h?.toLocaleString("ko-KR").split(".")[0]}
-        <span className="text-[10px]">KRW</span>
+      <td className="text-center font-semibold">
+        {Math.ceil(accTradePrice24h).toLocaleString("ko-KR")}
+        <span className="text-[10px] font-medium"> KRW</span>
       </td>
     </tr>
   );
