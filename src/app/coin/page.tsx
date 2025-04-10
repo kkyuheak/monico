@@ -1,6 +1,7 @@
 "use client";
 
 import CoinListBox from "@/components/coin/CoinListBox";
+import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import Spinner from "@/components/Loading/Spinner";
 import { getAllCoinName } from "@/utils/api/getAllCoinName";
 import {
@@ -89,6 +90,7 @@ const CoinMainPage = () => {
     }
   }, [allCoinNameData]);
 
+  // 웹소켓 연결
   useEffect(() => {
     if (allKRWCoinMarketNames.length === 0) return;
     ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
@@ -131,8 +133,6 @@ const CoinMainPage = () => {
           acc_trade_price_24h,
         },
       }));
-
-      // console.log(json);
     };
   }, [allKRWCoinMarketNames]);
 
@@ -198,6 +198,9 @@ const CoinMainPage = () => {
             {allKRWCoinMarketData.map((page) => {
               return page.coins.map((coin) => {
                 const coinInfo = coinData[coin.market];
+                if (!coinInfo) {
+                  return <CoinListSkeleton key={coin.market} />;
+                }
 
                 return (
                   <CoinListBox
