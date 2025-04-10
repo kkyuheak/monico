@@ -1,10 +1,29 @@
 import { api } from "@/api/axiosInstance";
 
-export const getAllCoinName = async () => {
+export const getAllCoinName = async ({
+  pageParam = 1,
+}: {
+  pageParam: number;
+}) => {
   try {
     const response = await api.get("market/all?is_details=true");
     console.log(response);
-    return response.data;
+    const { data } = response;
+
+    const KRWfilteredData = data.filter((coin: AllCoinNameType) =>
+      coin.market.includes("KRW")
+    );
+
+    const itemsPerPage = 20;
+    const start = (pageParam - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+
+    const paginatedData = KRWfilteredData.slice(start, end);
+
+    return {
+      coins: paginatedData,
+      nextPage: end < KRWfilteredData.length ? pageParam + 1 : undefined,
+    };
   } catch (error) {
     console.error("Error fetching coin names:", error);
     throw error;
