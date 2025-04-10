@@ -1,6 +1,7 @@
 "use client";
 
 import CoinListBox from "@/components/coin/CoinListBox";
+import Spinner from "@/components/Loading/Spinner";
 import { getAllCoinName } from "@/utils/api/getAllCoinName";
 import {
   QueryFunctionContext,
@@ -48,7 +49,12 @@ const CoinMainPage = () => {
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
-  console.log(allCoinNameData);
+
+  useEffect(() => {
+    console.log(isFetchingNextPage);
+    console.log(status);
+  }, [isFetchingNextPage, status]);
+
   // webSocket
   const ws = useRef<WebSocket | null>(null);
 
@@ -85,7 +91,7 @@ const CoinMainPage = () => {
 
   useEffect(() => {
     if (allKRWCoinMarketNames.length === 0) return;
-    ws.current = new WebSocket("wss://api.upbit.com/websocket/v1");
+    ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
     ws.current.binaryType = "arraybuffer";
 
     ws.current.onopen = () => {
@@ -126,7 +132,7 @@ const CoinMainPage = () => {
         },
       }));
 
-      console.log(json);
+      // console.log(json);
     };
   }, [allKRWCoinMarketNames]);
 
@@ -209,6 +215,11 @@ const CoinMainPage = () => {
           </tbody>
         </table>
         <div ref={observerRef}></div>
+        {isFetchingNextPage && (
+          <div className="py-5">
+            <Spinner />
+          </div>
+        )}
       </div>
     </div>
   );
