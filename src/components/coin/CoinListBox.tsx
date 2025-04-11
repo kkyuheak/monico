@@ -41,7 +41,7 @@ const CoinListBox = ({
       <td className="">
         <div className="flex h-full items-center gap-3 pl-4">
           <img
-            src={`https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/${coinSymbol.toLowerCase()}.png`}
+            src={`https://static.upbit.com/logos/${coinSymbol}.png`}
             alt={coinSymbol + "icon"}
             className="w-[30px] h-[30px] rounded-full"
           />

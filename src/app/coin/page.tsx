@@ -154,7 +154,7 @@ const CoinMainPage = () => {
 
   return (
     <div>
-      <div className="max-w-[1440px]  m-auto">
+      <div className="max-w-[1440px]  m-auto px-5">
         <h1 className="text-[32px] font-bold my-[20px]">암호화페 시세</h1>
 
         {/* KRW, BTC 탭 */}
