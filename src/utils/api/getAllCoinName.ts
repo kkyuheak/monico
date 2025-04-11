@@ -1,17 +1,20 @@
 import { api } from "@/api/axiosInstance";
 
-export const getAllCoinName = async ({
-  pageParam = 1,
-}: {
-  pageParam: number;
-}) => {
+export const getAllCoinName = async (
+  {
+    pageParam = 1,
+  }: {
+    pageParam: number;
+  },
+  tab: string
+) => {
   try {
     const response = await api.get("market/all?is_details=true");
     console.log(response);
     const { data } = response;
 
     const KRWfilteredData = data.filter((coin: AllCoinNameType) =>
-      coin.market.includes("KRW")
+      coin.market.startsWith(tab)
     );
 
     const itemsPerPage = 20;

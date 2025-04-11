@@ -9,6 +9,7 @@ interface CoinLiostBoxProps {
   changeRate: number;
   accTradeVolume24h: number;
   accTradePrice24h: number;
+  tabName: string;
 }
 
 const CoinListBox = ({
@@ -18,10 +19,20 @@ const CoinListBox = ({
   changeRate,
   accTradePrice24h,
   accTradeVolume24h,
+  tabName,
 }: CoinLiostBoxProps) => {
   const router = useRouter();
 
   const coinSymbol = market.split("-")[1];
+
+  const BTCprice = () => {
+    if (price.toString().includes("e")) {
+      const splitNum = price.toString().split("-")[1];
+      return price.toFixed(+splitNum);
+    } else {
+      return price;
+    }
+  };
   return (
     <tr
       className="border-b border-[#d8d8d8] h-[68px] cursor-pointer "
@@ -30,7 +41,7 @@ const CoinListBox = ({
       <td className="">
         <div className="flex h-full items-center gap-3 pl-4">
           <img
-            src={`https://raw.githubusercontent.com/spothq/cryptocurrency-icons/master/128/color/${coinSymbol.toLowerCase()}.png`}
+            src={`https://static.upbit.com/logos/${coinSymbol}.png`}
             alt={coinSymbol + "icon"}
             className="w-[30px] h-[30px] rounded-full"
           />
@@ -38,8 +49,11 @@ const CoinListBox = ({
         </div>
       </td>
       <td className="text-center text-[18px] font-semibold">
-        {price?.toLocaleString("ko-KR")}
-        <span className="text-[10px] font-medium"> KRW</span>
+        {tabName === "KRW" ? price?.toLocaleString("ko-KR") : BTCprice()}
+        <span className="text-[10px] font-medium">
+          {" "}
+          {tabName === "KRW" ? "KRW" : "BTC"}
+        </span>
       </td>
       <td
         className={`text-center font-bold ${
@@ -54,8 +68,13 @@ const CoinListBox = ({
         <span className="text-[10px] font-medium"> {coinSymbol}</span>
       </td>
       <td className="text-center font-semibold">
-        {Math.ceil(accTradePrice24h).toLocaleString("ko-KR")}
-        <span className="text-[10px] font-medium"> KRW</span>
+        {tabName === "KRW"
+          ? Math.ceil(accTradePrice24h).toLocaleString("ko-KR")
+          : accTradePrice24h.toLocaleString()}
+        <span className="text-[10px] font-medium">
+          {" "}
+          {tabName === "KRW" ? "KRW" : "BTC"}
+        </span>
       </td>
     </tr>
   );

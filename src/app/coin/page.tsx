@@ -4,11 +4,7 @@ import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import Spinner from "@/components/Loading/Spinner";
 import { getAllCoinName } from "@/utils/api/getAllCoinName";
-import {
-  QueryFunctionContext,
-  useInfiniteQuery,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 interface CoinDataType {
@@ -25,17 +21,17 @@ interface AllCoinsPageType {
   nextPage: number | undefined;
 }
 
-// interface AllCoinDataType{
-//   pageParams: number[];
-//   pages: {coins: AllCoinNameType[], nextPage: number}[]
-// }
-
 const CoinMainPage = () => {
+  // KRW, BTC 탭
+  const [tab, setTab] = useState<"KRW" | "BTC">("KRW");
+
   // coin api 호출 함수
   const fetchAllCoinName = async ({
     pageParam,
+    queryKey,
   }: QueryFunctionContext): Promise<AllCoinsPageType> => {
-    return await getAllCoinName({ pageParam: pageParam as number });
+    const tab = queryKey[1] as string;
+    return await getAllCoinName({ pageParam: pageParam as number }, tab);
   };
 
   const {
@@ -45,16 +41,11 @@ const CoinMainPage = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery<AllCoinsPageType>({
-    queryKey: ["AllCoins"],
+    queryKey: ["AllCoins", tab],
     queryFn: fetchAllCoinName,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
-
-  useEffect(() => {
-    console.log(isFetchingNextPage);
-    console.log(status);
-  }, [isFetchingNextPage, status]);
 
   // webSocket
   const ws = useRef<WebSocket | null>(null);
@@ -62,21 +53,20 @@ const CoinMainPage = () => {
   // 무한스크롤 obserberRef
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  // KRW, BTC 탭
-  const [tab, setTab] = useState<"KRW" | "BTC">("KRW");
-
   // KRW 코인 마켓데이터
-  const [allKRWCoinMarketData, setAllKRWCoinMarketData] = useState<
+  const [allCoinMarketData, setAllCoinMarketData] = useState<
     AllCoinsPageType[]
   >([]);
 
   // KRW 코인 마켓 이름
-  const [allKRWCoinMarketNames, setAllKRWCoinMarketNames] = useState<string[]>(
-    []
-  );
+  const [allCoinMarketNames, setAllCoinMarketNames] = useState<string[]>([]);
 
   // 코인 시세 데이터
   const [coinData, setCoinData] = useState<CoinDataType>({});
+
+  useEffect(() => {
+    setCoinData({});
+  }, [tab]);
 
   useEffect(() => {
     if (allCoinNameData?.pages) {
@@ -84,15 +74,15 @@ const CoinMainPage = () => {
         .flatMap((page) => page.coins)
         .map((coin) => coin.market);
 
-      setAllKRWCoinMarketNames(allMarketsNames);
+      setAllCoinMarketNames(allMarketsNames);
 
-      setAllKRWCoinMarketData(allCoinNameData.pages);
+      setAllCoinMarketData(allCoinNameData.pages);
     }
   }, [allCoinNameData]);
 
   // 웹소켓 연결
   useEffect(() => {
-    if (allKRWCoinMarketNames.length === 0) return;
+    if (allCoinMarketNames.length === 0) return;
     ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
     ws.current.binaryType = "arraybuffer";
 
@@ -101,7 +91,7 @@ const CoinMainPage = () => {
         { ticket: "monico-ticker" },
         {
           type: "ticker",
-          codes: allKRWCoinMarketNames,
+          codes: allCoinMarketNames,
         },
         { format: "DEFAULT" },
       ];
@@ -134,7 +124,11 @@ const CoinMainPage = () => {
         },
       }));
     };
-  }, [allKRWCoinMarketNames]);
+
+    return () => {
+      ws.current?.close();
+    };
+  }, [allCoinMarketNames, tab]);
 
   // 무한 스크롤
   useEffect(() => {
@@ -160,7 +154,7 @@ const CoinMainPage = () => {
 
   return (
     <div>
-      <div className="max-w-[1440px]  m-auto">
+      <div className="max-w-[1440px]  m-auto px-5">
         <h1 className="text-[32px] font-bold my-[20px]">암호화페 시세</h1>
 
         {/* KRW, BTC 탭 */}
@@ -195,7 +189,7 @@ const CoinMainPage = () => {
             <tr className="border-b border-[#d8d8d8]"></tr>
           </thead>
           <tbody>
-            {allKRWCoinMarketData.map((page) => {
+            {allCoinMarketData.map((page) => {
               return page.coins.map((coin) => {
                 const coinInfo = coinData[coin.market];
                 if (!coinInfo) {
@@ -211,6 +205,7 @@ const CoinMainPage = () => {
                     changeRate={coinInfo?.signed_change_rate}
                     accTradeVolume24h={coinInfo?.acc_trade_volume_24h}
                     accTradePrice24h={coinInfo?.acc_trade_price_24h}
+                    tabName={tab}
                   />
                 );
               });
