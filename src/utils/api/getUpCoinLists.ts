@@ -38,6 +38,7 @@ export const getUpCoinList = async () => {
 
     const upCoinList = tickers
       .filter((ticker) => ticker.change === "RISE")
+      .slice(0, 3)
       .sort((a, b) => a.change_rate - b.change_rate);
     console.log(upCoinList);
 
