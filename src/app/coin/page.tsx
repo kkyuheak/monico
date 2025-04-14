@@ -155,10 +155,10 @@ const CoinMainPage = () => {
 
   return (
     <div>
-      <div className="max-w-[1440px]  m-auto px-5">
-        <h1 className="text-[32px] font-bold my-[20px]">암호화페 시세</h1>
+      <div className="max-w-[1440px] m-auto px-5">
+        <h1 className="text-[28px] font-bold my-[20px]">암호화페 시세</h1>
         {/* 상승, 하락 */}
-        <div className="flex gap-2 mb-5">
+        <div className="mb-5 flex gap-2 justify-around">
           <CoinUpDownList type="UP" />
           <CoinUpDownList type="DOWN" />
         </div>
