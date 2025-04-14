@@ -27,7 +27,7 @@ const getTickers = async (allCoins: string[]) => {
   }
 };
 
-export const getUpCoinList = async () => {
+export const getUpDownCoinList = async (type: string) => {
   try {
     const KRWCoinData = await getAllCoin();
     let tickers: CoinTickerType[] = [];
@@ -36,13 +36,21 @@ export const getUpCoinList = async () => {
       tickers = await getTickers(KRWCoinData.map((coin) => coin.market));
     }
 
-    const upCoinList = tickers
-      .filter((ticker) => ticker.change === "RISE")
-      .sort((a, b) => b.change_rate - a.change_rate);
+    if (type === "UP") {
+      const upCoinList = tickers
+        .filter((ticker) => ticker.change === "RISE")
+        .sort((a, b) => b.change_rate - a.change_rate);
 
-    console.log(upCoinList);
+      console.log(upCoinList);
 
-    return upCoinList;
+      return upCoinList;
+    } else {
+      const downCoinList = tickers
+        .filter((ticker) => ticker.change === "FALL")
+        .sort((a, b) => b.change_rate - a.change_rate);
+
+      return downCoinList;
+    }
   } catch (error) {
     console.log(error);
   }
