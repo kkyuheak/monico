@@ -2,6 +2,7 @@
 
 import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
+import CoinUpDownList from "@/components/coin/CoinUpDownList";
 import Spinner from "@/components/Loading/Spinner";
 import { getAllCoinName } from "@/utils/api/getAllCoinName";
 import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
@@ -154,8 +155,13 @@ const CoinMainPage = () => {
 
   return (
     <div>
-      <div className="max-w-[1440px]  m-auto px-5">
-        <h1 className="text-[32px] font-bold my-[20px]">암호화페 시세</h1>
+      <div className="max-w-[1440px] m-auto px-5">
+        <h1 className="text-[28px] font-bold my-[20px]">암호화페 시세</h1>
+        {/* 상승, 하락 */}
+        <div className="mb-5 flex gap-2 justify-around">
+          <CoinUpDownList type="UP" />
+          <CoinUpDownList type="DOWN" />
+        </div>
 
         {/* KRW, BTC 탭 */}
         <ul className="bg-[#e9e9e9] h-[35px] w-[100px] flex justify-center items-center rounded-[5px] px-1 py-1 mb-[5px]">
