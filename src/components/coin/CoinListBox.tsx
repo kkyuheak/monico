@@ -57,7 +57,7 @@ const CoinListBox = ({
       </td>
       <td
         className={`text-center font-bold ${
-          changeRate > 0 ? "text-[#FF3D00]" : "text-[#1E90FF]"
+          changeRate < 0 ? "text-[#FF3D00]" : "text-[#1E90FF]"
         }`}
       >
         {changeRate > 0 && "+"}
