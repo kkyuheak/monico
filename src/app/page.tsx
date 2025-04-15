@@ -1,4 +1,4 @@
-import MainButton from "@/components/MainButton";
+import MainButton from "@/components/common/buttons/MainButton";
 
 const MainPage = () => {
   return (
