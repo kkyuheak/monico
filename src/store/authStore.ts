@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface UserInfoType {
   id: string;
@@ -16,9 +17,20 @@ interface AuthStoreType {
   clearUserInfo: () => void;
 }
 
-export const useAuthStore = create<AuthStoreType>((set) => ({
-  isLoggedIn: false,
-  userInfo: null,
-  setUserInfo: (userData) => set({ userInfo: userData }),
-  clearUserInfo: () => set({ userInfo: null }),
-}));
+export const useAuthStore = create<AuthStoreType>()(
+  persist(
+    (set) => ({
+      isLoggedIn: false,
+      userInfo: null,
+      setUserInfo: (userData) => set({ userInfo: userData }),
+      clearUserInfo: () => set({ userInfo: null }),
+    }),
+    {
+      name: "auth",
+      partialize: (state) => ({
+        isLoggedIn: state.isLoggedIn,
+        userInfo: state.userInfo,
+      }),
+    }
+  )
+);
