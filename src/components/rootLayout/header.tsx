@@ -1,8 +1,10 @@
 "use client";
 
 import { supabase } from "@/lib/supabase/supabase";
+import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const Header = () => {
   const logOut = async () => {
@@ -13,6 +15,13 @@ const Header = () => {
       return;
     }
   };
+
+  const userInfo = useAuthStore((state) => state.userInfo);
+
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
+
   return (
     <header className="h-[53px] flex items-center justify-between px-6 border-b border-[#CFCFCF] bg-white">
       <Link href={"/"} className="h-full">

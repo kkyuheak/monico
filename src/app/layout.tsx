@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Image from "next/image";
-import Link from "next/link";
 import QueryProvider from "@/components/provider/QueryProvider";
 import Header from "@/components/rootLayout/header";
 
