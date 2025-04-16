@@ -4,6 +4,7 @@ import "./globals.css";
 import Image from "next/image";
 import Link from "next/link";
 import QueryProvider from "@/components/provider/QueryProvider";
+import Header from "@/components/rootLayout/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,26 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
-          <header className="h-[53px] flex items-center justify-between px-6 border-b border-[#CFCFCF] bg-white">
-            <Link href={"/"} className="h-full">
-              <Image
-                src={"/assets/monico_logo.svg"}
-                alt="header_logo"
-                width={100}
-                height={40}
-                className="bg-white cursor-pointer h-full"
-              />
-            </Link>
-
-            <ul className="flex gap-6 text-[16px]">
-              <li className="cursor-pointer">
-                <Link href={"login"}>로그인</Link>
-              </li>
-              <li className="cursor-pointer">
-                <Link href={"register"}>회원가입</Link>
-              </li>
-            </ul>
-          </header>
+          <Header />
           {children}
         </QueryProvider>
       </body>

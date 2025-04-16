@@ -1,6 +1,24 @@
-import MainButton from "@/components/MainButton";
+"use client";
+import MainButton from "@/components/common/buttons/MainButton";
+import { supabase } from "@/lib/supabase/supabase";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const MainPage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleOAuthCallback = async () => {
+      const { data } = await supabase.auth.getSession();
+
+      if (data.session === null) return;
+
+      router.replace("/");
+    };
+
+    handleOAuthCallback();
+  }, []);
+
   return (
     <div>
       <section className="h-[calc(100vh-53px)] bg-blue-50 flex flex-col justify-center">
