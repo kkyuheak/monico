@@ -3,8 +3,8 @@
 import AuthButton from "@/components/common/buttons/AuthButton";
 import { supabase } from "@/lib/supabase/supabase";
 
-import { googleSignUp } from "@/utils/api/login/googleSignUp";
-import { kakaoLogin } from "@/utils/api/login/kakaoLogin";
+import { googleSignUp } from "@/utils/auth/login/googleSignUp";
+import { kakaoLogin } from "@/utils/auth/login/kakaoLogin";
 import { useEffect } from "react";
 
 const SignUpPage = () => {
