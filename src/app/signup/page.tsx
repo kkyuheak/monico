@@ -3,7 +3,8 @@
 import AuthButton from "@/components/common/buttons/AuthButton";
 import { supabase } from "@/lib/supabase/supabase";
 
-import { googleSignUp } from "@/utils/api/signup/googleSignUp";
+import { googleSignUp } from "@/utils/api/login/googleSignUp";
+import { kakaoLogin } from "@/utils/api/login/kakaoLogin";
 import { useEffect } from "react";
 
 const SignUpPage = () => {
@@ -45,6 +46,7 @@ const SignUpPage = () => {
           text="카카오로 시작하기"
           css="bg-[#FEE500]"
           iconImgSrc={"/assets/authIcon/kakao_logo.png"}
+          onClick={() => kakaoLogin()}
         />
         <p className="font-semibold text-gray-500 text-[13px]">
           이미 회원이신가요?{" "}
