@@ -15,6 +15,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const Header = () => {
+  const userInfo = useAuthStore((state) => state.userInfo);
+  const setUserInfo = useAuthStore((state) => state.setUserInfo);
+
+  // 로그아웃 함수
   const logOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -22,6 +26,12 @@ const Header = () => {
       alert("로그아웃 도중 에러가 발생했습니다.");
       return;
     }
+
+    // 로그인 여부 false
+    setIsLoggedIn(false);
+
+    // zustand 유저 정보 Null
+    setUserInfo(null);
   };
 
   const [isLoading, setIsLoading] = useState(true);
@@ -44,8 +54,6 @@ const Header = () => {
     }
     setIsLoading(false);
   };
-
-  const userInfo = useAuthStore((state) => state.userInfo);
 
   useEffect(() => {
     console.log(userInfo);
@@ -84,24 +92,24 @@ const Header = () => {
             </>
           ) : (
             <>
-              <li onClick={logOut} className="cursor-pointer">
-                로그아웃
-              </li>
-              <li className="flex items-center">
+              <li className="flex items-center ">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="w-10 h-10 bg-red-400 rounded-full cursor-pointer">
+                  <DropdownMenuTrigger className="w-10 h-10 bg-red-400 rounded-full cursor-pointer outline-none">
                     <img
                       src={userInfo?.profile_img}
                       alt="프로필 이미지"
                       className="rounded-full w-10 h-10"
                     />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent>
+                  <DropdownMenuContent className="w-[160px] mr-1">
                     <DropdownMenuLabel>내 계정</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>프로필</DropdownMenuItem>
                     <DropdownMenuItem>즐겨찾기</DropdownMenuItem>
-                    <DropdownMenuItem className="text-red-600">
+                    <DropdownMenuItem
+                      className="text-red-600 focus:text-red-600"
+                      onClick={logOut}
+                    >
                       로그아웃
                     </DropdownMenuItem>
                   </DropdownMenuContent>

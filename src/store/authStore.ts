@@ -13,7 +13,7 @@ interface UserInfoType {
 interface AuthStoreType {
   isLoggedIn: boolean;
   userInfo: UserInfoType | null;
-  setUserInfo: (userData: UserInfoType) => void;
+  setUserInfo: (userData: UserInfoType | null) => void;
   clearUserInfo: () => void;
 }
 

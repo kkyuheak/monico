@@ -1,10 +1,10 @@
 import { supabase } from "@/lib/supabase/supabase";
 
 export const kakaoLogin = async () => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
+  const { error } = await supabase.auth.signInWithOAuth({
     provider: "kakao",
     options: {
-      redirectTo: "/",
+      redirectTo: "http://localhost:3000",
     },
   });
 
