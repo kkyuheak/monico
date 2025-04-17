@@ -5,15 +5,26 @@ import { supabase } from "@/lib/supabase/supabase";
 
 import { googleSignUp } from "@/utils/auth/login/googleSignUp";
 import { kakaoLogin } from "@/utils/auth/login/kakaoLogin";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const SignUpPage = () => {
+  const router = useRouter();
+
   const getUser = async () => {
     const { data, error } = await supabase.auth.getUser();
     if (data) {
       console.log(data);
     }
   };
+
+  // 로그인 유저 리다이렉트
+  // const checkLogin = async () => {
+  //   const { data, error } = await supabase.auth.getSession();
+  //   if (data.session !== null) {
+  //     router.replace("/");
+  //   }
+  // };
 
   useEffect(() => {
     getUser();
@@ -26,12 +37,6 @@ const SignUpPage = () => {
           Monico에 오신 것을 환영합니다!
         </h1>
         <h2 className="text-[20px] font-semibold">회원가입</h2>
-        <div
-          className="cursor-pointer"
-          onClick={async () => await supabase.auth.signOut()}
-        >
-          로그아웃
-        </div>
       </div>
 
       {/* 카카오, 구글 소셜 로그인 */}
