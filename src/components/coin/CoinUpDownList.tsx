@@ -36,9 +36,14 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    console.log("asd");
     if (coinListData?.length === 0 || !coinListData) return;
     const coinListSlice = coinListData?.slice(0, 3).map((coin) => coin.market);
     console.log(coinListSlice);
+
+    // if (!ws.current) {
+    //   ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
+    // }
 
     ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
     ws.current.binaryType = "arraybuffer";
@@ -52,6 +57,8 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
         },
         { format: "DEFAULT" },
       ];
+
+      console.log("b open");
 
       ws.current?.send(JSON.stringify(subscribeMsg));
     };
@@ -78,7 +85,9 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
     };
 
     return () => {
+      console.log("sec");
       ws.current?.close();
+      ws.current = null;
     };
   }, [coinListData]);
 

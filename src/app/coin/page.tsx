@@ -5,6 +5,7 @@ import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import CoinUpDownList from "@/components/coin/CoinUpDownList";
 import Spinner from "@/components/Loading/Spinner";
 import { getAllCoinName } from "@/utils/api/getAllCoinName";
+import { getSocket } from "@/utils/socket";
 import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
@@ -84,7 +85,13 @@ const CoinMainPage = () => {
   // 웹소켓 연결
   useEffect(() => {
     if (allCoinMarketNames.length === 0) return;
+    console.log(allCoinMarketNames);
+    console.log(ws.current);
+
     ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
+
+    console.log(ws.current);
+
     ws.current.binaryType = "arraybuffer";
 
     ws.current.onopen = () => {
@@ -96,6 +103,8 @@ const CoinMainPage = () => {
         },
         { format: "DEFAULT" },
       ];
+
+      console.log("a open");
 
       ws.current?.send(JSON.stringify(subscribeMsg));
     };
@@ -127,7 +136,9 @@ const CoinMainPage = () => {
     };
 
     return () => {
+      console.log("first");
       ws.current?.close();
+      ws.current = null;
     };
   }, [allCoinMarketNames, tab]);
 
