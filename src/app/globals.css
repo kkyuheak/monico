@@ -42,8 +42,8 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  --color-coin-plus: #1e90ff;
-  --color-coin-minus: #ff3d00;
+  --color-coin-plus: #ff3d00;
+  --color-coin-minus: #1e90ff;
 }
 
 :root {

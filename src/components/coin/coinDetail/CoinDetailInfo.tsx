@@ -1,6 +1,7 @@
 import { getCoinKRName } from "@/utils/coin/getCoinKRName";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface CoinDetailInfoProps {
   coinName: string;
@@ -56,49 +57,102 @@ const CoinDetailInfo = ({ coinName }: CoinDetailInfoProps) => {
     };
   }, []);
 
+  const coinInfoList = coinData
+    ? [
+        {
+          title: "고가",
+          data: coinData.high_price.toLocaleString(),
+          id: "high_price",
+        },
+        {
+          title: "저가",
+          data: coinData.low_price.toLocaleString(),
+          id: "low_price",
+        },
+        {
+          title: "누적 거래량(24h)",
+          data: coinData.acc_trade_volume_24h.toLocaleString(),
+          id: "acc_trade_volume_24h",
+        },
+        {
+          title: "누적 거래대금(24h)",
+          data: Math.ceil(coinData.acc_trade_price_24h).toLocaleString(),
+          id: "acc_trade_price_24h",
+        },
+        {
+          title: "52주 최고가",
+          data: coinData.highest_52_week_price.toLocaleString(),
+          id: "highest_52_week_price",
+        },
+        {
+          title: "52주 최저가",
+          data: coinData.lowest_52_week_price.toLocaleString(),
+          id: "lowest_52_week_price",
+        },
+      ]
+    : [];
+
   return (
-    <div className="w-[400px] px-5 border-r border-gray-300">
-      <div>
-        <div className="flex items-center gap-2">
-          {/* <div className="w-10 h-10 bg-blue-300 rounded-full"></div> */}
-          <img
-            src={`https://static.upbit.com/logos/${coinSymbol}.png`}
-            alt={coinName + "icon"}
-            className="w-10 h-10"
-          />
-          <div className="flex items-baseline gap-1">
-            <p className="font-bold text-[22px]">{coinKrName}</p>
-            <p className="text-[13px] text-gray-400">BTC</p>
+    <div className="w-[400px] h-[calc(100vh-103px)] px-5 border-r border-gray-300">
+      {!coinData ? (
+        <div>로딩중</div>
+      ) : (
+        <>
+          <div>
+            <div className="flex items-center gap-2">
+              <img
+                src={`https://static.upbit.com/logos/${coinSymbol}.png`}
+                alt={coinName + "icon"}
+                className="w-10 h-10"
+              />
+              <div className="flex items-baseline gap-1">
+                <p className="font-bold text-[22px]">{coinKrName}</p>
+                <p className="text-[13px] text-gray-400">BTC</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <p className="text-[30px] font-extrabold">
+                {coinData.trade_price.toLocaleString()}
+                <span className="text-[16px] font-medium">KRW</span>
+              </p>
+              <p
+                className={twMerge(
+                  `font-bold text-[20px] text-black ${
+                    coinData.change === "RISE"
+                      ? "text-coin-plus"
+                      : "text-coin-minus"
+                  }`
+                )}
+              >
+                {coinData?.change === "RISE" ? "+" : "-"}
+                {(coinData?.signed_change_rate * 100).toFixed(2)}%
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <p className="text-[30px] font-extrabold">
-            {coinData?.trade_price.toLocaleString()}
-            <span className="text-[16px] font-medium">KRW</span>
-          </p>
-          <p className="font-bold text-[20px] text-coin-minus">-0.6%</p>
-        </div>
-      </div>
 
-      <ul className="mt-[50px] text-[14px] font-bold">
-        <li className="flex items-center justify-between h-[45px]  border-b border-gray-200">
-          <p className="text-gray-500">시가총액</p>
-          <p>1,678,101,132,426</p>
-        </li>
-        <li className="flex items-center justify-between h-[45px]  border-b border-gray-200">
-          <p>시가총액</p>
-          <p>1,678,101,132,426</p>
-        </li>
-
-        <li className="flex items-center justify-between h-[45px]  border-b border-gray-200">
-          <p>시가총액</p>
-          <p>1,678,101,132,426</p>
-        </li>
-        <li className="flex items-center justify-between h-[45px]  border-b border-gray-200">
-          <p>시가총액</p>
-          <p>1,678,101,132,426</p>
-        </li>
-      </ul>
+          <ul className="mt-[50px] text-[14px] font-bold">
+            {coinInfoList.map((coinInfo) => {
+              return (
+                <li
+                  className="flex items-center justify-between h-[45px]  border-b border-gray-200"
+                  key={coinInfo.id}
+                >
+                  <p className={`text-gray-500`}>{coinInfo.title}</p>
+                  <p
+                    className={twMerge(
+                      `text-gray-500 ${
+                        coinInfo.id === "high_price" && "text-coin-plus"
+                      } ${coinInfo.id === "low_price" && "text-coin-minus"}`
+                    )}
+                  >
+                    {coinInfo.data}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
     </div>
   );
 };
