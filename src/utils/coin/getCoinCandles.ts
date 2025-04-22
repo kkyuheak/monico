@@ -1,5 +1,6 @@
 import { api } from "@/api/axiosInstance";
 import { ParamValue } from "next/dist/server/request/params";
+import dayjs from "dayjs";
 
 type CandlesType =
   | "seconds"
@@ -13,16 +14,21 @@ export const getCoinCandles = async (
   coinName: ParamValue,
   candlesType: CandlesType
 ) => {
-  try {
-    const response = await api.get(`candles/${candlesType}/1`, {
-      params: {
-        market: coinName,
-        count: 50,
-        to: "2024-10-01 00:00:00",
-      },
-    });
+  const nowDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
+  console.log(nowDate);
 
-    console.log(response);
+  try {
+    const response = await api.get(
+      `candles/${candlesType}/${candlesType === "minutes" && "1"}`,
+      {
+        params: {
+          market: coinName,
+          count: 50,
+        },
+      }
+    );
+
+    console.log(response.data);
 
     return response.data;
   } catch (error) {

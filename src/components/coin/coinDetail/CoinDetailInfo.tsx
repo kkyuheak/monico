@@ -46,7 +46,6 @@ const CoinDetailInfo = ({ coinName }: CoinDetailInfoProps) => {
           : event.data;
       const enc = new TextDecoder("utf-8");
       const json = JSON.parse(enc.decode(data));
-      console.log(json);
 
       setCoinData(json);
     };

@@ -80,21 +80,21 @@ const Header = () => {
           (!isLoggedIn ? (
             <>
               <li className="cursor-pointer">
-                <Link href={"login"} className="block">
+                <Link href={"/login"} className="block">
                   로그인
                 </Link>
               </li>
               <li className="cursor-pointer">
-                <Link href={"signup"} className="block">
+                <Link href={"/signup"} className="block">
                   회원가입
                 </Link>
               </li>
             </>
           ) : (
             <>
-              <li className="flex items-center ">
+              <li className="flex items-center">
                 <DropdownMenu>
-                  <DropdownMenuTrigger className="w-10 h-10 bg-red-400 rounded-full cursor-pointer outline-none">
+                  <DropdownMenuTrigger className="w-10 h-10 bg-gray-200 rounded-full cursor-pointer outline-none">
                     <img
                       src={userInfo?.profile_img}
                       alt="프로필 이미지"
