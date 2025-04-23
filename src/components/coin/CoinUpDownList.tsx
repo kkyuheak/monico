@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllCoin, getUpDownCoinList } from "@/utils/api/getUpDownCoinLists";
+import { getAllCoin, getUpDownCoinList } from "@/utils/coin/getUpDownCoinLists";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
@@ -40,6 +40,10 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
     const coinListSlice = coinListData?.slice(0, 3).map((coin) => coin.market);
     console.log(coinListSlice);
 
+    // if (!ws.current) {
+    //   ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
+    // }
+
     ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
     ws.current.binaryType = "arraybuffer";
 
@@ -52,6 +56,8 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
         },
         { format: "DEFAULT" },
       ];
+
+      console.log("coinUpDownList open");
 
       ws.current?.send(JSON.stringify(subscribeMsg));
     };
@@ -79,6 +85,8 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
 
     return () => {
       ws.current?.close();
+      console.log("coinUpDownList close");
+      ws.current = null;
     };
   }, [coinListData]);
 

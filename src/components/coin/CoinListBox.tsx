@@ -33,10 +33,10 @@ const CoinListBox = ({
   };
   return (
     <tr
-      className="border-b border-[#d8d8d8] h-[68px] cursor-pointer "
+      className="border-b border-[#d8d8d8] h-[68px] cursor-pointer tabular-nums"
       onClick={() => router.push(`/coin/${market}`)}
     >
-      <td className="">
+      <td className="w-[300px]">
         <div className="flex h-full items-center gap-3 pl-4">
           <img
             src={`https://static.upbit.com/logos/${coinSymbol}.png`}
@@ -54,7 +54,7 @@ const CoinListBox = ({
         </span>
       </td>
       <td
-        className={`text-center font-bold ${
+        className={`w-[150px] text-center font-bold ${
           changeRate > 0 ? "text-[#FF3D00]" : "text-[#1E90FF]"
         }`}
       >
