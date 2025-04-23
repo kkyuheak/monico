@@ -1,4 +1,5 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { twMerge } from "tailwind-merge";
 
 interface CoinCandleListProps {
   date: string;
@@ -23,17 +24,36 @@ const CoinCandleList = ({
     <tr className="h-[55px] text-center border-b text-zinc-700 font-semibold">
       <td className="">{date}</td>
       <td className="pl-10">{price}</td>
-      <td className={`${isMinus ? "text-coin-minus" : "text-coin-plus"}`}>
-        {changePrice}
+      <td
+        className={twMerge(
+          `${isMinus ? "text-coin-minus" : "text-coin-plus"} ${
+            !changePrice ? "text-zinc-700" : ""
+          }`
+        )}
+      >
+        {!changePrice ? 0 : changePrice}
       </td>
-      <td className={`${isMinus ? "text-coin-minus" : "text-coin-plus"}`}>
+      <td
+        className={twMerge(
+          `${isMinus ? "text-coin-minus" : "text-coin-plus"} ${
+            Number(changeRate) === 0 ? "text-zinc-700" : ""
+          }`
+        )}
+      >
         <p className="flex items-center justify-center">
-          {isMinus ? (
-            <ChevronDown className="w-5" />
-          ) : (
-            <ChevronUp className="w-5" />
-          )}
-          {isMinus ? changeRate.split("-")[1] : changeRate}%
+          {Number(changeRate) !== 0 ? (
+            isMinus ? (
+              <ChevronDown className="w-5" />
+            ) : (
+              <ChevronUp className="w-5" />
+            )
+          ) : null}
+          {Number(changeRate) !== 0
+            ? isMinus
+              ? changeRate.split("-")[1]
+              : changeRate
+            : 0}
+          %
         </p>
       </td>
       <td>{accTradeVolume}</td>

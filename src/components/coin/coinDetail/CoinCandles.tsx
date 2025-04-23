@@ -56,7 +56,7 @@ const CoinCandles = ({ coinName }: CoinCandlesProps) => {
                   key={index}
                   date={dayjs(candleData.candle_date_time_kst).format("MM/DD")}
                   price={candleData.trade_price.toLocaleString()}
-                  changePrice={candleData.change_price.toLocaleString()}
+                  changePrice={candleData.change_price?.toLocaleString()}
                   changeRate={(candleData.change_rate * 100).toFixed(2)}
                   accTradeVolume={candleData.candle_acc_trade_volume.toLocaleString()}
                   accTradePrice={candleData.candle_acc_trade_price.toLocaleString()}
