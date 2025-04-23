@@ -12,18 +12,20 @@ type CandlesType =
 
 export const getCoinCandles = async (
   coinName: ParamValue,
-  candlesType: CandlesType
+  candlesType: CandlesType,
+  count: number
 ) => {
   const nowDate = dayjs().format("YYYY-MM-DD HH:mm:ss");
   console.log(nowDate);
 
   try {
     const response = await api.get(
-      `candles/${candlesType}/${candlesType === "minutes" && "1"}`,
+      `candles/${candlesType}/${candlesType === "minutes" ? "1" : ""}`,
       {
         params: {
           market: coinName,
-          count: 50,
+          count,
+          // converting_price_unit: "KRW",
         },
       }
     );

@@ -1,13 +1,13 @@
 import { getCoinKRName } from "@/utils/coin/getCoinKRName";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface CoinDetailInfoProps {
   coinName: string;
+  coinWsData: CoinInfoType | undefined;
 }
 
-const CoinDetailInfo = ({ coinName }: CoinDetailInfoProps) => {
+const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
   const coinSymbol = coinName.split("-")[1];
 
   const { data: coinKrName } = useQuery({
@@ -15,85 +15,44 @@ const CoinDetailInfo = ({ coinName }: CoinDetailInfoProps) => {
     queryFn: () => getCoinKRName(coinName),
   });
 
-  const [coinData, setCoinData] = useState<CoinInfoType>();
-
-  // 코인데이터 소켓
-  const ws = useRef<WebSocket | null>(null);
-
-  useEffect(() => {
-    ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
-    ws.current.binaryType = "arraybuffer";
-
-    ws.current.onopen = () => {
-      const subscribeMsg = [
-        { ticket: "coin-detail" },
-        {
-          type: "ticker",
-          codes: [coinName],
-        },
-        { format: "DEFAULT" },
-      ];
-
-      console.log("coinDetailInfo open");
-
-      ws.current?.send(JSON.stringify(subscribeMsg));
-    };
-
-    ws.current.onmessage = async (event) => {
-      const data =
-        event.data instanceof Blob
-          ? await event.data.arrayBuffer()
-          : event.data;
-      const enc = new TextDecoder("utf-8");
-      const json = JSON.parse(enc.decode(data));
-
-      setCoinData(json);
-    };
-
-    return () => {
-      ws.current?.close();
-      console.log("coinDetailInfo WS close");
-    };
-  }, []);
-
-  const coinInfoList = coinData
+  const coinInfoList = coinWsData
     ? [
         {
           title: "고가",
-          data: coinData.high_price.toLocaleString(),
+          data: coinWsData.high_price.toLocaleString(),
           id: "high_price",
         },
         {
           title: "저가",
-          data: coinData.low_price.toLocaleString(),
+          data: coinWsData.low_price.toLocaleString(),
           id: "low_price",
         },
         {
           title: "누적 거래량(24h)",
-          data: coinData.acc_trade_volume_24h.toLocaleString(),
+          data: coinWsData.acc_trade_volume_24h.toLocaleString(),
           id: "acc_trade_volume_24h",
         },
         {
           title: "누적 거래대금(24h)",
-          data: Math.ceil(coinData.acc_trade_price_24h).toLocaleString(),
+          data: Math.ceil(coinWsData.acc_trade_price_24h).toLocaleString(),
           id: "acc_trade_price_24h",
         },
         {
           title: "52주 최고가",
-          data: coinData.highest_52_week_price.toLocaleString(),
+          data: coinWsData.highest_52_week_price.toLocaleString(),
           id: "highest_52_week_price",
         },
         {
           title: "52주 최저가",
-          data: coinData.lowest_52_week_price.toLocaleString(),
+          data: coinWsData.lowest_52_week_price.toLocaleString(),
           id: "lowest_52_week_price",
         },
       ]
     : [];
 
   return (
-    <div className="w-[500px] h-[calc(100vh-103px)] px-5 border-r border-gray-300">
-      {!coinData ? (
+    <div className="w-[500px] h-full px-5 border-r border-gray-300">
+      {!coinWsData ? (
         <div>로딩중</div>
       ) : (
         <>
@@ -111,36 +70,24 @@ const CoinDetailInfo = ({ coinName }: CoinDetailInfoProps) => {
             </div>
             <div className="flex items-center gap-4">
               <p className="text-[30px] font-extrabold">
-                {coinData.trade_price.toLocaleString()}
+                {coinWsData.trade_price.toLocaleString()}
                 <span className="text-[16px] font-medium">KRW</span>
               </p>
-              {/* <p
-                className={twMerge(
-                  `font-bold text-[20px] text-black ${
-                    coinData.change === "RISE"
-                      ? "text-coin-plus"
-                      : "text-coin-minus"
-                  }`
-                )}
-              >
-                {coinData?.change === "RISE" ? "+" : "-"}
-                {(coinData?.signed_change_rate * 100).toFixed(2)}%
-              </p> */}
             </div>
             <div className="flex gap-3 items-center">
               <p className="text-gray-500 text-[14px]">전일 대비</p>
               <p
                 className={twMerge(
                   `font-bold text-[16px] text-black ${
-                    coinData.change === "RISE"
+                    coinWsData.change === "RISE"
                       ? "text-coin-plus"
                       : "text-coin-minus"
                   }`
                 )}
               >
-                {coinData.change === "RISE" ? "+" : "-"}
-                {coinData.change_price.toLocaleString()}(
-                {(coinData.change_rate * 100).toFixed(2)}
+                {coinWsData.change === "RISE" ? "+" : "-"}
+                {coinWsData.change_price.toLocaleString()}(
+                {(coinWsData.change_rate * 100).toFixed(2)}
                 %)
               </p>
             </div>

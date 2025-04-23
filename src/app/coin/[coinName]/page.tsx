@@ -1,9 +1,12 @@
 "use client";
 
+import CoinCandles from "@/components/coin/coinDetail/CoinCandles";
 import CoinDetailInfo from "@/components/coin/coinDetail/CoinDetailInfo";
 import CoinGraph from "@/components/coin/coinDetail/CoinGraph";
 import { getDetailTicker } from "@/utils/coin/getDetailTicker";
 import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -15,7 +18,7 @@ const page = () => {
     queryFn: () => getDetailTicker(coinName),
   });
 
-  const [coinWsData, setCoinWsData] = useState();
+  const [coinWsData, setCoinWsData] = useState<CoinInfoType>();
 
   // 코인데이터 소켓
   const ws = useRef<WebSocket | null>(null);
@@ -57,10 +60,21 @@ const page = () => {
   }, []);
 
   return (
-    <div className="flex max-w-[1650px] m-auto mt-[50px]">
-      <CoinDetailInfo coinName={coinName as string} />
+    <div className="max-w-[1650px] m-auto">
+      <div className="w-[150px] ml-5 cursor-pointer flex items-center gap-1 mt-[20px] hover:underline">
+        <ArrowLeft className="w-5" />
+        <Link href={"/coin"} className="font-semibold">
+          목록으로 돌아가기
+        </Link>
+      </div>
+      <div className="flex  mt-[20px] h-[600px]">
+        <CoinDetailInfo coinName={coinName as string} coinWsData={coinWsData} />
 
-      <CoinGraph coinName={coinName as string} coinWsData={coinWsData} />
+        <CoinGraph coinName={coinName as string} coinWsData={coinWsData} />
+      </div>
+      <div>
+        <CoinCandles coinName={coinName as string} />
+      </div>
     </div>
   );
 };
