@@ -92,7 +92,7 @@ const CoinDetailInfo = ({ coinName }: CoinDetailInfoProps) => {
     : [];
 
   return (
-    <div className="w-[400px] h-[calc(100vh-103px)] px-5 border-r border-gray-300">
+    <div className="w-[500px] h-[calc(100vh-103px)] px-5 border-r border-gray-300">
       {!coinData ? (
         <div>로딩중</div>
       ) : (
