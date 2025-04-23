@@ -114,7 +114,7 @@ const CoinDetailInfo = ({ coinName }: CoinDetailInfoProps) => {
                 {coinData.trade_price.toLocaleString()}
                 <span className="text-[16px] font-medium">KRW</span>
               </p>
-              <p
+              {/* <p
                 className={twMerge(
                   `font-bold text-[20px] text-black ${
                     coinData.change === "RISE"
@@ -125,6 +125,23 @@ const CoinDetailInfo = ({ coinName }: CoinDetailInfoProps) => {
               >
                 {coinData?.change === "RISE" ? "+" : "-"}
                 {(coinData?.signed_change_rate * 100).toFixed(2)}%
+              </p> */}
+            </div>
+            <div className="flex gap-3 items-center">
+              <p className="text-gray-500 text-[14px]">전일 대비</p>
+              <p
+                className={twMerge(
+                  `font-bold text-[16px] text-black ${
+                    coinData.change === "RISE"
+                      ? "text-coin-plus"
+                      : "text-coin-minus"
+                  }`
+                )}
+              >
+                {coinData.change === "RISE" ? "+" : "-"}
+                {coinData.change_price.toLocaleString()}(
+                {(coinData.change_rate * 100).toFixed(2)}
+                %)
               </p>
             </div>
           </div>
