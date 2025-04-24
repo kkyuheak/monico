@@ -1,6 +1,6 @@
 import { api } from "@/api/axiosInstance";
 
-export const getAllCoin = async () => {
+export const getAllKRWCoin = async () => {
   try {
     const response = await api.get("market/all?is_details=true");
     const { data }: { data: AllCoinNameType[] } = response;
@@ -26,7 +26,7 @@ const getTickers = async (allCoins: string[]) => {
 
 export const getUpDownCoinList = async (type: string) => {
   try {
-    const KRWCoinData = await getAllCoin();
+    const KRWCoinData = await getAllKRWCoin();
     let tickers: CoinTickerType[] = [];
 
     if (KRWCoinData) {

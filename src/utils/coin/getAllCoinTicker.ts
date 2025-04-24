@@ -1,6 +1,6 @@
 import { api } from "@/api/axiosInstance";
 
-export const getAllCoinName = async (
+export const getAllCoinTicker = async (
   {
     pageParam = 1,
   }: {
@@ -9,8 +9,12 @@ export const getAllCoinName = async (
   tab: string
 ) => {
   try {
-    const response = await api.get("market/all?is_details=true");
-    console.log(response);
+    const response = await api.get("ticker/all", {
+      params: {
+        quote_currencies: "KRW,BTC",
+      },
+    });
+    console.log(response.data);
     const { data } = response;
 
     const KRWfilteredData = data.filter((coin: AllCoinNameType) =>
