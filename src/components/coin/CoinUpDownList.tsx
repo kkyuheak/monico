@@ -1,6 +1,9 @@
 "use client";
 
-import { getAllCoin, getUpDownCoinList } from "@/utils/coin/getUpDownCoinLists";
+import {
+  getAllKRWCoin,
+  getUpDownCoinList,
+} from "@/utils/coin/getUpDownCoinLists";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -25,7 +28,7 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
   // 코인 이름
   const { data: coinListsName } = useQuery({
     queryKey: ["coinListsName"],
-    queryFn: getAllCoin,
+    queryFn: getAllKRWCoin,
   });
 
   // 상승/하락 코인 데이터
@@ -83,7 +86,9 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
     };
 
     return () => {
-      ws.current?.close();
+      if (ws.current) {
+        ws.current.close();
+      }
       console.log("coinUpDownList close");
       ws.current = null;
     };

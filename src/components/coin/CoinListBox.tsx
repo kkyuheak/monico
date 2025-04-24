@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface CoinLiostBoxProps {
@@ -38,10 +39,12 @@ const CoinListBox = ({
     >
       <td className="w-[300px]">
         <div className="flex h-full items-center gap-3 pl-4">
-          <img
+          <Image
             src={`https://static.upbit.com/logos/${coinSymbol}.png`}
             alt={coinSymbol + "icon"}
-            className="w-[30px] h-[30px] rounded-full"
+            width={30}
+            height={30}
+            className="rounded-full"
           />
           <p className="font-semibold">{coinName}</p>
         </div>
