@@ -2,6 +2,8 @@
 
 import { getAllCoin, getUpDownCoinList } from "@/utils/coin/getUpDownCoinLists";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 interface UpCoinDataType {
@@ -18,6 +20,8 @@ interface CoinUpDownListProps {
 }
 
 const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
+  const router = useRouter();
+
   // 코인 이름
   const { data: coinListsName } = useQuery({
     queryKey: ["coinListsName"],
@@ -38,11 +42,6 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
   useEffect(() => {
     if (coinListData?.length === 0 || !coinListData) return;
     const coinListSlice = coinListData?.slice(0, 3).map((coin) => coin.market);
-    console.log(coinListSlice);
-
-    // if (!ws.current) {
-    //   ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
-    // }
 
     ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
     ws.current.binaryType = "arraybuffer";
@@ -88,7 +87,7 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
       console.log("coinUpDownList close");
       ws.current = null;
     };
-  }, [coinListData]);
+  }, [coinListData, type]);
 
   return (
     <div className="w-[400px] h-[200px] rounded-lg border border-gray-200 px-3  pt-4 pb-1 flex flex-col justify-between">
@@ -111,13 +110,16 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
               key={coin.market}
               className="flex items-center justify-between h-[45px] rounded-md px-2
               hover:bg-gray-100 cursor-pointer"
+              onClick={() => router.push(`/coin/${coin.market}`)}
             >
               <div className="flex items-center gap-2">
-                <img
+                <Image
                   src={`https://static.upbit.com/logos/${
                     coin.market.split("-")[1]
                   }.png`}
                   alt={coin.market.split("-")[1] + "icon"}
+                  width={30}
+                  height={30}
                   className="w-[30px] h-[30px] rounded-full"
                 />
                 <p>{KRCoinName?.korean_name}</p>

@@ -61,12 +61,13 @@ const page = () => {
 
   return (
     <div className="max-w-[1650px] m-auto">
-      <div className="w-[150px] ml-5 cursor-pointer flex items-center gap-1 mt-[20px] hover:underline">
+      <Link
+        href={"/coin"}
+        className="w-[150px] ml-5 cursor-pointer flex items-center gap-1 mt-[20px] hover:underline"
+      >
         <ArrowLeft className="w-5" />
-        <Link href={"/coin"} className="font-semibold">
-          목록으로 돌아가기
-        </Link>
-      </div>
+        <p className="font-semibold">목록으로 돌아가기</p>
+      </Link>
       <div className="flex  mt-[20px] h-[600px]">
         <CoinDetailInfo coinName={coinName as string} coinWsData={coinWsData} />
 

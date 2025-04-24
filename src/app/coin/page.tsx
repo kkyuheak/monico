@@ -40,7 +40,6 @@ const CoinMainPage = () => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    status,
   } = useInfiniteQuery<AllCoinsPageType>({
     queryKey: ["AllCoins", tab],
     queryFn: fetchAllCoinName,
