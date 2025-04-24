@@ -51,6 +51,8 @@ const CoinMainPage = () => {
   // webSocket
   const ws = useRef<WebSocket | null>(null);
 
+  const bufferRef = useRef<Record<string, CoinDataType[string]>>({});
+
   // 무한스크롤 obserberRef
   const observerRef = useRef<HTMLDivElement | null>(null);
 
@@ -121,17 +123,15 @@ const CoinMainPage = () => {
         signed_change_rate,
         acc_trade_volume_24h,
         acc_trade_price_24h,
+        code,
       } = json;
 
-      setCoinData((prev) => ({
-        ...prev,
-        [json.code]: {
-          trade_price,
-          signed_change_rate,
-          acc_trade_volume_24h,
-          acc_trade_price_24h,
-        },
-      }));
+      bufferRef.current[code] = {
+        trade_price,
+        signed_change_rate,
+        acc_trade_volume_24h,
+        acc_trade_price_24h,
+      };
     };
 
     return () => {
@@ -140,6 +140,20 @@ const CoinMainPage = () => {
       ws.current = null;
     };
   }, [allCoinMarketNames, tab]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (Object.keys(bufferRef.current).length > 0) {
+        setCoinData((prev) => ({
+          ...prev,
+          ...bufferRef.current, // ✅ batch 처리
+        }));
+        bufferRef.current = {}; // 초기화
+      }
+    }, 500); // 0.5초마다 처리
+
+    return () => clearInterval(interval);
+  }, []);
 
   // 무한 스크롤
   useEffect(() => {
