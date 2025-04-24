@@ -3,20 +3,13 @@
 import CoinCandles from "@/components/coin/coinDetail/CoinCandles";
 import CoinDetailInfo from "@/components/coin/coinDetail/CoinDetailInfo";
 import CoinGraph from "@/components/coin/coinDetail/CoinGraph";
-import { getDetailTicker } from "@/utils/coin/getDetailTicker";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const page = () => {
+const CoinDetailPage = () => {
   const { coinName } = useParams();
-
-  const { data: coinDetailData } = useQuery({
-    queryKey: ["coinDetailData", coinName],
-    queryFn: () => getDetailTicker(coinName),
-  });
 
   const [coinWsData, setCoinWsData] = useState<CoinInfoType>();
 
@@ -57,7 +50,7 @@ const page = () => {
       ws.current?.close();
       console.log("coinDetailPage WS close");
     };
-  }, []);
+  }, [coinName]);
 
   return (
     <div className="max-w-[1650px] m-auto">
@@ -80,4 +73,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CoinDetailPage;

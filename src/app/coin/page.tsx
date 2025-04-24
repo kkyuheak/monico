@@ -48,21 +48,8 @@ const CoinMainPage = () => {
     queryFn: getCoinName,
   });
 
-  // webSocket
-  // const ws = useRef<WebSocket | null>(null);
-
-  // const bufferRef = useRef<Record<string, CoinDataType[string]>>({});
-
   // 무한스크롤 obserberRef
   const observerRef = useRef<HTMLDivElement | null>(null);
-
-  // KRW 코인 마켓데이터
-  // const [allCoinMarketData, setAllCoinMarketData] = useState<
-  //   AllCoinsPageType[]
-  // >([]);
-
-  // KRW 코인 마켓 이름
-  // const [allCoinMarketNames, setAllCoinMarketNames] = useState<string[]>([]);
 
   useEffect(() => {}, []);
 
