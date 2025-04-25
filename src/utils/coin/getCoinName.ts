@@ -5,7 +5,9 @@ export const getCoinName = async () => {
     const response = await api.get(`market/all?is_details=true`);
     console.log(response);
 
-    return response.data;
+    const { data }: { data: AllCoinNameType[] } = response;
+
+    return data;
   } catch (error) {
     console.error(error);
   }

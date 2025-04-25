@@ -1,8 +1,8 @@
-import { getAllKRWCoin } from "./getUpDownCoinLists";
+import { getCoinName } from "./getCoinName";
 
 export const getCoinKRName = async (coinName: string) => {
   try {
-    const allCoins = await getAllKRWCoin();
+    const allCoins = await getCoinName();
 
     const coinKRName = allCoins?.find((coin) => coin.market === coinName);
 

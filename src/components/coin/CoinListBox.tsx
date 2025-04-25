@@ -44,7 +44,7 @@ const CoinListBox = ({
             alt={coinSymbol + "icon"}
             width={30}
             height={30}
-            className="rounded-full"
+            className="rounded-full w-[30px] h-[30px]"
           />
           <p className="font-semibold">{coinName}</p>
         </div>

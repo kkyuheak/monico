@@ -64,14 +64,14 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="h-[53px] flex items-center justify-between px-6 border-b border-[#CFCFCF] bg-white">
-      <Link href={"/"} className="h-full">
+    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-300 bg-white">
+      <Link href={"/"} className="flex items-center">
         <Image
           src={"/assets/monico_logo.svg"}
           alt="header_logo"
           width={100}
           height={40}
-          className="bg-white cursor-pointer h-full"
+          className="bg-white cursor-pointer"
         />
       </Link>
 
@@ -95,9 +95,11 @@ const Header = () => {
               <li className="flex items-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="w-10 h-10 bg-gray-200 rounded-full cursor-pointer outline-none">
-                    <img
-                      src={userInfo?.profile_img}
+                    <Image
+                      src={userInfo ? userInfo.profile_img : ""}
                       alt="프로필 이미지"
+                      width={40}
+                      height={40}
                       className="rounded-full w-10 h-10"
                     />
                   </DropdownMenuTrigger>
