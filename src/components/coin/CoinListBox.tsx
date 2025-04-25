@@ -1,7 +1,10 @@
+"use client";
+
+import { addFavoriteCoin } from "@/utils/addFavoriteCoin";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { MouseEvent, useState } from "react";
+import { useState } from "react";
 
 interface CoinLiostBoxProps {
   coinName: string;
@@ -37,8 +40,7 @@ const CoinListBox = ({
 
   const [isFavorited, setIsFavorited] = useState(false);
 
-  const handleStarClick = (e: MouseEvent) => {
-    e.preventDefault();
+  const handleStarClick = () => {
     setIsFavorited((prev) => !prev);
   };
 
@@ -50,15 +52,15 @@ const CoinListBox = ({
             fill={isFavorited ? "#facc15" : "white"}
             stroke={isFavorited ? "#facc15" : "black"}
             className="w-5 h-5 cursor-pointer"
-            onClick={(e: MouseEvent) => handleStarClick(e)}
+            onClick={() => addFavoriteCoin(market)}
           />
         </div>
       </td>
       <td
-        className="w-[300px]  cursor-pointer"
+        className="w-[300px]  "
         onClick={() => router.push(`/coin/${market}`)}
       >
-        <div className="flex h-full items-center gap-3 pl-2">
+        <div className="flex h-full items-center gap-3 ml-2 cursor-pointer">
           <Image
             src={`https://static.upbit.com/logos/${coinSymbol}.png`}
             alt={coinSymbol + "icon"}
