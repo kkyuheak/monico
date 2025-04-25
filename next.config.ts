@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "static.upbit.com",
       },
+      {
+        protocol: "http",
+        hostname: "k.kakaocdn.net",
+      },
     ],
   },
 };

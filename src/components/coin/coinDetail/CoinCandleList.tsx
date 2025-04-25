@@ -3,8 +3,8 @@ import { twMerge } from "tailwind-merge";
 
 interface CoinCandleListProps {
   date: string;
-  price: string;
-  changePrice: string;
+  price: string | number;
+  changePrice: string | number | undefined;
   changeRate: string;
   accTradeVolume: string;
   accTradePrice: string;

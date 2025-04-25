@@ -12,10 +12,33 @@ interface CoinCandlesProps {
 }
 
 const CoinCandles = ({ coinName }: CoinCandlesProps) => {
+  const [isKRW, setIsKRW] = useState(true);
+
+  useEffect(() => {
+    if (coinName.startsWith("KRW")) {
+      setIsKRW(true);
+    } else {
+      setIsKRW(false);
+    }
+  }, [coinName]);
+
   const { data: coinCandlesData } = useQuery<CoinCandlesDayType[]>({
     queryKey: ["coinCandlesData", coinName],
     queryFn: () => getCoinCandles(coinName, "days", 200),
   });
+
+  const BTCprice = (price: number) => {
+    if (isKRW) return;
+
+    if (price) {
+      if (price.toString().includes("e")) {
+        const splitNum = price.toString().split("-")[1];
+        return price.toFixed(+splitNum);
+      } else {
+        return price;
+      }
+    }
+  };
 
   const [coinCandlesFilterLists, setCoinCandlesFilterLists] = useState<
     CoinCandlesDayType[]
@@ -55,9 +78,21 @@ const CoinCandles = ({ coinName }: CoinCandlesProps) => {
                 <CoinCandleList
                   key={index}
                   date={dayjs(candleData.candle_date_time_kst).format("MM/DD")}
-                  price={candleData.trade_price.toLocaleString()}
-                  changePrice={candleData.change_price?.toLocaleString()}
-                  changeRate={(candleData.change_rate * 100).toFixed(2)}
+                  price={
+                    isKRW
+                      ? candleData.trade_price.toLocaleString()
+                      : candleData.trade_price
+                  }
+                  changePrice={
+                    isKRW
+                      ? candleData.change_price?.toLocaleString()
+                      : BTCprice(candleData.change_price)
+                  }
+                  changeRate={
+                    isKRW
+                      ? (candleData.change_rate * 100).toFixed(2)
+                      : candleData.change_rate.toString()
+                  }
                   accTradeVolume={candleData.candle_acc_trade_volume.toLocaleString()}
                   accTradePrice={candleData.candle_acc_trade_price.toLocaleString()}
                 />

@@ -95,9 +95,11 @@ const Header = () => {
               <li className="flex items-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger className="w-10 h-10 bg-gray-200 rounded-full cursor-pointer outline-none">
-                    <img
-                      src={userInfo?.profile_img}
+                    <Image
+                      src={userInfo ? userInfo.profile_img : ""}
                       alt="프로필 이미지"
+                      width={40}
+                      height={40}
                       className="rounded-full w-10 h-10"
                     />
                   </DropdownMenuTrigger>

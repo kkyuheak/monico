@@ -27,6 +27,19 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
     queryFn: () => getCoinKRName(coinName),
   });
 
+  const BTCprice = () => {
+    if (isKRW) return;
+
+    if (coinWsData) {
+      if (coinWsData.change_price.toString().includes("e")) {
+        const splitNum = coinWsData.change_price.toString().split("-")[1];
+        return coinWsData.change_price.toFixed(+splitNum);
+      } else {
+        return coinWsData.change_price;
+      }
+    }
+  };
+
   const coinInfoList = coinWsData
     ? [
         {
@@ -115,10 +128,8 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
                 )}
               >
                 {coinWsData.change === "RISE" ? "+" : "-"}
-                {isKRW
-                  ? coinWsData.change_price.toLocaleString()
-                  : coinWsData.change_price}
-                ({(coinWsData.change_rate * 100).toFixed(2)}
+                {isKRW ? coinWsData.change_price.toLocaleString() : BTCprice()}(
+                {(coinWsData.change_rate * 100).toFixed(2)}
                 %)
               </p>
             </div>
