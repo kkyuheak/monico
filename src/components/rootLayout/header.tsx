@@ -64,14 +64,14 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="h-[53px] flex items-center justify-between px-6 border-b border-[#CFCFCF] bg-white">
-      <Link href={"/"} className="h-full">
+    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-300 bg-white">
+      <Link href={"/"} className="flex items-center">
         <Image
           src={"/assets/monico_logo.svg"}
           alt="header_logo"
           width={100}
           height={40}
-          className="bg-white cursor-pointer h-full"
+          className="bg-white cursor-pointer"
         />
       </Link>
 

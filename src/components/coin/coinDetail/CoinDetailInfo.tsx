@@ -1,5 +1,7 @@
 import { getCoinKRName } from "@/utils/coin/getCoinKRName";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface CoinDetailInfoProps {
@@ -8,6 +10,16 @@ interface CoinDetailInfoProps {
 }
 
 const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
+  const [isKRW, setIsKRW] = useState(true);
+
+  useEffect(() => {
+    if (coinName.startsWith("KRW")) {
+      setIsKRW(true);
+    } else {
+      setIsKRW(false);
+    }
+  }, [coinName]);
+
   const coinSymbol = coinName.split("-")[1];
 
   const { data: coinKrName } = useQuery({
@@ -19,12 +31,16 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
     ? [
         {
           title: "고가",
-          data: coinWsData.high_price.toLocaleString(),
+          data: isKRW
+            ? coinWsData.high_price.toLocaleString()
+            : coinWsData.high_price,
           id: "high_price",
         },
         {
           title: "저가",
-          data: coinWsData.low_price.toLocaleString(),
+          data: isKRW
+            ? coinWsData.low_price.toLocaleString()
+            : coinWsData.low_price,
           id: "low_price",
         },
         {
@@ -34,17 +50,23 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
         },
         {
           title: "누적 거래대금(24h)",
-          data: Math.ceil(coinWsData.acc_trade_price_24h).toLocaleString(),
+          data: isKRW
+            ? Math.ceil(coinWsData.acc_trade_price_24h).toLocaleString()
+            : coinWsData.acc_trade_price_24h.toLocaleString(),
           id: "acc_trade_price_24h",
         },
         {
           title: "52주 최고가",
-          data: coinWsData.highest_52_week_price.toLocaleString(),
+          data: isKRW
+            ? coinWsData.highest_52_week_price.toLocaleString()
+            : coinWsData.highest_52_week_price,
           id: "highest_52_week_price",
         },
         {
           title: "52주 최저가",
-          data: coinWsData.lowest_52_week_price.toLocaleString(),
+          data: isKRW
+            ? coinWsData.lowest_52_week_price.toLocaleString()
+            : coinWsData.lowest_52_week_price,
           id: "lowest_52_week_price",
         },
       ]
@@ -58,20 +80,27 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
         <>
           <div>
             <div className="flex items-center gap-2">
-              <img
+              <Image
                 src={`https://static.upbit.com/logos/${coinSymbol}.png`}
                 alt={coinName + "icon"}
-                className="w-10 h-10"
+                width={40}
+                height={40}
               />
               <div className="flex items-baseline gap-1">
                 <p className="font-bold text-[22px]">{coinKrName}</p>
-                <p className="text-[13px] text-gray-400">BTC</p>
+                <p className="text-[13px] text-gray-400">
+                  {coinSymbol}/{isKRW ? "KRW" : "BTC"}
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <p className="text-[30px] font-extrabold">
-                {coinWsData.trade_price.toLocaleString()}
-                <span className="text-[16px] font-medium">KRW</span>
+                {isKRW
+                  ? coinWsData.trade_price.toLocaleString()
+                  : coinWsData.trade_price}
+                <span className="text-[16px] font-medium">
+                  {isKRW ? "KRW" : "BTC"}
+                </span>
               </p>
             </div>
             <div className="flex gap-3 items-center">
@@ -86,8 +115,10 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
                 )}
               >
                 {coinWsData.change === "RISE" ? "+" : "-"}
-                {coinWsData.change_price.toLocaleString()}(
-                {(coinWsData.change_rate * 100).toFixed(2)}
+                {isKRW
+                  ? coinWsData.change_price.toLocaleString()
+                  : coinWsData.change_price}
+                ({(coinWsData.change_rate * 100).toFixed(2)}
                 %)
               </p>
             </div>
