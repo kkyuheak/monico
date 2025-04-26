@@ -5,7 +5,6 @@ export const checkFavoriteCoin = async () => {
     await supabase.auth.getUser();
 
   if (userData.user === null) {
-    console.log("first");
     return null;
   }
 

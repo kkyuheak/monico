@@ -79,7 +79,7 @@ const CoinMainPage = () => {
   const { data: userFavoriteCoin, isLoading: userCoinLoading } = useQuery<
     string[] | null
   >({
-    queryKey: ["userFavoriteCoin"],
+    queryKey: ["userFavoriteCoin", tab],
     queryFn: checkFavoriteCoin,
   });
 

@@ -1,10 +1,12 @@
 "use client";
 
 import { favoriteCoin } from "@/utils/favoriteCoin";
+import { useMutation } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { queryClient } from "../provider/QueryProvider";
 
 interface CoinLiostBoxProps {
   coinName: string;
@@ -67,6 +69,12 @@ const CoinListBox = ({
     }
   };
 
+  const { mutate } = useMutation({
+    mutationFn: handleStarClick,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["userFavoriteCoin"] }),
+  });
+
   useEffect(() => {
     if (userFavoriteCoin) {
       if (userFavoriteCoin.includes(market)) {
@@ -85,7 +93,7 @@ const CoinListBox = ({
             fill={isFavorited && isLoggedIn ? "#facc15" : "white"}
             stroke={isFavorited && isLoggedIn ? "#facc15" : "black"}
             className="w-5 h-5 cursor-pointer"
-            onClick={() => handleStarClick()}
+            onClick={() => mutate()}
           />
         </div>
       </td>
