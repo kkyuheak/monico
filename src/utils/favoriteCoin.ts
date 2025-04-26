@@ -6,7 +6,8 @@ export const favoriteCoin = async (
 ) => {
   const { data: userData, error: userDataError } =
     await supabase.auth.getUser();
-  console.log(userData);
+
+  if (userData === null) return;
 
   if (userDataError) {
     console.error(userDataError);
@@ -37,6 +38,7 @@ export const favoriteCoin = async (
     .from("usersinfo")
     .update({ favorite: updateFavorite })
     .eq("id", id)
+    .select()
     .single();
 
   if (updateUserTableError) {

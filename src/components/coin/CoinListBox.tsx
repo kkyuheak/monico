@@ -14,7 +14,8 @@ interface CoinLiostBoxProps {
   accTradeVolume24h: number;
   accTradePrice24h: number;
   tabName: string;
-  userFavoriteCoin: string[];
+  userFavoriteCoin: string[] | null | undefined;
+  isLoggedIn: UserInfoType | null;
 }
 
 const CoinListBox = ({
@@ -26,6 +27,7 @@ const CoinListBox = ({
   accTradeVolume24h,
   tabName,
   userFavoriteCoin,
+  isLoggedIn,
 }: CoinLiostBoxProps) => {
   const router = useRouter();
 
@@ -42,15 +44,32 @@ const CoinListBox = ({
 
   const [isFavorited, setIsFavorited] = useState(false);
 
-  // const handleStarClick = () => {
-  //   setIsFavorited((prev) => !prev);
-  // };
+  const handleStarClick = async () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다.");
+      return;
+    }
+
+    if (!isFavorited) {
+      try {
+        await favoriteCoin(market, "add");
+        setIsFavorited(true);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        await favoriteCoin(market, "delete");
+        setIsFavorited(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (userFavoriteCoin) {
-      console.log(userFavoriteCoin);
       if (userFavoriteCoin.includes(market)) {
-        console.log("true");
         setIsFavorited(true);
       } else {
         setIsFavorited(false);
@@ -63,10 +82,10 @@ const CoinListBox = ({
       <td className="pl-1">
         <div className="flex items-center justify-center">
           <Star
-            fill={isFavorited ? "#facc15" : "white"}
-            stroke={isFavorited ? "#facc15" : "black"}
+            fill={isFavorited && isLoggedIn ? "#facc15" : "white"}
+            stroke={isFavorited && isLoggedIn ? "#facc15" : "black"}
             className="w-5 h-5 cursor-pointer"
-            onClick={() => favoriteCoin(market, "add")}
+            onClick={() => handleStarClick()}
           />
         </div>
       </td>

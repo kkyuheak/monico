@@ -4,6 +4,11 @@ export const checkFavoriteCoin = async () => {
   const { data: userData, error: userDataError } =
     await supabase.auth.getUser();
 
+  if (userData.user === null) {
+    console.log("first");
+    return null;
+  }
+
   if (userDataError) {
     console.error(userDataError);
     return;

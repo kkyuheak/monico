@@ -4,6 +4,7 @@ import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import CoinUpDownList from "@/components/coin/CoinUpDownList";
 import Spinner from "@/components/Loading/Spinner";
+import { useAuthStore } from "@/store/authStore";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getAllCoinTicker } from "@/utils/coin/getAllCoinTicker";
 import { getCoinName } from "@/utils/coin/getCoinName";
@@ -75,10 +76,15 @@ const CoinMainPage = () => {
   }, [hasNextPage, fetchNextPage]);
 
   // 유저 즐겨찾기 코인
-  const { data: userFavoriteCoin } = useQuery<string[]>({
+  const { data: userFavoriteCoin, isLoading: userCoinLoading } = useQuery<
+    string[] | null
+  >({
     queryKey: ["userFavoriteCoin"],
     queryFn: checkFavoriteCoin,
   });
+
+  // 로그인 확인
+  const isLoggedIn = useAuthStore((state) => state.userInfo);
 
   return (
     <div>
@@ -123,7 +129,7 @@ const CoinMainPage = () => {
             <tr className="border-b border-[#d8d8d8]"></tr>
           </thead>
           <tbody>
-            {allCoinData && coinName && userFavoriteCoin
+            {allCoinData && coinName && !userCoinLoading
               ? allCoinData?.pages.map((page) => {
                   return page.coins.map((coin) => {
                     const koreanName = coinName?.find(
@@ -141,6 +147,7 @@ const CoinMainPage = () => {
                         accTradePrice24h={coin?.acc_trade_price_24h}
                         tabName={tab}
                         userFavoriteCoin={userFavoriteCoin}
+                        isLoggedIn={isLoggedIn}
                       />
                     );
                   });

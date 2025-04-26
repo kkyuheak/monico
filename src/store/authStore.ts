@@ -1,15 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface UserInfoType {
-  id: string;
-  created_at: string;
-  email: string;
-  original_name: string;
-  profile_img: string;
-  provider: string;
-}
-
 interface AuthStoreType {
   isLoggedIn: boolean;
   userInfo: UserInfoType | null;
