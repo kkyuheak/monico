@@ -1,10 +1,10 @@
 "use client";
 
-import { addFavoriteCoin } from "@/utils/addFavoriteCoin";
+import { favoriteCoin } from "@/utils/favoriteCoin";
 import { Star } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface CoinLiostBoxProps {
   coinName: string;
@@ -14,6 +14,7 @@ interface CoinLiostBoxProps {
   accTradeVolume24h: number;
   accTradePrice24h: number;
   tabName: string;
+  userFavoriteCoin: string[];
 }
 
 const CoinListBox = ({
@@ -24,6 +25,7 @@ const CoinListBox = ({
   accTradePrice24h,
   accTradeVolume24h,
   tabName,
+  userFavoriteCoin,
 }: CoinLiostBoxProps) => {
   const router = useRouter();
 
@@ -40,9 +42,21 @@ const CoinListBox = ({
 
   const [isFavorited, setIsFavorited] = useState(false);
 
-  const handleStarClick = () => {
-    setIsFavorited((prev) => !prev);
-  };
+  // const handleStarClick = () => {
+  //   setIsFavorited((prev) => !prev);
+  // };
+
+  useEffect(() => {
+    if (userFavoriteCoin) {
+      console.log(userFavoriteCoin);
+      if (userFavoriteCoin.includes(market)) {
+        console.log("true");
+        setIsFavorited(true);
+      } else {
+        setIsFavorited(false);
+      }
+    }
+  }, [userFavoriteCoin, market]);
 
   return (
     <tr className="border-b border-[#d8d8d8] h-[68px]  tabular-nums">
@@ -52,14 +66,11 @@ const CoinListBox = ({
             fill={isFavorited ? "#facc15" : "white"}
             stroke={isFavorited ? "#facc15" : "black"}
             className="w-5 h-5 cursor-pointer"
-            onClick={() => addFavoriteCoin(market)}
+            onClick={() => favoriteCoin(market, "add")}
           />
         </div>
       </td>
-      <td
-        className="w-[300px]  "
-        onClick={() => router.push(`/coin/${market}`)}
-      >
+      <td className="w-[300px]" onClick={() => router.push(`/coin/${market}`)}>
         <div className="flex h-full items-center gap-3 ml-2 cursor-pointer">
           <Image
             src={`https://static.upbit.com/logos/${coinSymbol}.png`}

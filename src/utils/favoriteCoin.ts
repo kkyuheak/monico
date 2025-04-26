@@ -1,6 +1,9 @@
 import { supabase } from "@/lib/supabase/supabase";
 
-export const addFavoriteCoin = async (coinName: string) => {
+export const favoriteCoin = async (
+  coinName: string,
+  type: "add" | "delete"
+) => {
   const { data: userData, error: userDataError } =
     await supabase.auth.getUser();
   console.log(userData);
@@ -25,7 +28,10 @@ export const addFavoriteCoin = async (coinName: string) => {
 
   console.log(userTable);
 
-  const updateFavorite = [...userTable.favorite, coinName];
+  const updateFavorite =
+    type === "add"
+      ? [...userTable.favorite, coinName]
+      : userTable.favorite.filter((coin: string) => coin !== coinName);
 
   const { data: updateUserTable, error: updateUserTableError } = await supabase
     .from("usersinfo")

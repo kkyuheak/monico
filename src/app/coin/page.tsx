@@ -4,6 +4,7 @@ import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import CoinUpDownList from "@/components/coin/CoinUpDownList";
 import Spinner from "@/components/Loading/Spinner";
+import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getAllCoinTicker } from "@/utils/coin/getAllCoinTicker";
 import { getCoinName } from "@/utils/coin/getCoinName";
 import {
@@ -73,6 +74,12 @@ const CoinMainPage = () => {
     };
   }, [hasNextPage, fetchNextPage]);
 
+  // 유저 즐겨찾기 코인
+  const { data: userFavoriteCoin } = useQuery<string[]>({
+    queryKey: ["userFavoriteCoin"],
+    queryFn: checkFavoriteCoin,
+  });
+
   return (
     <div>
       <div className="max-w-[1440px] m-auto px-5">
@@ -116,7 +123,7 @@ const CoinMainPage = () => {
             <tr className="border-b border-[#d8d8d8]"></tr>
           </thead>
           <tbody>
-            {allCoinData && coinName
+            {allCoinData && coinName && userFavoriteCoin
               ? allCoinData?.pages.map((page) => {
                   return page.coins.map((coin) => {
                     const koreanName = coinName?.find(
@@ -133,6 +140,7 @@ const CoinMainPage = () => {
                         accTradeVolume24h={coin?.acc_trade_volume_24h}
                         accTradePrice24h={coin?.acc_trade_price_24h}
                         tabName={tab}
+                        userFavoriteCoin={userFavoriteCoin}
                       />
                     );
                   });
