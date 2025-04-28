@@ -55,14 +55,12 @@ const CoinListBox = ({
     if (!isFavorited) {
       try {
         await favoriteCoin(market, "add");
-        setIsFavorited(true);
       } catch (error) {
         console.error(error);
       }
     } else {
       try {
         await favoriteCoin(market, "delete");
-        setIsFavorited(false);
       } catch (error) {
         console.error(error);
       }

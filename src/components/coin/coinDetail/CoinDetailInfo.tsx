@@ -120,14 +120,12 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
     if (!isFavorited) {
       try {
         await favoriteCoin(coinName, "add");
-        setIsFavorited(true);
       } catch (error) {
         console.error(error);
       }
     } else {
       try {
         await favoriteCoin(coinName, "delete");
-        setIsFavorited(false);
       } catch (error) {
         console.error(error);
       }
