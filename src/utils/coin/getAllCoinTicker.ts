@@ -14,7 +14,7 @@ export const getAllCoinTicker = async (
         quote_currencies: "KRW,BTC",
       },
     });
-    console.log(response.data);
+
     const { data } = response;
 
     const KRWfilteredData = data.filter((coin: AllCoinNameType) =>

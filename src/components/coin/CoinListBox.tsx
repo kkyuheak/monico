@@ -1,5 +1,12 @@
+"use client";
+
+import { favoriteCoin } from "@/utils/favoriteCoin";
+import { useMutation } from "@tanstack/react-query";
+import { Star } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { queryClient } from "../provider/QueryProvider";
 
 interface CoinLiostBoxProps {
   coinName: string;
@@ -9,6 +16,8 @@ interface CoinLiostBoxProps {
   accTradeVolume24h: number;
   accTradePrice24h: number;
   tabName: string;
+  userFavoriteCoin: string[] | null | undefined;
+  isLoggedIn: UserInfoType | null;
 }
 
 const CoinListBox = ({
@@ -19,6 +28,8 @@ const CoinListBox = ({
   accTradePrice24h,
   accTradeVolume24h,
   tabName,
+  userFavoriteCoin,
+  isLoggedIn,
 }: CoinLiostBoxProps) => {
   const router = useRouter();
 
@@ -32,13 +43,60 @@ const CoinListBox = ({
       return price;
     }
   };
+
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  const handleStarClick = async () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다.");
+      return;
+    }
+
+    if (!isFavorited) {
+      try {
+        await favoriteCoin(market, "add");
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        await favoriteCoin(market, "delete");
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: handleStarClick,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["userFavoriteCoin"] }),
+  });
+
+  useEffect(() => {
+    if (userFavoriteCoin) {
+      if (userFavoriteCoin.includes(market)) {
+        setIsFavorited(true);
+      } else {
+        setIsFavorited(false);
+      }
+    }
+  }, [userFavoriteCoin, market]);
+
   return (
-    <tr
-      className="border-b border-[#d8d8d8] h-[68px] cursor-pointer tabular-nums"
-      onClick={() => router.push(`/coin/${market}`)}
-    >
-      <td className="w-[300px]">
-        <div className="flex h-full items-center gap-3 pl-4">
+    <tr className="border-b border-[#d8d8d8] h-[68px]  tabular-nums">
+      <td className="pl-1">
+        <div className="flex items-center justify-center">
+          <Star
+            fill={isFavorited && isLoggedIn ? "#facc15" : "white"}
+            stroke={isFavorited && isLoggedIn ? "#facc15" : "black"}
+            className="w-5 h-5 cursor-pointer"
+            onClick={() => mutate()}
+          />
+        </div>
+      </td>
+      <td className="w-[300px]" onClick={() => router.push(`/coin/${market}`)}>
+        <div className="flex h-full items-center gap-3 ml-2 cursor-pointer">
           <Image
             src={`https://static.upbit.com/logos/${coinSymbol}.png`}
             alt={coinSymbol + "icon"}

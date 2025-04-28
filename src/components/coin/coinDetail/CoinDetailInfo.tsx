@@ -1,5 +1,10 @@
+import { queryClient } from "@/components/provider/QueryProvider";
+import { useAuthStore } from "@/store/authStore";
+import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getCoinKRName } from "@/utils/coin/getCoinKRName";
-import { useQuery } from "@tanstack/react-query";
+import { favoriteCoin } from "@/utils/favoriteCoin";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Star } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -85,6 +90,54 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
       ]
     : [];
 
+  // 로그인 여부
+  const isLoggedIn = useAuthStore((state) => state.userInfo);
+
+  // 즐겨찾기
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  const { data: userFavoriteCoin } = useQuery({
+    queryKey: ["userFavoriteCoin"],
+    queryFn: () => checkFavoriteCoin(),
+  });
+
+  useEffect(() => {
+    if (userFavoriteCoin) {
+      if (userFavoriteCoin.includes(coinName)) {
+        setIsFavorited(true);
+      } else {
+        setIsFavorited(false);
+      }
+    }
+  }, [userFavoriteCoin, coinName]);
+
+  const handleStarClick = async () => {
+    if (!isLoggedIn) {
+      alert("로그인이 필요한 서비스입니다.");
+      return;
+    }
+
+    if (!isFavorited) {
+      try {
+        await favoriteCoin(coinName, "add");
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        await favoriteCoin(coinName, "delete");
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: handleStarClick,
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["userFavoriteCoin"] }),
+  });
+
   return (
     <div className="w-[500px] h-full px-5 border-r border-gray-300">
       {!coinWsData ? (
@@ -104,6 +157,13 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
                 <p className="text-[13px] text-gray-400">
                   {coinSymbol}/{isKRW ? "KRW" : "BTC"}
                 </p>
+
+                <Star
+                  fill={isFavorited && isLoggedIn ? "#facc15" : "white"}
+                  stroke={isFavorited && isLoggedIn ? "#facc15" : "black"}
+                  className="w-5 h-5 cursor-pointer"
+                  onClick={() => mutate()}
+                />
               </div>
             </div>
             <div className="flex items-center gap-4">

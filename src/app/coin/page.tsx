@@ -4,6 +4,8 @@ import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import CoinUpDownList from "@/components/coin/CoinUpDownList";
 import Spinner from "@/components/Loading/Spinner";
+import { useAuthStore } from "@/store/authStore";
+import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getAllCoinTicker } from "@/utils/coin/getAllCoinTicker";
 import { getCoinName } from "@/utils/coin/getCoinName";
 import {
@@ -51,8 +53,6 @@ const CoinMainPage = () => {
   // 무한스크롤 obserberRef
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {}, []);
-
   // 무한 스크롤
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,6 +74,17 @@ const CoinMainPage = () => {
       }
     };
   }, [hasNextPage, fetchNextPage]);
+
+  // 유저 즐겨찾기 코인
+  const { data: userFavoriteCoin, isLoading: userCoinLoading } = useQuery<
+    string[] | null
+  >({
+    queryKey: ["userFavoriteCoin", tab],
+    queryFn: checkFavoriteCoin,
+  });
+
+  // 로그인 확인
+  const isLoggedIn = useAuthStore((state) => state.userInfo);
 
   return (
     <div>
@@ -108,7 +119,8 @@ const CoinMainPage = () => {
         <table className="w-full m-auto border-t border-[#d8d8d8]">
           <thead className="h-[42px]">
             <tr>
-              <th className="text-left pl-4">코인</th>
+              <th className="pl-1"></th>
+              <th className="text-left pl-2">코인</th>
               <th className="">현재가</th>
               <th className=" w-[100px]">전일대비</th>
               <th className="">거래량(24H)</th>
@@ -117,7 +129,7 @@ const CoinMainPage = () => {
             <tr className="border-b border-[#d8d8d8]"></tr>
           </thead>
           <tbody>
-            {allCoinData && coinName
+            {allCoinData && coinName && !userCoinLoading
               ? allCoinData?.pages.map((page) => {
                   return page.coins.map((coin) => {
                     const koreanName = coinName?.find(
@@ -134,6 +146,8 @@ const CoinMainPage = () => {
                         accTradeVolume24h={coin?.acc_trade_volume_24h}
                         accTradePrice24h={coin?.acc_trade_price_24h}
                         tabName={tab}
+                        userFavoriteCoin={userFavoriteCoin}
+                        isLoggedIn={isLoggedIn}
                       />
                     );
                   });
