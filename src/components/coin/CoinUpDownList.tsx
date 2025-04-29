@@ -27,13 +27,22 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
     queryFn: () => getUpDownCoinList(type),
   });
 
+  const handleMoreClick = () => {
+    router.push(`/coin/${type === "UP" ? "/gainers" : "/losers"}`);
+  };
+
   return (
     <div className="w-[400px] h-[200px] rounded-lg border border-gray-200 px-3  pt-4 pb-1 flex flex-col justify-between">
       <div className="flex items-center justify-between px-2">
         <p className="font-bold text-[18px] ">
           {type === "UP" ? "🚀 상승 종목" : "🔥 하락 종목"}
         </p>
-        <p className="text-[14px] text-right cursor-pointer">더보기 {">"}</p>
+        <p
+          className="text-[14px] text-right cursor-pointer"
+          onClick={handleMoreClick}
+        >
+          더보기 {">"}
+        </p>
       </div>
 
       <ul className="flex flex-col gap-1">
