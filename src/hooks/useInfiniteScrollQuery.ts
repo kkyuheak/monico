@@ -10,10 +10,10 @@ export const useInfiniteScrollQuery = <TData>({
   getNextPageParam,
   initialPageParam = 1,
 }: {
-  queryKey: any[];
+  queryKey: (string | number)[];
   queryFn: UseInfiniteQueryOptions<TData>["queryFn"];
-  getNextPageParam: (lastPage: TData, pages: TData[]) => any;
-  initialPageParam?: any;
+  getNextPageParam: (lastPage: TData, pages: TData[]) => number | null;
+  initialPageParam?: number;
 }) => {
   const observerRef = useRef<HTMLDivElement | null>(null);
 

@@ -1,7 +1,7 @@
-import React from "react";
+import CoinAllUpDown from "@/components/coin/CoinAllUpDown";
 
 const LosersPage = () => {
-  return <div>LosersPage</div>;
+  return <CoinAllUpDown type="DOWN" />;
 };
 
 export default LosersPage;
