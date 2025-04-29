@@ -2,6 +2,7 @@
 
 import CoinListBox from "@/components/coin/CoinListBox";
 import Spinner from "@/components/Loading/Spinner";
+import { useInfiniteScrollQuery } from "@/hooks/useInfiniteScrollQuery";
 import { getAllUpCoinLists } from "@/utils/coin/getAllUpCoinLists";
 import { getCoinName } from "@/utils/coin/getCoinName";
 import {
@@ -27,47 +28,54 @@ const GainersPage = () => {
   const {
     data: allUpCoinList,
     isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useInfiniteQuery<AllCoinsPageType>({
+    observerRef,
+  } = useInfiniteScrollQuery<AllCoinsPageType>({
     queryKey: ["allUpCoinList"],
     queryFn: fetchAllUpCoinName,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
+  // const {
+  //   data: allUpCoinList,
+  //   isFetchingNextPage,
+  //   fetchNextPage,
+  //   hasNextPage,
+  // } = useInfiniteQuery<AllCoinsPageType>({
+  //   queryKey: ["allUpCoinList"],
+  //   queryFn: fetchAllUpCoinName,
+  //   initialPageParam: 1,
+  //   getNextPageParam: (lastPage) => lastPage.nextPage,
+  // });
+
   const { data: coinName } = useQuery<AllCoinNameType[]>({
     queryKey: ["coinName"],
     queryFn: getCoinName,
   });
 
-  useEffect(() => {
-    console.log(allUpCoinList);
-  }, [allUpCoinList]);
-
   // 무한 스크롤
-  const observerRef = useRef<HTMLDivElement | null>(null);
+  // const observerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1 }
-    );
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       if (entries[0].isIntersecting && hasNextPage) {
+  //         fetchNextPage();
+  //       }
+  //     },
+  //     { threshold: 1 }
+  //   );
 
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
-    }
+  //   if (observerRef.current) {
+  //     observer.observe(observerRef.current);
+  //   }
 
-    return () => {
-      if (observerRef.current) {
-        observer.unobserve(observerRef.current);
-      }
-    };
-  }, [hasNextPage, fetchNextPage]);
+  //   return () => {
+  //     if (observerRef.current) {
+  //       observer.unobserve(observerRef.current);
+  //     }
+  //   };
+  // }, [hasNextPage, fetchNextPage]);
 
   return (
     <div>
