@@ -1,6 +1,8 @@
 import { api } from "@/api/axiosInstance";
 
-export const getAllUpCoinLists = async (
+// 무한스크롤 상승,하락 코인 리스트
+
+export const getAllUpDownCoinLists = async (
   {
     pageParam = 1,
   }: {

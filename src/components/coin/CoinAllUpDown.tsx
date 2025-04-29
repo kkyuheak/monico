@@ -6,9 +6,11 @@ import Spinner from "@/components/Loading/Spinner";
 import { useInfiniteScrollQuery } from "@/hooks/useInfiniteScrollQuery";
 import { useAuthStore } from "@/store/authStore";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
-import { getAllUpCoinLists } from "@/utils/coin/getAllUpCoinLists";
+import { getAllUpDownCoinLists } from "@/utils/coin/getAllUpDownCoinLists";
 import { getCoinName } from "@/utils/coin/getCoinName";
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 interface AllCoinsPageType {
   coins: CoinTickerType[];
@@ -24,7 +26,10 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
   const fetchAllCoinName = async ({
     pageParam,
   }: QueryFunctionContext): Promise<AllCoinsPageType> => {
-    return await getAllUpCoinLists({ pageParam: pageParam as number }, type);
+    return await getAllUpDownCoinLists(
+      { pageParam: pageParam as number },
+      type
+    );
   };
 
   const {
@@ -60,7 +65,15 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
         {type === "UP" ? "상승중인 코인" : "하락중인 코인"}
       </h1>
 
-      <table className="w-full m-auto border-t border-[#d8d8d8]">
+      <Link
+        href={"/coin"}
+        className="w-[150px] mt-5 cursor-pointer flex items-center gap-1 hover:underline"
+      >
+        <ArrowLeft className="w-5" />
+        <p className="font-semibold">목록으로 돌아가기</p>
+      </Link>
+
+      <table className="w-full m-auto border-t border-[#d8d8d8] mt-5">
         <thead className="h-[42px]">
           <tr>
             <th className="pl-1"></th>
