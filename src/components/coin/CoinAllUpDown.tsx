@@ -4,6 +4,8 @@ import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import Spinner from "@/components/Loading/Spinner";
 import { useInfiniteScrollQuery } from "@/hooks/useInfiniteScrollQuery";
+import { useAuthStore } from "@/store/authStore";
+import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getAllUpCoinLists } from "@/utils/coin/getAllUpCoinLists";
 import { getCoinName } from "@/utils/coin/getCoinName";
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
@@ -41,8 +43,19 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
     queryFn: getCoinName,
   });
 
+  // 로그인 여부 확인
+  const isLoggedIn = useAuthStore((state) => state.userInfo);
+
+  // 즐겨찾기 코인 확인
+  const { data: userFavoriteCoin, isLoading: userCoinLoading } = useQuery<
+    string[] | null
+  >({
+    queryKey: ["userFavoriteCoin"],
+    queryFn: checkFavoriteCoin,
+  });
+
   return (
-    <div>
+    <div className="max-w-[1440px] m-auto px-5">
       <h1 className="text-[28px] font-bold my-[20px]">
         {type === "UP" ? "상승중인 코인" : "하락중인 코인"}
       </h1>
@@ -60,7 +73,7 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
           <tr className="border-b border-[#d8d8d8]"></tr>
         </thead>
         <tbody>
-          {coinName && allCoinList
+          {coinName && allCoinList && !userCoinLoading
             ? allCoinList?.pages.map((page) => {
                 return page.coins.map((coin) => {
                   const kr_name = coinName.find(
@@ -75,8 +88,8 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
                       changeRate={coin.signed_change_rate}
                       accTradeVolume24h={coin.acc_trade_volume_24h}
                       accTradePrice24h={coin.acc_trade_price_24h}
-                      // userFavoriteCoin={userFavoriteCoin}
-                      // isLoggedIn={isLoggedIn}
+                      userFavoriteCoin={userFavoriteCoin}
+                      isLoggedIn={isLoggedIn}
                     />
                   );
                 });
