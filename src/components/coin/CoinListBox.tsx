@@ -27,7 +27,7 @@ const CoinListBox = ({
   changeRate,
   accTradePrice24h,
   accTradeVolume24h,
-  tabName,
+  tabName = "KRW",
   userFavoriteCoin,
   isLoggedIn,
 }: CoinLiostBoxProps) => {

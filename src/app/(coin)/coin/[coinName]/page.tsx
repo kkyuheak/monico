@@ -53,7 +53,7 @@ const CoinDetailPage = () => {
   }, [coinName]);
 
   return (
-    <div className="max-w-[1650px] m-auto">
+    <div>
       <Link
         href={"/coin"}
         className="w-[150px] ml-5 cursor-pointer flex items-center gap-1 mt-[20px] hover:underline"

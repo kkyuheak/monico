@@ -87,7 +87,7 @@ const CoinMainPage = () => {
   const isLoggedIn = useAuthStore((state) => state.userInfo);
 
   return (
-    <div className="max-w-[1440px] m-auto px-5">
+    <div>
       <h1 className="text-[28px] font-bold my-[20px]">암호화페 시세</h1>
       {/* 상승, 하락 */}
       <div className="mb-5 flex gap-2 justify-around">

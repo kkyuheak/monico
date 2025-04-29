@@ -55,7 +55,7 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
   });
 
   return (
-    <div className="max-w-[1440px] m-auto px-5">
+    <div>
       <h1 className="text-[28px] font-bold my-[20px]">
         {type === "UP" ? "상승중인 코인" : "하락중인 코인"}
       </h1>
