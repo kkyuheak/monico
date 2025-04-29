@@ -15,9 +15,9 @@ interface CoinLiostBoxProps {
   changeRate: number;
   accTradeVolume24h: number;
   accTradePrice24h: number;
-  tabName: string;
-  userFavoriteCoin: string[] | null | undefined;
-  isLoggedIn: UserInfoType | null;
+  tabName?: string;
+  userFavoriteCoin?: string[] | null | undefined;
+  isLoggedIn?: UserInfoType | null;
 }
 
 const CoinListBox = ({
@@ -27,7 +27,7 @@ const CoinListBox = ({
   changeRate,
   accTradePrice24h,
   accTradeVolume24h,
-  tabName,
+  tabName = "KRW",
   userFavoriteCoin,
   isLoggedIn,
 }: CoinLiostBoxProps) => {
