@@ -9,9 +9,10 @@ import CoinCandleSkeleton from "./CoinCandleSkeleton";
 
 interface CoinCandlesProps {
   coinName: string;
+  tabsValue: "days" | "weeks";
 }
 
-const CoinCandles = ({ coinName }: CoinCandlesProps) => {
+const CoinCandles = ({ coinName, tabsValue }: CoinCandlesProps) => {
   const [isKRW, setIsKRW] = useState(true);
 
   useEffect(() => {
@@ -23,8 +24,8 @@ const CoinCandles = ({ coinName }: CoinCandlesProps) => {
   }, [coinName]);
 
   const { data: coinCandlesData } = useQuery<CoinCandlesDayType[]>({
-    queryKey: ["coinCandlesData", coinName],
-    queryFn: () => getCoinCandles(coinName, "days", 200),
+    queryKey: ["coinCandlesData", coinName, tabsValue],
+    queryFn: () => getCoinCandles(coinName, tabsValue, 200),
   });
 
   const BTCprice = (price: number) => {
@@ -66,8 +67,12 @@ const CoinCandles = ({ coinName }: CoinCandlesProps) => {
           <tr>
             <th className="w-[50px]">일자</th>
             <th className="pl-10">가격</th>
-            <th>등락폭</th>
-            <th>변동률</th>
+            {tabsValue === "days" && (
+              <>
+                <th>등락폭</th>
+                <th>변동률</th>
+              </>
+            )}
             <th>누적 거래량</th>
             <th className="">누적 거래 금액</th>
           </tr>
@@ -77,6 +82,7 @@ const CoinCandles = ({ coinName }: CoinCandlesProps) => {
             ? coinCandlesFilterLists.map((candleData, index) => (
                 <CoinCandleList
                   key={index}
+                  tabsValue={tabsValue}
                   date={dayjs(candleData.candle_date_time_kst).format("MM/DD")}
                   price={
                     isKRW

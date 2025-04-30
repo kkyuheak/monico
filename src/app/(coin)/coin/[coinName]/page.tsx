@@ -53,6 +53,9 @@ const CoinDetailPage = () => {
     };
   }, [coinName]);
 
+  // 일/주별 탭 value
+  const [tabsValue, setTabsValue] = useState<"days" | "weeks">("days");
+
   return (
     <div>
       <Link
@@ -68,15 +71,19 @@ const CoinDetailPage = () => {
         <CoinGraph coinName={coinName as string} />
       </div>
 
-      <Tabs defaultValue="account" className="w-[400px]">
-        <TabsList>
-          <TabsTrigger value="account">일</TabsTrigger>
-          <TabsTrigger value="password">주</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <div className={`${tabsValue === "days" ? "" : "w-[80%] m-auto"}`}>
+        <Tabs
+          defaultValue="days"
+          className="w-[300px]"
+          onValueChange={(value) => setTabsValue(value as "days" | "weeks")}
+        >
+          <TabsList>
+            <TabsTrigger value="days">일별로 보기</TabsTrigger>
+            <TabsTrigger value="weeks">주별로 보기</TabsTrigger>
+          </TabsList>
+        </Tabs>
 
-      <div>
-        <CoinCandles coinName={coinName as string} />
+        <CoinCandles coinName={coinName as string} tabsValue={tabsValue} />
       </div>
     </div>
   );
