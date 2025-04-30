@@ -3,6 +3,7 @@
 import CoinCandles from "@/components/coin/coinDetail/CoinCandles";
 import CoinDetailInfo from "@/components/coin/coinDetail/CoinDetailInfo";
 import CoinGraph from "@/components/coin/coinDetail/CoinGraph";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -66,6 +67,14 @@ const CoinDetailPage = () => {
 
         <CoinGraph coinName={coinName as string} />
       </div>
+
+      <Tabs defaultValue="account" className="w-[400px]">
+        <TabsList>
+          <TabsTrigger value="account">일</TabsTrigger>
+          <TabsTrigger value="password">주</TabsTrigger>
+        </TabsList>
+      </Tabs>
+
       <div>
         <CoinCandles coinName={coinName as string} />
       </div>

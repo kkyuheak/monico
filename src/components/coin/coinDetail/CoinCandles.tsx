@@ -60,7 +60,7 @@ const CoinCandles = ({ coinName }: CoinCandlesProps) => {
   };
 
   return (
-    <div className="mt-10 flex flex-col items-center gap-3 pb-5">
+    <div className="mt-2 flex flex-col items-center gap-3 pb-5">
       <table className="w-full">
         <thead className="h-[45px] border-y">
           <tr>
