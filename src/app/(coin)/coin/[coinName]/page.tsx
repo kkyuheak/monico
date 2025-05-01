@@ -3,6 +3,7 @@
 import CoinCandles from "@/components/coin/coinDetail/CoinCandles";
 import CoinDetailInfo from "@/components/coin/coinDetail/CoinDetailInfo";
 import CoinGraph from "@/components/coin/coinDetail/CoinGraph";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -52,6 +53,9 @@ const CoinDetailPage = () => {
     };
   }, [coinName]);
 
+  // 일/주별 탭 value
+  const [tabsValue, setTabsValue] = useState<"days" | "weeks">("days");
+
   return (
     <div>
       <Link
@@ -66,8 +70,24 @@ const CoinDetailPage = () => {
 
         <CoinGraph coinName={coinName as string} />
       </div>
-      <div>
-        <CoinCandles coinName={coinName as string} />
+
+      <div
+        className={`${
+          tabsValue === "days" ? "max-w-[1280px]" : "w-[80%]"
+        }  m-auto mt-10`}
+      >
+        <Tabs
+          defaultValue="days"
+          className="w-[300px]"
+          onValueChange={(value) => setTabsValue(value as "days" | "weeks")}
+        >
+          <TabsList>
+            <TabsTrigger value="days">일별로 보기</TabsTrigger>
+            <TabsTrigger value="weeks">주별로 보기</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
+        <CoinCandles coinName={coinName as string} tabsValue={tabsValue} />
       </div>
     </div>
   );
