@@ -71,7 +71,11 @@ const CoinDetailPage = () => {
         <CoinGraph coinName={coinName as string} />
       </div>
 
-      <div className={`${tabsValue === "days" ? "" : "w-[80%] m-auto"}`}>
+      <div
+        className={`${
+          tabsValue === "days" ? "max-w-[1280px]" : "w-[80%]"
+        }  m-auto mt-10`}
+      >
         <Tabs
           defaultValue="days"
           className="w-[300px]"
