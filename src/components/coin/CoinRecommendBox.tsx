@@ -36,7 +36,7 @@ const CoinRecommendBox = ({
           <p className="text-[12px]">{coinName}</p>
         </div>
       </div>
-      <div className="flex items-baseline gap-1">
+      <div className="flex items-baseline gap-[2px]">
         <p className="font-semibold text-[22px]">
           {coinPrice.toLocaleString()}
         </p>

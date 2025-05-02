@@ -74,11 +74,11 @@ const Header = () => {
     }
     console.log(getUser);
 
-    const { user_name } = getUser?.user?.user_metadata;
+    const { id: userId } = getUser.user;
 
     // 추후에 usersinfo 테이블에서 해당 유저의 일치하는 이름을 가져와야함
 
-    router.push(`/${user_name}/favorite`);
+    router.push(`/${userId}/favorite`);
   };
 
   return (
