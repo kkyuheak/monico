@@ -49,7 +49,7 @@ export const middleware = async (request: NextRequest) => {
   // 로그인하지 않은 사용자가 보호된 페이지에 접근하면 로그인 페이지로 리디렉션
   if (
     !session &&
-    (pathname.startsWith("/mypage") || /^\/[^/]+\/favorite$/.test(pathname))
+    (pathname.startsWith("/mypage") || pathname.endsWith("/favorite"))
   ) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
