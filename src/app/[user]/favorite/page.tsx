@@ -32,10 +32,11 @@ const UserFavoritePage = () => {
     return favoriteCoinData;
   };
 
-  const { data: favoriteCoinData } = useQuery<CoinTickerType[]>({
-    queryKey: ["userFavoriteCoinData"],
-    queryFn: getUserFavoriteCoin,
-  });
+  const { data: favoriteCoinData, isLoading: favoriteCoinDataLoading } =
+    useQuery<CoinTickerType[]>({
+      queryKey: ["userFavoriteCoinData"],
+      queryFn: getUserFavoriteCoin,
+    });
 
   // KRW, BTC 필터링 데이터
   const [filterdFavoriteCoinData, setFilterdFavoriteCoinData] = useState<
@@ -67,6 +68,10 @@ const UserFavoritePage = () => {
     mutationFn: () => favoriteCoin("", "allDelete"),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["userFavoriteCoinData"] });
+      setOpen(false);
+    },
+    onError: () => {
+      alert("즐겨찾기 삭제에 실패했습니다.");
     },
   });
 
@@ -84,12 +89,12 @@ const UserFavoritePage = () => {
           </TabsList>
         </Tabs>
 
-        <button
-          className="w-[90px] h-[35px] cursor-pointer rounded-lg text-white text-[15px] font-semibold bg-[#FF3D00] hover:bg-[#FF3D00]/80"
+        <SimpleButton
+          css="w-[90px] h-[35px] text-white font-semibold bg-[#FF3D00] hover:bg-[#FF3D00]/80"
           onClick={() => setOpen(true)}
         >
           전체 삭제
-        </button>
+        </SimpleButton>
       </div>
 
       <table className="w-full m-auto border-t border-[#d8d8d8] mt-5">
@@ -128,7 +133,7 @@ const UserFavoritePage = () => {
               ))}
         </tbody>
       </table>
-      {filterdFavoriteCoinData?.length === 0 && (
+      {filterdFavoriteCoinData?.length === 0 && !favoriteCoinDataLoading && (
         <p className="text-center mt-5">즐겨찾기한 코인이 없습니다.</p>
       )}
 
@@ -148,12 +153,15 @@ const UserFavoritePage = () => {
               </CardDescription>
             </CardHeader>
             <CardFooter className="flex justify-between">
-              <SimpleButton css="bg-gray-200" onClick={() => setOpen(false)}>
+              <SimpleButton
+                css="bg-gray-200 hover:bg-gray-200/80"
+                onClick={() => setOpen(false)}
+              >
                 취소
               </SimpleButton>
 
               <SimpleButton
-                css="bg-[#FF3D00] text-white"
+                css="bg-[#FF3D00] text-white hover:bg-[#FF3D00]/80"
                 onClick={() => allDeleteFn()}
               >
                 삭제
