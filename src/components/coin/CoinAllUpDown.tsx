@@ -11,6 +11,8 @@ import { getCoinName } from "@/utils/coin/getCoinName";
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import CoinRecommendBox from "./CoinRecommendBox";
+import CoinRecommendBoxSkeleton from "../skeleton/CoinRecommendBoxSkeleton";
 
 interface AllCoinsPageType {
   coins: CoinTickerType[];
@@ -59,6 +61,9 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
     queryFn: checkFavoriteCoin,
   });
 
+  // 5개 상단 추천 코인
+  const top5Coin = allCoinList?.pages[0].coins.slice(0, 5);
+
   return (
     <div>
       <h1 className="text-[28px] font-bold my-[20px]">
@@ -72,6 +77,28 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
         <ArrowLeft className="w-5" />
         <p className="font-semibold">목록으로 돌아가기</p>
       </Link>
+
+      <div className="flex items-center gap-5 justify-center mt-10 mb-5">
+        {coinName && allCoinList && !userCoinLoading
+          ? top5Coin?.map((coin) => {
+              const kr_name = coinName.find(
+                (nameData) => nameData.market === coin.market
+              );
+              return (
+                <CoinRecommendBox
+                  key={coin.market}
+                  coinName={coin.market}
+                  coinKrName={kr_name?.korean_name ?? ""}
+                  coinPrice={coin.trade_price}
+                  coinChangeRate={coin.change_rate}
+                  coinChange={coin.change}
+                />
+              );
+            })
+          : Array.from({ length: 5 }).map((_, i) => (
+              <CoinRecommendBoxSkeleton key={i} />
+            ))}
+      </div>
 
       <table className="w-full m-auto border-t border-[#d8d8d8] mt-5">
         <thead className="h-[42px]">
@@ -87,8 +114,11 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
         </thead>
         <tbody>
           {coinName && allCoinList && !userCoinLoading
-            ? allCoinList?.pages.map((page) => {
-                return page.coins.map((coin) => {
+            ? allCoinList?.pages.map((page, index) => {
+                const coins = index === 0 ? page.coins.slice(5) : page.coins;
+                // const coins = page.coins;
+
+                return coins.map((coin) => {
                   const kr_name = coinName.find(
                     (nameData) => nameData.market === coin.market
                   );

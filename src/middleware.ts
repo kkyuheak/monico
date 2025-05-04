@@ -15,7 +15,7 @@ export const middleware = async (request: NextRequest) => {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
           supabaseResponse = NextResponse.next({
@@ -47,13 +47,30 @@ export const middleware = async (request: NextRequest) => {
   }
 
   // 로그인하지 않은 사용자가 보호된 페이지에 접근하면 로그인 페이지로 리디렉션
-  if (!session && pathname.startsWith("/mypage")) {
+  if (
+    !session &&
+    (pathname.startsWith("/mypage") || pathname.endsWith("/favorite"))
+  ) {
     return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  // 유저의 즐겨찾기 페이지 접근 시 해당 유저인지 확인
+  if (session !== null && pathname.endsWith("/favorite")) {
+    const userId = pathname.split("/")[1];
+    const { data: userData } = await supabase
+      .from("usersinfo")
+      .select("id")
+      .eq("id", userId)
+      .single();
+
+    if (userData?.id !== session.user.id) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 
   return supabaseResponse;
 };
 
 export const config = {
-  matcher: ["/login", "/signup", "/mypage/:path*"],
+  matcher: ["/login", "/signup", "/mypage/:path*", "/:user/favorite"],
 };

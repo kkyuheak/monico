@@ -85,16 +85,18 @@ const CoinListBox = ({
 
   return (
     <tr className="border-b border-[#d8d8d8] h-[68px]  tabular-nums">
-      <td className="pl-1">
-        <div className="flex items-center justify-center">
-          <Star
-            fill={isFavorited && isLoggedIn ? "#facc15" : "white"}
-            stroke={isFavorited && isLoggedIn ? "#facc15" : "black"}
-            className="w-5 h-5 cursor-pointer"
-            onClick={() => mutate()}
-          />
-        </div>
-      </td>
+      {isLoggedIn && (
+        <td className="pl-1">
+          <div className="flex items-center justify-center">
+            <Star
+              fill={isFavorited && isLoggedIn ? "#facc15" : "white"}
+              stroke={isFavorited && isLoggedIn ? "#facc15" : "black"}
+              className="w-5 h-5 cursor-pointer"
+              onClick={() => mutate()}
+            />
+          </div>
+        </td>
+      )}
       <td className="w-[300px]" onClick={() => router.push(`/coin/${market}`)}>
         <div className="flex h-full items-center gap-3 ml-2 cursor-pointer">
           <Image

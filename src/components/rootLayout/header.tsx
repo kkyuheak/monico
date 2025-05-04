@@ -13,10 +13,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const userInfo = useAuthStore((state) => state.userInfo);
   const setUserInfo = useAuthStore((state) => state.setUserInfo);
+
+  const router = useRouter();
 
   // 로그아웃 함수
   const logOut = async () => {
@@ -63,6 +66,21 @@ const Header = () => {
     getIsLoggedIn();
   }, []);
 
+  const handleFavoriteClick = async () => {
+    const { data: getUser, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error(error);
+      return;
+    }
+    console.log(getUser);
+
+    const { id: userId } = getUser.user;
+
+    // 추후에 usersinfo 테이블에서 해당 유저의 일치하는 이름을 가져와야함
+
+    router.push(`/${userId}/favorite`);
+  };
+
   return (
     <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-300 bg-white">
       <Link href={"/"} className="flex items-center">
@@ -105,7 +123,9 @@ const Header = () => {
                     <DropdownMenuLabel>내 계정</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>프로필</DropdownMenuItem>
-                    <DropdownMenuItem>즐겨찾기</DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleFavoriteClick}>
+                      즐겨찾기
+                    </DropdownMenuItem>
                     <DropdownMenuItem
                       className="text-red-600 focus:text-red-600"
                       onClick={logOut}
