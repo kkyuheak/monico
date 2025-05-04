@@ -3,16 +3,28 @@
 import CoinListBox from "@/components/coin/CoinListBox";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getDetailTicker } from "@/utils/coin/getDetailTicker";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { getCoinName } from "@/utils/coin/getCoinName";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import SimpleButton from "@/components/common/buttons/SimpleButton";
+import { favoriteCoin } from "@/utils/favoriteCoin";
+import { queryClient } from "@/components/provider/QueryProvider";
 
 const UserFavoritePage = () => {
   const getUserFavoriteCoin = async () => {
     const favoriteCoin = await checkFavoriteCoin();
+    if (favoriteCoin.length === 0) return [];
 
+    // console.log("first");
     const userFavoriteCoinNames = favoriteCoin.join(",");
 
     const favoriteCoinData = await getDetailTicker(userFavoriteCoinNames);
@@ -47,18 +59,38 @@ const UserFavoritePage = () => {
     queryFn: getCoinName,
   });
 
+  // 전체삭제 모달
+  const [open, setOpen] = useState(false);
+
+  // 전체삭제 함수
+  const { mutate: allDeleteFn } = useMutation({
+    mutationFn: () => favoriteCoin("", "allDelete"),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userFavoriteCoinData"] });
+    },
+  });
+
   return (
     <>
-      <Tabs
-        defaultValue="KRW"
-        className="w-[400px]"
-        onValueChange={(value) => setSelectedTab(value)}
-      >
-        <TabsList>
-          <TabsTrigger value="KRW">KRW</TabsTrigger>
-          <TabsTrigger value="BTC">BTC</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <div className="flex items-center justify-between">
+        <Tabs
+          defaultValue="KRW"
+          className="w-[400px]"
+          onValueChange={(value) => setSelectedTab(value)}
+        >
+          <TabsList>
+            <TabsTrigger value="KRW">KRW</TabsTrigger>
+            <TabsTrigger value="BTC">BTC</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
+        <button
+          className="w-[90px] h-[35px] cursor-pointer rounded-lg text-white text-[15px] font-semibold bg-[#FF3D00] hover:bg-[#FF3D00]/80"
+          onClick={() => setOpen(true)}
+        >
+          전체 삭제
+        </button>
+      </div>
 
       <table className="w-full m-auto border-t border-[#d8d8d8] mt-5">
         <thead className="h-[42px]">
@@ -96,6 +128,40 @@ const UserFavoritePage = () => {
               ))}
         </tbody>
       </table>
+      {filterdFavoriteCoinData?.length === 0 && (
+        <p className="text-center mt-5">즐겨찾기한 코인이 없습니다.</p>
+      )}
+
+      {open && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]"
+          onClick={() => setOpen(false)}
+        >
+          <Card className="w-[350px]" onClick={(e) => e.stopPropagation()}>
+            <CardHeader>
+              <CardTitle>
+                즐겨찾기 코인 <span className="text-[#FF3D00]">전체삭제</span>
+              </CardTitle>
+              <CardDescription className="text-[15px]">
+                즐겨찾기한 코인을 모두{" "}
+                <span className="text-[#FF3D00]">삭제</span>하시겠습니까?
+              </CardDescription>
+            </CardHeader>
+            <CardFooter className="flex justify-between">
+              <SimpleButton css="bg-gray-200" onClick={() => setOpen(false)}>
+                취소
+              </SimpleButton>
+
+              <SimpleButton
+                css="bg-[#FF3D00] text-white"
+                onClick={() => allDeleteFn()}
+              >
+                삭제
+              </SimpleButton>
+            </CardFooter>
+          </Card>
+        </div>
+      )}
     </>
   );
 };
