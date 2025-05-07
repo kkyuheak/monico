@@ -11,13 +11,13 @@ const SIDEBAR_ITEMS = [
 
 const Sidebar = () => {
   return (
-    <div className="w-[300px] h-[calc(100vh-53px)] bg-gray-200">
+    <div className="w-[250px] h-[calc(100vh-53px)] border-r border-gray-300 py-6">
       <ul className="flex flex-col gap-2 py-2 px-1">
         {SIDEBAR_ITEMS.map((item) => (
           <li key={item.label} className="">
             <Link
               href={item.href}
-              className="flex items-center gap-2 bg-amber-50 p-2 rounded-md hover:bg-amber-100"
+              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100"
             >
               <item.icon size={20} />
               {item.label}

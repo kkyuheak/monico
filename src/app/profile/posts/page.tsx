@@ -1,5 +1,5 @@
 const ProfilePostsPage = () => {
-  return <div>ProfilePostsPage</div>;
+  return <div className="flex-1">ProfilePostsPage</div>;
 };
 
 export default ProfilePostsPage;
