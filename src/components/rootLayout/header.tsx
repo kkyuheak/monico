@@ -122,7 +122,9 @@ const Header = () => {
                   <DropdownMenuContent className="w-[160px] mr-1">
                     <DropdownMenuLabel>내 계정</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>프로필</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push("/profile")}>
+                      프로필
+                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleFavoriteClick}>
                       즐겨찾기
                     </DropdownMenuItem>
