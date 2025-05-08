@@ -26,9 +26,16 @@ const ProfilePage = () => {
     setTempProfileImage(previewImg);
   };
 
+  // 유저 닉네임
+  const [userNickName, setUserNickName] = useState<string>("");
+
   useEffect(() => {
-    console.log(tempProfileImage);
-  }, [tempProfileImage]);
+    if (userInfo) {
+      setUserNickName(userInfo.nickname || userInfo.original_name);
+    }
+  }, [userInfo]);
+
+  const [isNickNameEdit, setIsNickNameEdit] = useState<boolean>(false);
 
   return (
     <div className="flex-1 py-6 px-10 flex flex-col gap-5">
@@ -45,7 +52,7 @@ const ProfilePage = () => {
               alt="profileImage"
               width={80}
               height={80}
-              className="w-20 h-20 rounded-full"
+              className="w-20 h-20 rounded-full border-2 border-gray-500"
             />
           ) : (
             <div className="w-20 h-20 rounded-full bg-gray-200 animate-pulse shadow"></div>
@@ -74,13 +81,31 @@ const ProfilePage = () => {
             placeholder="닉네임"
             className="w-[200px] h-[40px] border border-gray-300 rounded-md px-3 text-[15px]
             disabled:bg-gray-200"
+            value={userNickName}
+            disabled={!isNickNameEdit || userInfoLoading}
+            onChange={(e) => setUserNickName(e.target.value)}
           />
-          <SimpleButton css="bg-gray-500 text-white w-[50px] h-[40px]">
-            수정
-          </SimpleButton>
-          <SimpleButton css="bg-green-900 text-white w-[70px] h-[40px]">
-            중복 검사
-          </SimpleButton>
+          {!isNickNameEdit && (
+            <SimpleButton
+              css="bg-gray-500 text-white w-[50px] h-[40px]"
+              onClick={() => setIsNickNameEdit(true)}
+            >
+              수정
+            </SimpleButton>
+          )}
+          {isNickNameEdit && (
+            <>
+              <SimpleButton
+                css="bg-gray-500 text-white w-[50px] h-[40px]"
+                onClick={() => setIsNickNameEdit(false)}
+              >
+                취소
+              </SimpleButton>
+              <SimpleButton css="bg-green-900 text-white w-[70px] h-[40px]">
+                중복 검사
+              </SimpleButton>
+            </>
+          )}
         </div>
       </div>
 
