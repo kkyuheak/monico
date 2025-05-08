@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/utils/getUserInfo";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { checkNickName } from "@/utils/profile/checkNickName";
+import { twMerge } from "tailwind-merge";
 
 const ProfilePage = () => {
   const { data: userInfo, isLoading: userInfoLoading } = useQuery({
@@ -36,6 +38,34 @@ const ProfilePage = () => {
   }, [userInfo]);
 
   const [isNickNameEdit, setIsNickNameEdit] = useState<boolean>(false);
+
+  // 닉네임 중복검사
+  const [isNickNameDuplicate, setIsNickNameDuplicate] = useState<
+    boolean | null
+  >(null);
+
+  const checkNicknameFn = async () => {
+    const result = await checkNickName(userNickName);
+    console.log(result);
+    if (result !== undefined) {
+      setIsNickNameDuplicate(result);
+    }
+  };
+
+  useEffect(() => {
+    setIsNickNameDuplicate(null);
+  }, [userNickName]);
+
+  // 닉네임 input border
+  const inputBorder = () => {
+    if (isNickNameDuplicate === true) {
+      return "border-red-500 border-2";
+    } else if (isNickNameDuplicate === false) {
+      return "border-green-600 border-2";
+    } else {
+      return "border-gray-300";
+    }
+  };
 
   return (
     <div className="flex-1 py-6 px-10 flex flex-col gap-5">
@@ -79,8 +109,8 @@ const ProfilePage = () => {
           <input
             type="text"
             placeholder="닉네임"
-            className="w-[200px] h-[40px] border border-gray-300 rounded-md px-3 text-[15px]
-            disabled:bg-gray-200"
+            className={twMerge(`w-[200px] h-[40px] border border-gray-300 rounded-md px-3 text-[15px]
+              disabled:bg-gray-200 ${inputBorder()}`)}
             value={userNickName}
             disabled={!isNickNameEdit || userInfoLoading}
             onChange={(e) => setUserNickName(e.target.value)}
@@ -97,16 +127,38 @@ const ProfilePage = () => {
             <>
               <SimpleButton
                 css="bg-gray-500 text-white w-[50px] h-[40px]"
-                onClick={() => setIsNickNameEdit(false)}
+                onClick={() => {
+                  setIsNickNameEdit(false);
+                  setUserNickName(
+                    userInfo?.nickname || userInfo?.original_name
+                  );
+                  setIsNickNameDuplicate(null);
+                }}
               >
                 취소
               </SimpleButton>
-              <SimpleButton css="bg-green-900 text-white w-[70px] h-[40px]">
-                중복 검사
-              </SimpleButton>
+              {(isNickNameDuplicate === null ||
+                isNickNameDuplicate === true) && (
+                <SimpleButton
+                  css="bg-green-900 text-white w-[70px] h-[40px]"
+                  onClick={checkNicknameFn}
+                >
+                  중복 검사
+                </SimpleButton>
+              )}
             </>
           )}
         </div>
+        {isNickNameDuplicate === false && (
+          <p className="text-green-600 text-[13px] ml-1">
+            사용 가능한 닉네임 입니다.
+          </p>
+        )}
+        {isNickNameDuplicate === true && (
+          <p className="text-red-600 text-[13px] ml-1">
+            이미 사용중인 닉네임 입니다.
+          </p>
+        )}
       </div>
 
       <SimpleButton css="bg-gray-900 text-white w-[80px]">

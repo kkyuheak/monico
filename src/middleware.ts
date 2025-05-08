@@ -41,8 +41,6 @@ export const middleware = async (request: NextRequest) => {
     session !== null &&
     (pathname.startsWith("/login") || pathname.startsWith("/signup"))
   ) {
-    console.log("asd");
-
     return NextResponse.redirect(new URL("/", request.url));
   }
 
