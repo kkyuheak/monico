@@ -1,18 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/provider/QueryProvider";
 import Header from "@/components/rootLayout/header";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Monico",
@@ -36,6 +26,7 @@ export default function RootLayout({
         <QueryProvider>
           <Header />
           {children}
+          <Toaster position="top-center" className="text-[16px]" />
         </QueryProvider>
       </body>
     </html>

@@ -7,6 +7,8 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { checkNickName } from "@/utils/profile/checkNickName";
 import { twMerge } from "tailwind-merge";
+import { updateUserInfo } from "@/utils/profile/updateUserInfo";
+import { toast } from "sonner";
 
 const ProfilePage = () => {
   const { data: userInfo, isLoading: userInfoLoading } = useQuery({
@@ -44,7 +46,18 @@ const ProfilePage = () => {
     boolean | null
   >(null);
 
+  // 닉네임 중복검사 함수
   const checkNicknameFn = async () => {
+    if (userNickName.trim() === "") {
+      toast("닉네임을 입력해주세요.", {
+        style: {
+          background: "red",
+          color: "white",
+          fontSize: "15px",
+        },
+      });
+      return;
+    }
     const result = await checkNickName(userNickName);
     console.log(result);
     if (result !== undefined) {
@@ -65,6 +78,19 @@ const ProfilePage = () => {
     } else {
       return "border-gray-300";
     }
+  };
+
+  // 유저 정보 업데이트 함수
+  const updateUserInfoFn = async () => {
+    // 닉네임 중복 체크
+    if (isNickNameEdit) {
+      if (isNickNameDuplicate === null || isNickNameDuplicate === true) {
+        alert("닉네임 중복확인을 해주세요.");
+        return;
+      }
+    }
+    console.log("submit!");
+    // await updateUserInfo(userNickName);
   };
 
   return (
@@ -161,7 +187,10 @@ const ProfilePage = () => {
         )}
       </div>
 
-      <SimpleButton css="bg-gray-900 text-white w-[80px]">
+      <SimpleButton
+        css="bg-gray-900 text-white w-[80px]"
+        onClick={updateUserInfoFn}
+      >
         저장하기
       </SimpleButton>
     </div>
