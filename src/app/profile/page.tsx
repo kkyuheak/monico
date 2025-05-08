@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 import { checkNickName } from "@/utils/profile/checkNickName";
 import { twMerge } from "tailwind-merge";
 import { updateUserInfo } from "@/utils/profile/updateUserInfo";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
+import { showToast } from "@/utils/showToast";
 
 const ProfilePage = () => {
   const { data: userInfo, isLoading: userInfoLoading } = useQuery({
@@ -49,13 +50,7 @@ const ProfilePage = () => {
   // 닉네임 중복검사 함수
   const checkNicknameFn = async () => {
     if (userNickName.trim() === "") {
-      toast("닉네임을 입력해주세요.", {
-        style: {
-          background: "red",
-          color: "white",
-          fontSize: "15px",
-        },
-      });
+      showToast("success", "닉네임을 입력해주세요.");
       return;
     }
     const result = await checkNickName(userNickName);

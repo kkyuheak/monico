@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import QueryProvider from "@/components/provider/QueryProvider";
 import Header from "@/components/rootLayout/header";
-import { Toaster } from "@/components/ui/sonner";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Monico",
@@ -26,7 +26,13 @@ export default function RootLayout({
         <QueryProvider>
           <Header />
           {children}
-          <Toaster position="top-center" className="text-[16px]" />
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={true}
+            stacked={true}
+            limit={3}
+          />
         </QueryProvider>
       </body>
     </html>
