@@ -140,6 +140,7 @@
   font-size: 0.9rem;
   font-family: "Pretendard", "Inter", sans-serif;
   color: #111;
+  font-weight: bold;
 }
 
 .Toastify__toast--success {

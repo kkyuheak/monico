@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { checkNickName } from "@/utils/profile/checkNickName";
 import { twMerge } from "tailwind-merge";
 import { updateUserInfo } from "@/utils/profile/updateUserInfo";
-import { toast } from "react-toastify";
 import { showToast } from "@/utils/showToast";
 
 const ProfilePage = () => {
@@ -16,6 +15,8 @@ const ProfilePage = () => {
     queryKey: ["userInfo"],
     queryFn: getUserInfo,
   });
+  // 유저가 변경할 프로필 이미지
+  const [profileImage, setProfileImage] = useState<File | null>(null);
 
   // 유저가 프로필 이미지 변경 시 미리보기
   const [tempProfileImage, setTempProfileImage] = useState<string | null>(null);
@@ -29,6 +30,7 @@ const ProfilePage = () => {
 
     const previewImg = URL.createObjectURL(file);
     setTempProfileImage(previewImg);
+    setProfileImage(file);
   };
 
   // 유저 닉네임
@@ -50,7 +52,7 @@ const ProfilePage = () => {
   // 닉네임 중복검사 함수
   const checkNicknameFn = async () => {
     if (userNickName.trim() === "") {
-      showToast("success", "닉네임을 입력해주세요.");
+      showToast("error", "닉네임을 입력해주세요.");
       return;
     }
     const result = await checkNickName(userNickName);
@@ -80,12 +82,18 @@ const ProfilePage = () => {
     // 닉네임 중복 체크
     if (isNickNameEdit) {
       if (isNickNameDuplicate === null || isNickNameDuplicate === true) {
-        alert("닉네임 중복확인을 해주세요.");
+        showToast("warning", "닉네임 중복확인을 해주세요.");
         return;
       }
     }
-    console.log("submit!");
-    // await updateUserInfo(userNickName);
+
+    try {
+      await updateUserInfo(profileImage, userNickName);
+    } catch (error) {
+      console.error(error);
+      showToast("error", "프로필 업데이트에 실패했습니다.");
+      return;
+    }
   };
 
   return (
