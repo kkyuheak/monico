@@ -1,18 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/provider/QueryProvider";
 import Header from "@/components/rootLayout/header";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Monico",
@@ -36,6 +26,13 @@ export default function RootLayout({
         <QueryProvider>
           <Header />
           {children}
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={true}
+            stacked={true}
+            limit={3}
+          />
         </QueryProvider>
       </body>
     </html>
