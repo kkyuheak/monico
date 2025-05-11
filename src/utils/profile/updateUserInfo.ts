@@ -34,7 +34,9 @@ export const updateUserInfo = async (
     const { data: allUpdateData, error: allUpdateError } = await supabase
       .from("usersinfo")
       .update({ nickname, profile_img: uploadImageUrl.publicUrl })
-      .eq("id", userInfo.id);
+      .eq("id", userInfo.id)
+      .select()
+      .single();
 
     if (allUpdateError) {
       console.error(allUpdateError);
@@ -47,7 +49,12 @@ export const updateUserInfo = async (
 
   // 닉네임만 업데이트
   const { data: nicknameUpdateData, error: nicknameUpdateError } =
-    await supabase.from("usersinfo").update({ nickname }).eq("id", userInfo.id);
+    await supabase
+      .from("usersinfo")
+      .update({ nickname })
+      .eq("id", userInfo.id)
+      .select()
+      .single();
 
   if (nicknameUpdateError) {
     console.error(nicknameUpdateError);

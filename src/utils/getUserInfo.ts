@@ -6,7 +6,6 @@ export const getUserInfo = async () => {
     console.error(getUserError);
     return;
   }
-  console.log(getUser.user);
 
   const { id: userId } = getUser.user;
 
@@ -20,8 +19,6 @@ export const getUserInfo = async () => {
     console.error(userInfoError);
     return;
   }
-
-  console.log(userInfo);
 
   return userInfo;
 };

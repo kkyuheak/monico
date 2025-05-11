@@ -5,4 +5,6 @@ interface UserInfoType {
   original_name: string;
   profile_img: string;
   provider: string;
+  nickname: string;
+  favorite: string[];
 }
