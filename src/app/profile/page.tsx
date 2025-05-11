@@ -1,7 +1,7 @@
 "use client";
 
 import SimpleButton from "@/components/common/buttons/SimpleButton";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/utils/getUserInfo";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -9,6 +9,7 @@ import { checkNickName } from "@/utils/profile/checkNickName";
 import { twMerge } from "tailwind-merge";
 import { updateUserInfo } from "@/utils/profile/updateUserInfo";
 import { showToast } from "@/utils/showToast";
+import { queryClient } from "@/components/provider/QueryProvider";
 
 const ProfilePage = () => {
   const { data: userInfo, isLoading: userInfoLoading } = useQuery({
@@ -83,7 +84,7 @@ const ProfilePage = () => {
     if (isNickNameEdit) {
       if (isNickNameDuplicate === null || isNickNameDuplicate === true) {
         showToast("warning", "닉네임 중복확인을 해주세요.");
-        return;
+        throw new Error("닉네임 중복확인을 해주세요.");
       }
     }
 
@@ -95,6 +96,19 @@ const ProfilePage = () => {
       return;
     }
   };
+
+  const { mutate: updateUserInfoMutation } = useMutation({
+    mutationFn: updateUserInfoFn,
+    onSuccess: () => {
+      showToast("success", "프로필 업데이트에 성공했습니다.");
+      queryClient.invalidateQueries({
+        queryKey: ["userInfo"],
+      });
+      setIsNickNameEdit(false);
+      setUserNickName(userInfo?.nickname || userInfo?.original_name);
+      setIsNickNameDuplicate(null);
+    },
+  });
 
   return (
     <div className="flex-1 py-6 px-10 flex flex-col gap-5">
@@ -192,7 +206,7 @@ const ProfilePage = () => {
 
       <SimpleButton
         css="bg-gray-900 text-white w-[80px]"
-        onClick={updateUserInfoFn}
+        onClick={updateUserInfoMutation}
       >
         저장하기
       </SimpleButton>
