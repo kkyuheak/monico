@@ -6,24 +6,24 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-const SearchBar = ({ css, placeholder = "검색" }: SearchBarProps) => {
+const SearchBar = ({
+  css,
+  placeholder = "코인을 검색해보세요",
+}: SearchBarProps) => {
   return (
-    <div className="relative">
+    <div className="flex items-center gap-1 border rounded-[10px] px-2 py-1">
+      <span>
+        <Search stroke="gray" width={20} height={20} />
+      </span>
       <input
         type="text"
         placeholder={placeholder}
         className={twMerge(
-          "w-[200px] h-[35px] rounded-[5px] px-2 py-1 border outline-none text-[14px] ",
+          "w-full h-[35px] px-2 py-1 outline-none text-[14px]",
           css
         )}
         id="search"
       />
-      <label
-        className="absolute right-2 top-1/2 -translate-y-1/2"
-        htmlFor="search"
-      >
-        <Search stroke="gray" width={20} height={20} />
-      </label>
     </div>
   );
 };

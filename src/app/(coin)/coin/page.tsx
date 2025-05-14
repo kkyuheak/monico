@@ -4,8 +4,9 @@ import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import CoinUpDownList from "@/components/coin/CoinUpDownList";
 import SearchBarButton from "@/components/common/buttons/SearchBarButton";
-import SearchBar from "@/components/common/search/SearchBar";
 import Spinner from "@/components/Loading/Spinner";
+import SearchModal from "@/components/modal/Searchmodal";
+
 import { useAuthStore } from "@/store/authStore";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getAllCoinTicker } from "@/utils/coin/getAllCoinTicker";
@@ -88,6 +89,8 @@ const CoinMainPage = () => {
   // 로그인 확인
   const isLoggedIn = useAuthStore((state) => state.userInfo);
 
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
   return (
     <div>
       <h1 className="text-[28px] font-bold my-[20px]">암호화페 시세</h1>
@@ -119,7 +122,7 @@ const CoinMainPage = () => {
         </ul>
 
         {/* 검색 */}
-        <SearchBarButton />
+        <SearchBarButton onClick={() => setIsSearchModalOpen(true)} />
       </div>
 
       <table className="w-full m-auto border-t border-[#d8d8d8]">
@@ -169,6 +172,14 @@ const CoinMainPage = () => {
       {isFetchingNextPage && (
         <div className="py-5">
           <Spinner />
+        </div>
+      )}
+      {isSearchModalOpen && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center"
+          onClick={() => setIsSearchModalOpen(false)}
+        >
+          <SearchModal />
         </div>
       )}
     </div>
