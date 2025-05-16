@@ -5,15 +5,16 @@ import SearchResultCoin from "../common/search/SearchResultCoin";
 import { useQuery } from "@tanstack/react-query";
 import { getCoinName } from "@/utils/coin/getCoinName";
 import { getDetailTicker } from "@/utils/coin/getDetailTicker";
+import SearchResultCoinSkeleton from "../skeleton/SearchResuiltCoinSkeleton";
 
 const SearchModal = () => {
   // 모달이 열리면 스크롤 금지
   useDisableScroll(true);
 
-  // const [isTrue, setIsTrue] = useState(false);
-
+  // 유저가 검색한 값
   const [userSearchValue, setUserSearchValue] = useState("");
 
+  // 검색 결과 배열 join값
   const [searchResult, setSearchResult] = useState<string>("");
 
   // 코인명 가져오기
@@ -41,16 +42,6 @@ const SearchModal = () => {
   });
 
   useEffect(() => {
-    console.log(coinData, "coinData");
-  }, [coinData]);
-
-  useEffect(() => {
-    console.log(coinDataLoading, "coinDataLoading");
-  }, [coinDataLoading]);
-
-  useEffect(() => {
-    console.log(userSearchValue);
-
     if (userSearchValue.trim() === "") {
       setSearchResult("");
     }
@@ -65,8 +56,6 @@ const SearchModal = () => {
         })
         .map((item) => item.market);
 
-      console.log(filterData.join(","));
-
       if (filterData.length === 0) {
         setSearchResult("");
       } else {
@@ -78,7 +67,8 @@ const SearchModal = () => {
 
   return (
     <div
-      className="w-[600px] h-[500px] bg-white rounded-[15px] px-5 py-5 flex flex-col"
+      className="w-[600px] h-[500px] bg-white rounded-[15px] px-5 py-5 flex flex-col
+      transform-gpu"
       onClick={(e) => e.stopPropagation()}
     >
       <SearchBar setUserSearchValue={setUserSearchValue} />
@@ -86,8 +76,10 @@ const SearchModal = () => {
       <p className="text-[12px] font-semibold my-[10px]">검색 결과</p>
 
       {coinNameLoading || coinDataLoading || !coinData ? (
-        <div className="flex items-center justify-center">
-          <p className="text-[15px] text-gray-500">로딩중입니다.</p>
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <SearchResultCoinSkeleton key={index} />
+          ))}
         </div>
       ) : coinData.length === 0 ? (
         <div className="flex items-center justify-center">
