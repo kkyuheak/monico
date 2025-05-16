@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { queryClient } from "../provider/QueryProvider";
+import { BTCprice } from "@/utils/coin/BTCprice";
 
 interface CoinLiostBoxProps {
   coinName: string;
@@ -34,15 +35,6 @@ const CoinListBox = ({
   const router = useRouter();
 
   const coinSymbol = market.split("-")[1];
-
-  const BTCprice = () => {
-    if (price.toString().includes("e")) {
-      const splitNum = price.toString().split("-")[1];
-      return price.toFixed(+splitNum);
-    } else {
-      return price;
-    }
-  };
 
   const [isFavorited, setIsFavorited] = useState(false);
 
@@ -110,7 +102,7 @@ const CoinListBox = ({
         </div>
       </td>
       <td className="text-center text-[18px] font-semibold">
-        {tabName === "KRW" ? price?.toLocaleString("ko-KR") : BTCprice()}
+        {tabName === "KRW" ? price?.toLocaleString("ko-KR") : BTCprice(price)}
         <span className="text-[10px] font-medium">
           {" "}
           {tabName === "KRW" ? "KRW" : "BTC"}

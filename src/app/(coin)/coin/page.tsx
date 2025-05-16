@@ -3,7 +3,10 @@
 import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import CoinUpDownList from "@/components/coin/CoinUpDownList";
+import SearchBarButton from "@/components/common/buttons/SearchBarButton";
 import Spinner from "@/components/Loading/Spinner";
+import SearchModal from "@/components/modal/Searchmodal";
+
 import { useAuthStore } from "@/store/authStore";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getAllCoinTicker } from "@/utils/coin/getAllCoinTicker";
@@ -86,6 +89,8 @@ const CoinMainPage = () => {
   // 로그인 확인
   const isLoggedIn = useAuthStore((state) => state.userInfo);
 
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
   return (
     <div>
       <h1 className="text-[28px] font-bold my-[20px]">암호화페 시세</h1>
@@ -95,25 +100,30 @@ const CoinMainPage = () => {
         <CoinUpDownList type="DOWN" />
       </div>
 
-      {/* KRW, BTC 탭 */}
-      <ul className="bg-[#e9e9e9] h-[35px] w-[100px] flex justify-center items-center rounded-[5px] px-1 py-1 mb-[5px]">
-        <li
-          className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
-            tab === "KRW" ? "bg-white text-[#09090b]" : "text-[#71717a]"
-          }`}
-          onClick={() => setTab("KRW")}
-        >
-          KRW
-        </li>
-        <li
-          className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
-            tab === "BTC" ? "bg-white text-[#09090b]" : "text-[#71717a]"
-          }`}
-          onClick={() => setTab("BTC")}
-        >
-          BTC
-        </li>
-      </ul>
+      <div className="flex justify-between items-center mb-2">
+        {/* KRW, BTC 탭 */}
+        <ul className="bg-[#e9e9e9] h-[35px] w-[100px] flex justify-center items-center rounded-[5px] px-1 py-1 mb-[5px]">
+          <li
+            className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
+              tab === "KRW" ? "bg-white text-[#09090b]" : "text-[#71717a]"
+            }`}
+            onClick={() => setTab("KRW")}
+          >
+            KRW
+          </li>
+          <li
+            className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
+              tab === "BTC" ? "bg-white text-[#09090b]" : "text-[#71717a]"
+            }`}
+            onClick={() => setTab("BTC")}
+          >
+            BTC
+          </li>
+        </ul>
+
+        {/* 검색 */}
+        <SearchBarButton onClick={() => setIsSearchModalOpen(true)} />
+      </div>
 
       <table className="w-full m-auto border-t border-[#d8d8d8]">
         <thead className="h-[42px]">
@@ -162,6 +172,14 @@ const CoinMainPage = () => {
       {isFetchingNextPage && (
         <div className="py-5">
           <Spinner />
+        </div>
+      )}
+      {isSearchModalOpen && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center"
+          onClick={() => setIsSearchModalOpen(false)}
+        >
+          <SearchModal />
         </div>
       )}
     </div>
