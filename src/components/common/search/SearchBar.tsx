@@ -1,15 +1,34 @@
 import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface SearchBarProps {
   css?: string;
   placeholder?: string;
+  setUserSearchValue: (value: string) => void;
 }
 
 const SearchBar = ({
   css,
-  placeholder = "코인을 검색해보세요",
+  placeholder = "코인명을 검색해보세요",
+  setUserSearchValue,
 }: SearchBarProps) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setUserSearchValue(searchValue);
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchValue, setUserSearchValue]);
+
   return (
     <div className="flex items-center gap-1 border rounded-[10px] px-2 py-1">
       <span>
@@ -22,7 +41,9 @@ const SearchBar = ({
           "w-full h-[35px] px-2 py-1 outline-none text-[14px]",
           css
         )}
-        id="search"
+        value={searchValue}
+        onChange={handleSearchValue}
+        autoFocus
       />
     </div>
   );

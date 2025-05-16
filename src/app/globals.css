@@ -164,8 +164,3 @@
   background: #fff4e5;
   border-left: 6px solid #ffcc00;
 }
-
-/* 스크롤바 커스텀 */
-.scrollbar_custom::-webkit-scrollbar-track {
-  background: white; /* 트랙 배경 */
-}
