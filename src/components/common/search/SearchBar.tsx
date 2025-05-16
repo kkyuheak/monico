@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -45,6 +45,12 @@ const SearchBar = ({
         onChange={handleSearchValue}
         autoFocus
       />
+      <span
+        className="rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
+        onClick={() => setSearchValue("")}
+      >
+        <X width={20} height={20} stroke="gray" />
+      </span>
     </div>
   );
 };
