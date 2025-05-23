@@ -6,6 +6,7 @@ import CoinUpDownList from "@/components/coin/CoinUpDownList";
 import SearchBarButton from "@/components/common/buttons/SearchBarButton";
 import Spinner from "@/components/Loading/Spinner";
 import SearchModal from "@/components/modal/Searchmodal";
+import RecentView from "@/components/recentView/RecentView";
 
 import { useAuthStore } from "@/store/authStore";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
@@ -48,7 +49,9 @@ const CoinMainPage = () => {
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
-  const { data: coinName } = useQuery<AllCoinNameType[]>({
+  const { data: coinName, isLoading: coinNameLoading } = useQuery<
+    AllCoinNameType[]
+  >({
     queryKey: ["coinName"],
     queryFn: getCoinName,
   });
@@ -168,6 +171,8 @@ const CoinMainPage = () => {
         </tbody>
       </table>
       <div ref={observerRef}></div>
+
+      {!coinNameLoading && <RecentView />}
 
       {isFetchingNextPage && (
         <div className="py-5">

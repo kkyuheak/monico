@@ -3,6 +3,7 @@ import "./globals.css";
 import QueryProvider from "@/components/provider/QueryProvider";
 import Header from "@/components/rootLayout/header";
 import { ToastContainer } from "react-toastify";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata: Metadata = {
   title: "Monico",
@@ -33,6 +34,7 @@ export default function RootLayout({
             stacked={true}
             limit={3}
           />
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryProvider>
       </body>
     </html>
