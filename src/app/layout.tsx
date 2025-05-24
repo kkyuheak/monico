@@ -34,7 +34,7 @@ export default function RootLayout({
             stacked={true}
             limit={3}
           />
-          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+          <ReactQueryDevtools initialIsOpen={false} />
         </QueryProvider>
       </body>
     </html>
