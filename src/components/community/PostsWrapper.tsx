@@ -2,7 +2,7 @@ import PostBox from "./PostBox";
 
 const PostsWrapper = () => {
   return (
-    <div className="flex flex-col gap-2 mt-2">
+    <div className="flex flex-col gap-2 mt-3">
       <PostBox />
       <PostBox />
       <PostBox />
