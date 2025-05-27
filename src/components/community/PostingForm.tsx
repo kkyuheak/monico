@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { posting } from "@/utils/community/posting";
 
 export interface PostingFormValues {
   title: string;
@@ -28,8 +29,8 @@ const PostingForm = () => {
     formState: { errors },
   } = useForm<PostingFormValues>();
 
-  const onSubmit: SubmitHandler<PostingFormValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<PostingFormValues> = async (data) => {
+    await posting(data);
   };
 
   if (errors) {
