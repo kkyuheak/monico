@@ -1,4 +1,5 @@
 import { PostingFormValues } from "@/components/community/PostingForm";
+import { inputTrimValidationFn } from "@/utils/inputTrimValidationFn";
 import { FieldErrors, Path, UseFormRegister } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
@@ -35,10 +36,13 @@ const PostingInput = ({
           errors[label] ? "border border-red-500" : ""
         )}
         id={label}
-        {...register(label, { required: errorInputMessage })}
+        {...register(label, {
+          required: errorInputMessage,
+          validate: inputTrimValidationFn,
+        })}
       />
       {errors[label] && (
-        <p className="text-red-500 text-[12px]">{errors[label].message}</p>
+        <p className="text-red-500 text-[12px] ml-1">{errors[label].message}</p>
       )}
     </div>
   );
