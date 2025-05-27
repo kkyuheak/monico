@@ -7,6 +7,7 @@ interface PostingParams {
   description: string;
   tags: string;
   category: string;
+  images?: FileList;
 }
 
 export const posting = async ({
@@ -14,7 +15,12 @@ export const posting = async ({
   description,
   tags,
   category,
+  images,
 }: PostingParams) => {
+  if (images) {
+    console.log(images);
+  }
+
   const { id: user_id } = await getUserInfo();
 
   const hashTags = tags.split(",").map((tag) => tag.trim());

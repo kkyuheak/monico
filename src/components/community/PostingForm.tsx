@@ -39,7 +39,8 @@ const PostingForm = () => {
   } = useForm<PostingFormValues>();
 
   const onSubmit: SubmitHandler<PostingFormValues> = (data) => {
-    postingMutate(data);
+    console.log(data);
+    // postingMutate(data);
   };
 
   if (errors) {
@@ -58,9 +59,9 @@ const PostingForm = () => {
   const [imgPreview, setImgPreview] = useState<string[]>([]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // if (imgPreview.length > 0) {
-    //   imgPreview.forEach((preview) => URL.revokeObjectURL(preview));
-    // }
+    if (imgPreview.length > 0) {
+      imgPreview.forEach((preview) => URL.revokeObjectURL(preview));
+    }
 
     const files = e.target.files;
     if (files) {
@@ -149,6 +150,7 @@ const PostingForm = () => {
         )}
       </div>
 
+      {/* 이미지를 선택 후 추가할 때 */}
       {imgPreview.length > 0 && (
         <div className="flex justify-end">
           <label
@@ -168,6 +170,8 @@ const PostingForm = () => {
           />
         </div>
       )}
+
+      {/* 이미지를 선택 안했을때 */}
       <div
         className={twMerge(
           "w-full h-[232px] flex flex-col items-center justify-center gap-3 border border-dashed border-[#dee3db] rounded-[12px]",
@@ -185,14 +189,29 @@ const PostingForm = () => {
             >
               업로드
             </label>
-            <input
-              type="file"
-              id="imgUpload"
-              className="hidden"
-              accept="image/*"
-              {...register("images")}
-              onChange={handleImageChange}
-              multiple
+            <Controller
+              name="images"
+              control={control}
+              render={({ field }) => (
+                <>
+                  <input
+                    type="file"
+                    id="imgUpload"
+                    className="hidden"
+                    accept="image/*"
+                    {...register("images")}
+                    onChange={(e) => {
+                      const files = e.target.files;
+                      if (!files) return;
+
+                      handleImageChange(e);
+
+                      field.onChange(files);
+                    }}
+                    multiple
+                  />
+                </>
+              )}
             />
           </>
         ) : (
