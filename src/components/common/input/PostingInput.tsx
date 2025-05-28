@@ -19,9 +19,7 @@ const PostingInput = ({
   errors,
 }: PostingInputProps) => {
   const errorInputMessage =
-    label === "title"
-      ? "제목은 필수로 입력해주세요"
-      : "해시태그는 필수로 작성해주세요";
+    label === "title" ? "제목은 필수로 입력해주세요" : false;
 
   return (
     <div>
@@ -38,7 +36,7 @@ const PostingInput = ({
         id={label}
         {...register(label, {
           required: errorInputMessage,
-          validate: inputTrimValidationFn,
+          validate: label === "title" ? inputTrimValidationFn : undefined,
         })}
       />
       {errors[label] && (

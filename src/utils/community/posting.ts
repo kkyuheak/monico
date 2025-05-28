@@ -22,7 +22,8 @@ export const posting = async ({
 
   const { id: user_id } = userInfo;
 
-  const hashTags = tags.split(",").map((tag) => tag.trim());
+  const hashTags =
+    tags.trim().length > 0 ? tags.split(",").map((tag) => tag.trim()) : [];
 
   // 이미지 업로드
 
