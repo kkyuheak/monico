@@ -39,8 +39,11 @@ const PostingForm = () => {
   } = useForm<PostingFormValues>();
 
   const onSubmit: SubmitHandler<PostingFormValues> = (data) => {
-    console.log(data);
-    // postingMutate(data);
+    // console.log(data);
+    // if (data.images.length > 0) {
+    //   console.log("first");
+    // }
+    postingMutate(data);
   };
 
   if (errors) {
