@@ -2,16 +2,18 @@
 import SimpleButton from "@/components/common/buttons/SimpleButton";
 import PostsWrapper from "@/components/community/PostsWrapper";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getUserInfo } from "@/utils/getUserInfo";
+import { supabase } from "@/lib/supabase/supabase";
 import { showToast } from "@/utils/showToast";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const CommunityMain = () => {
   const router = useRouter();
 
   const handleWriteClick = async () => {
-    const userInfo = await getUserInfo();
-    if (!userInfo) {
+    const { data: userInfo } = await supabase.auth.getUser();
+
+    if (!userInfo.user) {
       showToast("warning", "로그인 후 이용해주세요");
       router.push("/login");
       return;
@@ -19,11 +21,17 @@ const CommunityMain = () => {
     router.push("/community/write");
   };
 
+  const [tab, setTab] = useState("coin");
+
   return (
     <div>
       {/* 주식/코인 탭, 글쓰기 버튼 */}
       <div className="flex items-center justify-between mt-4">
-        <Tabs defaultValue="coin" className="shadow rounded-2xl">
+        <Tabs
+          defaultValue="coin"
+          className="shadow rounded-2xl"
+          onValueChange={(value) => setTab(value)}
+        >
           <TabsList className="rounded-2xl">
             <TabsTrigger value="coin" className="rounded-2xl">
               코인
@@ -41,7 +49,7 @@ const CommunityMain = () => {
         </SimpleButton>
       </div>
 
-      <PostsWrapper />
+      <PostsWrapper tab={tab} />
     </div>
   );
 };

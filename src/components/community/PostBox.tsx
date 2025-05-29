@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface PostBoxProps {
   createdAt: string | Date;
@@ -7,6 +8,8 @@ interface PostBoxProps {
   description: string;
   hashTags: string[];
   usersinfo: UserInfoType;
+  id: number;
+  type: string;
 }
 
 const PostBox = ({
@@ -15,15 +18,21 @@ const PostBox = ({
   description,
   hashTags,
   usersinfo,
+  id,
+  type,
 }: PostBoxProps) => {
   const createdAtDate = dayjs(createdAt).format("YYYY년 MM월 DD일");
 
+  const router = useRouter();
+
   return (
     <>
-      <div className="w-full p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+      <div
+        className="w-full p-2 rounded-lg hover:bg-gray-100 cursor-pointer"
+        onClick={() => router.push(`/community/${type}/${id}`)}
+      >
         {/* 유저 프로필사진, 이름, 올린 시간 */}
         <div className="flex items-center gap-2 ">
-          {/* <div className="w-7 h-7 rounded-full bg-gray-300"></div> */}
           <Image
             src={usersinfo.profile_img}
             alt="userProfileImage"

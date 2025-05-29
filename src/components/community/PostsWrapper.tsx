@@ -4,7 +4,11 @@ import { getCoinPosts } from "@/utils/community/getCoinPosts";
 import { useEffect } from "react";
 import PostBoxSkeleton from "../skeleton/PostBoxSkeleton";
 
-const PostsWrapper = () => {
+interface PostsWrapperProps {
+  tab: string;
+}
+
+const PostsWrapper = ({ tab }: PostsWrapperProps) => {
   const { data: coinPosts } = useQuery({
     queryKey: ["coin-community-posts"],
     queryFn: getCoinPosts,
@@ -17,7 +21,9 @@ const PostsWrapper = () => {
   return (
     <div className="flex flex-col gap-2 mt-3">
       {coinPosts
-        ? coinPosts.map((post) => <PostBox key={post.id} {...post} />)
+        ? coinPosts.map((post) => (
+            <PostBox key={post.id} {...post} type={tab} />
+          ))
         : Array.from({ length: 10 }).map((_, index) => (
             <PostBoxSkeleton key={index} />
           ))}

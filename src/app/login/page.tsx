@@ -1,4 +1,8 @@
+"use client";
+
 import AuthButton from "@/components/common/buttons/AuthButton";
+import { googleSignUp } from "@/utils/auth/login/googleSignUp";
+import { kakaoLogin } from "@/utils/auth/login/kakaoLogin";
 
 const LoginPage = () => {
   return (
@@ -16,11 +20,13 @@ const LoginPage = () => {
           text="구글로 로그인하기"
           iconImgSrc="/assets/authIcon/google.svg"
           css="bg-white border border-[#e5e5e5]"
+          onClick={() => googleSignUp()}
         />
         <AuthButton
           text="카카오로 로그인하기"
           css="bg-[#FEE500]"
           iconImgSrc={"/assets/authIcon/kakao_logo.png"}
+          onClick={() => kakaoLogin()}
         />
         <p className="font-semibold text-gray-500 text-[13px]">
           아직 회원이 아니신가요?{" "}
