@@ -2,10 +2,22 @@
 import SimpleButton from "@/components/common/buttons/SimpleButton";
 import PostsWrapper from "@/components/community/PostsWrapper";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getUserInfo } from "@/utils/getUserInfo";
+import { showToast } from "@/utils/showToast";
 import { useRouter } from "next/navigation";
 
 const CommunityMain = () => {
   const router = useRouter();
+
+  const handleWriteClick = async () => {
+    const userInfo = await getUserInfo();
+    if (!userInfo) {
+      showToast("warning", "로그인 후 이용해주세요");
+      router.push("/login");
+      return;
+    }
+    router.push("/community/write");
+  };
 
   return (
     <div>
@@ -23,7 +35,7 @@ const CommunityMain = () => {
         </Tabs>
         <SimpleButton
           css="bg-white border border-[#6E8566] text-[#6E8566] hover:bg-[#6E8566] hover:text-white transition-colors rounded-md"
-          onClick={() => router.push("/community/write")}
+          onClick={handleWriteClick}
         >
           글쓰기
         </SimpleButton>
