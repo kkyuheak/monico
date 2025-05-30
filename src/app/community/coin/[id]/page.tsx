@@ -1,5 +1,6 @@
 import HashTag from "@/components/community/HashTag";
 import { getPost } from "@/utils/community/getPost";
+import dayjs from "dayjs";
 import { ArrowLeft, Heart, MessageCircleMore } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,10 +24,8 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
         <p className="font-semibold">목록으로 돌아가기</p>
       </Link>
 
-      <h1 className="text-[28px] font-bold mt-[20px]">{postData.title}</h1>
-
       {/* 유저 정보 */}
-      <div className="flex items-center gap-2 text-[#6E8566]">
+      <div className="flex items-center gap-2 text-[#6E8566] mt-[18px] mb-3">
         <Image
           src={postData.usersinfo.profile_img}
           alt="userProfileImage"
@@ -34,9 +33,13 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
           height={28}
           className="w-7 h-7 rounded-full"
         />
-        <p className="text-[17px] font-medium">{postData.usersinfo.nickname}</p>
-        <p className="text-[14px] text-[#6E8566]">2025년 5월 29일</p>
+        <p className="text-[15px] font-bold">{postData.usersinfo.nickname}</p>
+        <p className="text-[13px] text-[#6E8566]">
+          {dayjs(postData.created_at).format("YYYY년 MM월 DD일")}
+        </p>
       </div>
+
+      <h1 className="text-[30px] font-bold">{postData.title}</h1>
 
       {/* 게시글 내용 */}
       <p className="text-[#121712] mt-2">{postData.description}</p>
@@ -46,7 +49,6 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
         <ul className="flex gap-2 mt-5 overflow-auto">
           {postData.images.map((image, index) => (
             <li key={index}>
-              {/* <div className="w-[240px] h-[620px] bg-[#28613b]"></div> */}
               <Image src={image} alt="postImage" width={240} height={620} />
             </li>
           ))}

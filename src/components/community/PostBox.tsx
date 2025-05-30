@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import HashTag from "./HashTag";
 
 interface PostBoxProps {
-  createdAt: string | Date;
+  created_at: string | Date;
   title: string;
   description: string;
   hashTags: string[];
@@ -14,7 +14,7 @@ interface PostBoxProps {
 }
 
 const PostBox = ({
-  createdAt,
+  created_at,
   title,
   description,
   hashTags,
@@ -22,7 +22,7 @@ const PostBox = ({
   id,
   type,
 }: PostBoxProps) => {
-  const createdAtDate = dayjs(createdAt).format("YYYY년 MM월 DD일");
+  const createdAtDate = dayjs(created_at).format("YYYY년 MM월 DD일");
 
   const router = useRouter();
 
