@@ -30,8 +30,6 @@ export const posting = async ({
 
   if (images.length > 0) {
     for (const imageFile of Array.from(images)) {
-      console.log(Date.now());
-
       const fileExt = imageFile.name.split(".").pop();
       const fileName = `${user_id}-${Date.now()}.${fileExt}`;
       const filePath = `${category}-community-images/${fileName}`;
@@ -74,5 +72,5 @@ export const posting = async ({
 
   console.log(data);
 
-  return data;
+  return { data, category };
 };

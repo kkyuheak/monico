@@ -44,9 +44,9 @@ const PostingForm = () => {
 
   const { mutate: postingMutate } = useMutation({
     mutationFn: (data: PostingFormValues) => posting(data),
-    onSuccess: () => {
+    onSuccess: (newPost) => {
       showToast("success", "게시글이 성공적으로 작성되었습니다.");
-      // router.push("/");
+      router.push(`/community/${newPost.category}/${newPost.data.id}`);
     },
   });
 
