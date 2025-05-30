@@ -15,6 +15,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 
+// 메뉴
+const HEADER_MENU = [
+  {
+    name: "코인",
+    href: "/coin",
+  },
+  {
+    name: "커뮤니티",
+    href: "/community",
+  },
+];
+
 const Header = () => {
   const userInfo = useAuthStore((state) => state.userInfo);
   const setUserInfo = useAuthStore((state) => state.setUserInfo);
@@ -82,20 +94,32 @@ const Header = () => {
   };
 
   return (
-    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-300 bg-white">
-      <Link href={"/"} className="flex items-center">
-        <Image
-          src={"/assets/monico_logo.svg"}
-          alt="header_logo"
-          width={100}
-          height={40}
-          className="bg-white cursor-pointer"
-        />
-      </Link>
+    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-200 bg-white">
+      <div className="flex items-center gap-8">
+        <Link href={"/"} className="flex items-center">
+          <Image
+            src={"/assets/monico_logo.svg"}
+            alt="header_logo"
+            width={100}
+            height={40}
+            className="bg-white cursor-pointer"
+          />
+        </Link>
 
+        {/* 메뉴 */}
+        <ul className="flex gap-6 text-[16px] items-center">
+          {HEADER_MENU.map((menu) => (
+            <li key={menu.name} className="cursor-pointer font-semibold">
+              <Link href={menu.href}>{menu.name}</Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* 로그인, 회원가입 */}
       <ul className="flex gap-6 text-[16px] items-center">
-        {!isLoading &&
-          (!isLoggedIn ? (
+        {!isLoading ? (
+          !isLoggedIn ? (
             <>
               <li className="cursor-pointer">
                 <Link href={"/login"} className="block">
@@ -138,7 +162,8 @@ const Header = () => {
                 </DropdownMenu>
               </li>
             </>
-          ))}
+          )
+        ) : null}
       </ul>
     </header>
   );

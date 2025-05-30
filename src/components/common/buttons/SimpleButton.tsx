@@ -4,9 +4,15 @@ interface SimpleButtonProps {
   children: React.ReactNode;
   css?: string;
   onClick?: () => void;
+  type?: "button" | "submit" | "reset";
 }
 
-const SimpleButton = ({ children, css, onClick }: SimpleButtonProps) => {
+const SimpleButton = ({
+  children,
+  css,
+  onClick,
+  type = "button",
+}: SimpleButtonProps) => {
   return (
     <button
       className={twMerge(
@@ -14,6 +20,7 @@ const SimpleButton = ({ children, css, onClick }: SimpleButtonProps) => {
         css
       )}
       onClick={onClick}
+      type={type}
     >
       {children}
     </button>

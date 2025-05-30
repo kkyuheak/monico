@@ -1,35 +1,11 @@
 "use client";
 
 import AuthButton from "@/components/common/buttons/AuthButton";
-import { supabase } from "@/lib/supabase/supabase";
 
 import { googleSignUp } from "@/utils/auth/login/googleSignUp";
 import { kakaoLogin } from "@/utils/auth/login/kakaoLogin";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 
 const SignUpPage = () => {
-  const router = useRouter();
-
-  const getUser = async () => {
-    const { data, error } = await supabase.auth.getUser();
-    if (data) {
-      console.log(data);
-    }
-  };
-
-  // 로그인 유저 리다이렉트
-  // const checkLogin = async () => {
-  //   const { data, error } = await supabase.auth.getSession();
-  //   if (data.session !== null) {
-  //     router.replace("/");
-  //   }
-  // };
-
-  useEffect(() => {
-    getUser();
-  }, []);
-
   return (
     <div className="max-w-[850px] bg-gray-50 m-auto h-[calc(100vh-53px)] flex flex-col justify-center gap-15">
       <div className="flex flex-col items-center justify-center">

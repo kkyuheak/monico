@@ -56,6 +56,31 @@ const CoinDetailPage = () => {
   // 일/주별 탭 value
   const [tabsValue, setTabsValue] = useState<"days" | "weeks">("days");
 
+  // 최근 본 코인
+  useEffect(() => {
+    const recentlyViewedCoins = localStorage.getItem("recentlyViewedCoins");
+    if (!recentlyViewedCoins) {
+      localStorage.setItem("recentlyViewedCoins", JSON.stringify([coinName]));
+    } else {
+      const parsedCoins = JSON.parse(recentlyViewedCoins);
+      if (!parsedCoins.includes(coinName)) {
+        parsedCoins.push(coinName);
+        localStorage.setItem(
+          "recentlyViewedCoins",
+          JSON.stringify(parsedCoins)
+        );
+      } else {
+        const index = parsedCoins.indexOf(coinName);
+        parsedCoins.splice(index, 1);
+        parsedCoins.unshift(coinName);
+        localStorage.setItem(
+          "recentlyViewedCoins",
+          JSON.stringify(parsedCoins)
+        );
+      }
+    }
+  }, [coinName]);
+
   return (
     <div>
       <Link
