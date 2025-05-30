@@ -42,15 +42,11 @@ const PostingForm = () => {
     postingMutate(data);
   };
 
-  if (errors) {
-    console.log(errors);
-  }
-
   const { mutate: postingMutate } = useMutation({
     mutationFn: (data: PostingFormValues) => posting(data),
     onSuccess: () => {
       showToast("success", "게시글이 성공적으로 작성되었습니다.");
-      router.push("/");
+      // router.push("/");
     },
   });
 

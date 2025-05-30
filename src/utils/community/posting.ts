@@ -1,7 +1,6 @@
 import { supabase } from "@/lib/supabase/supabase";
 import { getUserInfo } from "../getUserInfo";
 import { showToast } from "../showToast";
-import dayjs from "dayjs";
 
 interface PostingParams {
   title: string;
@@ -31,10 +30,10 @@ export const posting = async ({
 
   if (images.length > 0) {
     for (const imageFile of Array.from(images)) {
+      console.log(Date.now());
+
       const fileExt = imageFile.name.split(".").pop();
-      const fileName = `${user_id}-${dayjs().format(
-        "YYYYMMDDHHmmss"
-      )}.${fileExt}`;
+      const fileName = `${user_id}-${Date.now()}.${fileExt}`;
       const filePath = `${category}-community-images/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
@@ -44,7 +43,7 @@ export const posting = async ({
       if (uploadError) {
         showToast("error", "이미지 업로드에 실패했습니다.");
         console.error(uploadError);
-        return;
+        throw new Error(uploadError.message);
       }
 
       const { data: uploadImageUrl } = supabase.storage
@@ -69,8 +68,8 @@ export const posting = async ({
 
   if (error) {
     console.error(error);
-    showToast("error", "에러가 발생했습니다.");
-    return;
+    showToast("error", "게시글 작성에 실패했습니다. 다시 시도해주세요.");
+    throw new Error(error.message);
   }
 
   console.log(data);
