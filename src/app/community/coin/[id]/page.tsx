@@ -1,8 +1,18 @@
 import HashTag from "@/components/community/HashTag";
+import { getPost } from "@/utils/community/getPost";
 import { ArrowLeft, Heart, MessageCircleMore } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
-const DetailCoinPostPage = () => {
+interface DetailCoinPostPageProps {
+  params: Promise<{ id: string }>;
+}
+
+const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
+  const { id } = await params;
+
+  const postData: PostData = await getPost(id, "coin");
+
   return (
     <div className="p-1">
       <Link
@@ -13,53 +23,44 @@ const DetailCoinPostPage = () => {
         <p className="font-semibold">목록으로 돌아가기</p>
       </Link>
 
-      <h1 className="text-[28px] font-bold mt-[20px]">
-        Bitcoin&apos;s price surge: A deep dive into the factors driving the
-        rally
-      </h1>
+      <h1 className="text-[28px] font-bold mt-[20px]">{postData.title}</h1>
 
       {/* 유저 정보 */}
       <div className="flex items-center gap-2 text-[#6E8566]">
-        <div className="w-6 h-6 rounded-full bg-[#6E8566]"></div>
-        <p className="text-[17px] font-medium">닉네임</p>
+        <Image
+          src={postData.usersinfo.profile_img}
+          alt="userProfileImage"
+          width={28}
+          height={28}
+          className="w-7 h-7 rounded-full"
+        />
+        <p className="text-[17px] font-medium">{postData.usersinfo.nickname}</p>
         <p className="text-[14px] text-[#6E8566]">2025년 5월 29일</p>
       </div>
 
       {/* 게시글 내용 */}
-      <p className="text-[#121712] mt-2">
-        Bitcoin has been on a tear lately, breaking through resistance levels
-        and reaching new highs. Several factors are contributing to this rally.
-        Institutional investors are increasingly allocating funds to Bitcoin,
-        viewing it as a hedge against inflation and a store of value. Major
-        financial institutions are also offering Bitcoin-related services,
-        making it easier for both retail and institutional investors to access
-        the cryptocurrency. Regulatory clarity in some jurisdictions has boosted
-        investor confidence, while in others, the potential for stricter
-        regulations looms, creating a mixed outlook. The upcoming halving event,
-        which will reduce the reward for mining new Bitcoins, is also creating a
-        sense of scarcity and anticipation among investors. Technical analysis
-        indicates strong bullish momentum, with key indicators signaling further
-        potential gains. However, the market remains volatile, and investors
-        should be prepared for potential corrections. Overall, the current rally
-        is driven by a confluence of factors, but caution and due diligence are
-        always advised in the dynamic world of cryptocurrency.
-      </p>
+      <p className="text-[#121712] mt-2">{postData.description}</p>
 
       {/* 이미지 */}
-      <ul className="flex gap-2 mt-5 overflow-auto">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <li key={index}>
-            <div className="w-[240px] h-[620px] bg-[#28613b]"></div>
-          </li>
-        ))}
-      </ul>
+      {postData.images.length > 0 && (
+        <ul className="flex gap-2 mt-5 overflow-auto">
+          {postData.images.map((image, index) => (
+            <li key={index}>
+              {/* <div className="w-[240px] h-[620px] bg-[#28613b]"></div> */}
+              <Image src={image} alt="postImage" width={240} height={620} />
+            </li>
+          ))}
+        </ul>
+      )}
 
       {/* 해시태그 */}
-      <ul className="flex gap-2 mt-2 h-[25px]">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <HashTag key={index} hashTag={"해시태그"} />
-        ))}
-      </ul>
+      {postData.hashTags.length > 0 && (
+        <ul className="flex gap-2 mt-2 h-[25px]">
+          {postData.hashTags.map((hashTag, index) => (
+            <HashTag key={index} hashTag={hashTag} />
+          ))}
+        </ul>
+      )}
 
       {/* 좋아요, 댓글 */}
       <div className="text-[#6E8566] font-bold text-[13px] flex items-center gap-4 mt-5">
