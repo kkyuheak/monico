@@ -1,3 +1,4 @@
+import HashTag from "@/components/community/HashTag";
 import { ArrowLeft, Heart, MessageCircleMore } from "lucide-react";
 import Link from "next/link";
 
@@ -54,13 +55,9 @@ const DetailCoinPostPage = () => {
       </ul>
 
       {/* 해시태그 */}
-      <ul className="flex gap-2 mt-2">
+      <ul className="flex gap-2 mt-2 h-[25px]">
         {Array.from({ length: 5 }).map((_, index) => (
-          <li key={index}>
-            <p className="text-[14px] text-[#6E8566] border border-[#6E8566] rounded-lg px-2  flex items-center">
-              #해시태그
-            </p>
-          </li>
+          <HashTag key={index} hashTag={"해시태그"} />
         ))}
       </ul>
 

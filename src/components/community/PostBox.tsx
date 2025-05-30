@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import HashTag from "./HashTag";
 
 interface PostBoxProps {
   createdAt: string | Date;
@@ -56,12 +57,7 @@ const PostBox = ({
         {hashTags.length > 0 && (
           <ul className="mt-2 flex gap-2 h-[25px]">
             {hashTags.map((hashTag, index) => (
-              <li
-                key={index}
-                className="text-[14px] text-[#6e8566] border border-[#6e8566] rounded-lg px-2  flex items-center"
-              >
-                #{hashTag}
-              </li>
+              <HashTag key={index} hashTag={hashTag} />
             ))}
           </ul>
         )}
