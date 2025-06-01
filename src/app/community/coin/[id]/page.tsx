@@ -1,7 +1,8 @@
 import HashTag from "@/components/community/HashTag";
+import PostLikeComment from "@/components/community/PostLikeComment";
 import { getPost } from "@/utils/community/getPost";
 import dayjs from "dayjs";
-import { ArrowLeft, Heart, MessageCircleMore } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -65,35 +66,7 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
       )}
 
       {/* 좋아요, 댓글 */}
-      <div className="text-[#6E8566] font-bold text-[13px] flex items-center gap-4 mt-5">
-        <div className="flex items-center gap-2">
-          <Heart size={24} />
-          <p>123</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <MessageCircleMore size={24} />
-          <p>123</p>
-        </div>
-      </div>
-
-      {/* 댓글 */}
-      <div className="mt-5">
-        <p className="font-bold text-[22px] text-[#121712]">댓글</p>
-        {Array.from({ length: 5 }).map((_, index) => (
-          <div key={index} className="flex items-start gap-2 h-[95px] py-4">
-            <div className="shrink-0 w-10 h-10 rounded-full bg-[#6E8566]"></div>
-
-            <div className="text-[#121712]">
-              <p className=" text-[14px] font-bold">닉네임</p>
-              <p className="">
-                Great analysis, Ethan! I&apos;ve been following Bitcoin closely
-                and agree with your points. The institutional interest is
-                definitely a game-changer.
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
+      <PostLikeComment id={id} type="coin" />
     </div>
   );
 };
