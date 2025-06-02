@@ -19,7 +19,7 @@ export const postLike = async (id: string, type: "coin" | "stock") => {
 
   if (postLikeError) {
     console.error(postLikeError);
-    return;
+    throw new Error(postLikeError.message);
   }
 
   const { likes } = postLikeData;
@@ -40,7 +40,7 @@ export const postLike = async (id: string, type: "coin" | "stock") => {
 
   if (updatePostLikeError) {
     console.error(updatePostLikeError);
-    return;
+    throw new Error(updatePostLikeError.message);
   }
 
   return updatePostLikeData;

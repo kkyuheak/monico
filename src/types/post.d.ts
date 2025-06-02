@@ -7,4 +7,5 @@ interface PostData {
   images: string[];
   user_id: string;
   usersinfo: UserInfoType;
+  likes: string[];
 }

@@ -1,23 +1,64 @@
 "use client";
 
 import { postLike } from "@/utils/community/postLike";
+import { getUserInfo } from "@/utils/getUserInfo";
+import { showToast } from "@/utils/showToast";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Heart, MessageCircleMore } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface PostLikeCommentProps {
   type: "coin" | "stock";
   id: string;
+  isLike: string[];
 }
 
-const PostLikeComment = ({ type, id }: PostLikeCommentProps) => {
+const PostLikeComment = ({ type, id, isLike }: PostLikeCommentProps) => {
+  const { data: userInfo, isLoading: userInfoLoading } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: getUserInfo,
+  });
+
   const [like, setLike] = useState(false);
+  const [likeCount, setLikeCount] = useState(isLike.length);
+
+  useEffect(() => {
+    if (userInfo && !userInfoLoading) {
+      const isLiked = isLike.includes(userInfo.id);
+      setLike(isLiked);
+    }
+  }, [userInfo, isLike, userInfoLoading]);
 
   const handleLikeClick = async () => {
-    setLike((prev) => !prev);
+    // 로딩 시 return
+    if (userInfoLoading) {
+      showToast("info", "잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    // 비로그인 시 return
+    if (!userInfo) {
+      showToast("error", "로그인이 필요한 서비스입니다.");
+      return;
+    }
+
     await postLike(id, type);
   };
 
-  console.log(type, id);
+  const { mutate: likeClickMutate } = useMutation({
+    mutationFn: () => handleLikeClick(),
+    onSuccess: () => {
+      if (like) {
+        setLikeCount((prev) => prev - 1);
+      } else {
+        setLikeCount((prev) => prev + 1);
+      }
+      setLike((prev) => !prev);
+    },
+    onError: () => {
+      showToast("error", "잠시 후 다시 시도해주세요.");
+    },
+  });
 
   return (
     <>
@@ -29,9 +70,9 @@ const PostLikeComment = ({ type, id }: PostLikeCommentProps) => {
             fill={like ? "red" : "white"}
             stroke={like ? "red" : "#6E8566"}
             className="cursor-pointer"
-            onClick={handleLikeClick}
+            onClick={() => likeClickMutate()}
           />
-          <p>123</p>
+          <p>{likeCount}</p>
         </div>
         <div className="flex items-center gap-2">
           <MessageCircleMore size={24} />
