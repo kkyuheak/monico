@@ -6,6 +6,7 @@ import { showToast } from "@/utils/showToast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Heart, MessageCircleMore } from "lucide-react";
 import { useEffect, useState } from "react";
+import CommentInput from "../common/input/CommentInput";
 
 interface PostLikeCommentProps {
   type: "coin" | "stock";
@@ -83,6 +84,7 @@ const PostLikeComment = ({ type, id, isLike }: PostLikeCommentProps) => {
       {/* 댓글 */}
       <div className="mt-5">
         <p className="font-bold text-[22px] text-[#121712]">댓글</p>
+        <CommentInput />
         {Array.from({ length: 5 }).map((_, index) => (
           <div key={index} className="flex items-start gap-2 h-[95px] py-4">
             <div className="shrink-0 w-10 h-10 rounded-full bg-[#6E8566]"></div>
