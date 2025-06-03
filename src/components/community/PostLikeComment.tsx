@@ -69,6 +69,9 @@ const PostLikeComment = ({
     },
   });
 
+  // 댓글
+  const [commentsList, setCommentsList] = useState(comments);
+
   return (
     <>
       {/* 좋아요, 댓글 아이콘 */}
@@ -92,10 +95,10 @@ const PostLikeComment = ({
       {/* 댓글 */}
       <div className="mt-5">
         <p className="font-bold text-[22px] text-[#121712]">댓글</p>
-        <CommentInput postId={id} />
+        <CommentInput postId={id} setCommentsList={setCommentsList} />
 
         <div className="mt-5">
-          {comments.map((comment) => {
+          {commentsList.map((comment) => {
             // 날짜
             const diffDay = dayjs().diff(dayjs(comment.created_at), "day");
 

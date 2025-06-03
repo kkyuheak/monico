@@ -1,13 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import SimpleButton from "../buttons/SimpleButton";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { uploadComment } from "@/utils/community/uploadComment";
 import { inputTrimValidationFn } from "@/utils/inputTrimValidationFn";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/utils/getUserInfo";
+import { showToast } from "@/utils/showToast";
 
 interface CommentInputFormData {
   comment: string;
@@ -15,9 +16,10 @@ interface CommentInputFormData {
 
 interface CommentInputProps {
   postId: string;
+  setCommentsList: Dispatch<SetStateAction<CoinPostComment[]>>;
 }
 
-const CommentInput = ({ postId }: CommentInputProps) => {
+const CommentInput = ({ postId, setCommentsList }: CommentInputProps) => {
   const { data: userInfo } = useQuery({
     queryKey: ["userInfo"],
     queryFn: getUserInfo,
@@ -38,6 +40,7 @@ const CommentInput = ({ postId }: CommentInputProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<CommentInputFormData>();
 
   const { ref, ...rest } = register("comment", {
@@ -45,9 +48,23 @@ const CommentInput = ({ postId }: CommentInputProps) => {
     validate: inputTrimValidationFn,
   });
 
+  const { mutate: commentMutate } = useMutation({
+    mutationFn: (data: CommentInputFormData) =>
+      uploadComment(postId, data.comment.trim()),
+    onSuccess: (data) => {
+      showToast("success", "댓글이 성공적으로 작성되었습니다.");
+      const updateCommentState = { ...data, usersinfo: userInfo };
+      setCommentsList((prev) => [updateCommentState, ...prev]);
+      setValue("comment", "");
+    },
+    onError: () => {
+      showToast("error", "댓글 작성에 실패했습니다.");
+    },
+  });
+
   const onSubmit = async (data: CommentInputFormData) => {
     console.log(data);
-    await uploadComment(postId, data.comment.trim());
+    commentMutate(data);
   };
 
   return (
