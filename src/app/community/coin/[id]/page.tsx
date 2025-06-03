@@ -1,7 +1,7 @@
 import HashTag from "@/components/community/HashTag";
 import PostLikeComment from "@/components/community/PostLikeComment";
 import { getPost } from "@/utils/community/getPost";
-import dayjs from "dayjs";
+import { diffDay } from "@/utils/diffDay";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,7 +36,7 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
         />
         <p className="text-[15px] font-bold">{postData.usersinfo.nickname}</p>
         <p className="text-[13px] text-[#6E8566]">
-          {dayjs(postData.created_at).format("YYYY년 MM월 DD일")}
+          {diffDay(postData.created_at)}
         </p>
       </div>
 
