@@ -96,6 +96,20 @@ const PostLikeComment = ({
 
         <div className="mt-5">
           {comments.map((comment) => {
+            // 날짜
+            const diffDay = dayjs().diff(dayjs(comment.created_at), "day");
+
+            const displayTime =
+              diffDay === 0
+                ? "오늘"
+                : diffDay === 1
+                ? "어제"
+                : diffDay === 2
+                ? "2일 전"
+                : diffDay === 3
+                ? "3일 전"
+                : dayjs(comment.created_at).format("YYYY년 MM월 DD일");
+
             return (
               <div
                 key={comment.id}
@@ -111,16 +125,16 @@ const PostLikeComment = ({
 
                 <div className="text-[#121712]">
                   <div className="flex items-center gap-2">
-                    <p className="text-[15px] font-bold">
+                    <p className="text-[16px] font-bold">
                       {comment.usersinfo.nickname ||
                         comment.usersinfo.original_name}
                     </p>
 
-                    <p className="text-[13px] text-[#6E8566]">
-                      {dayjs(comment.created_at).format("YYYY년 MM월 DD일")}
-                    </p>
+                    <p className="text-[13px] text-[#6E8566]">{displayTime}</p>
                   </div>
-                  <p className="text-[14px]">{comment.content}</p>
+                  <p className="text-[14px] whitespace-pre-line">
+                    {comment.content}
+                  </p>
                 </div>
               </div>
             );
