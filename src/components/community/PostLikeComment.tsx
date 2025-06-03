@@ -88,7 +88,7 @@ const PostLikeComment = ({
         </div>
         <div className="flex items-center gap-2">
           <MessageCircleMore size={24} />
-          <p>123</p>
+          <p>{commentsList.length}</p>
         </div>
       </div>
 
