@@ -66,7 +66,12 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
       )}
 
       {/* 좋아요, 댓글 */}
-      <PostLikeComment id={id} type="coin" isLike={postData.likes} />
+      <PostLikeComment
+        id={id}
+        type="coin"
+        isLike={postData.likes}
+        comments={postData.coin_post_comments}
+      />
     </div>
   );
 };

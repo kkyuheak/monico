@@ -7,14 +7,22 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Heart, MessageCircleMore } from "lucide-react";
 import { useEffect, useState } from "react";
 import CommentInput from "../common/input/CommentInput";
+import Image from "next/image";
+import dayjs from "dayjs";
 
 interface PostLikeCommentProps {
   type: "coin" | "stock";
   id: string;
   isLike: string[];
+  comments: CoinPostComment[];
 }
 
-const PostLikeComment = ({ type, id, isLike }: PostLikeCommentProps) => {
+const PostLikeComment = ({
+  type,
+  id,
+  isLike,
+  comments,
+}: PostLikeCommentProps) => {
   const { data: userInfo, isLoading: userInfoLoading } = useQuery({
     queryKey: ["userInfo"],
     queryFn: getUserInfo,
@@ -84,21 +92,40 @@ const PostLikeComment = ({ type, id, isLike }: PostLikeCommentProps) => {
       {/* 댓글 */}
       <div className="mt-5">
         <p className="font-bold text-[22px] text-[#121712]">댓글</p>
-        <CommentInput />
-        {Array.from({ length: 5 }).map((_, index) => (
-          <div key={index} className="flex items-start gap-2 h-[95px] py-4">
-            <div className="shrink-0 w-10 h-10 rounded-full bg-[#6E8566]"></div>
+        <CommentInput postId={id} />
 
-            <div className="text-[#121712]">
-              <p className=" text-[14px] font-bold">닉네임</p>
-              <p className="">
-                Great analysis, Ethan! I&apos;ve been following Bitcoin closely
-                and agree with your points. The institutional interest is
-                definitely a game-changer.
-              </p>
-            </div>
-          </div>
-        ))}
+        <div className="mt-5">
+          {comments.map((comment) => {
+            return (
+              <div
+                key={comment.id}
+                className="flex items-start gap-3 min-h-[70px] py-2"
+              >
+                <Image
+                  src={comment.usersinfo.profile_img}
+                  alt="userProfileImage"
+                  width={35}
+                  height={35}
+                  className="rounded-full"
+                />
+
+                <div className="text-[#121712]">
+                  <div className="flex items-center gap-2">
+                    <p className="text-[15px] font-bold">
+                      {comment.usersinfo.nickname ||
+                        comment.usersinfo.original_name}
+                    </p>
+
+                    <p className="text-[13px] text-[#6E8566]">
+                      {dayjs(comment.created_at).format("YYYY년 MM월 DD일")}
+                    </p>
+                  </div>
+                  <p className="text-[14px]">{comment.content}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );
