@@ -8,7 +8,7 @@ import { Heart, MessageCircleMore } from "lucide-react";
 import { useEffect, useState } from "react";
 import CommentInput from "../common/input/CommentInput";
 import Image from "next/image";
-import dayjs from "dayjs";
+import { diffDay } from "@/utils/diffDay";
 
 interface PostLikeCommentProps {
   type: "coin" | "stock";
@@ -97,26 +97,12 @@ const PostLikeComment = ({
         <p className="font-bold text-[22px] text-[#121712]">댓글</p>
         <CommentInput postId={id} setCommentsList={setCommentsList} />
 
-        <div className="mt-5">
+        <div className="mt-4">
           {commentsList.map((comment) => {
-            // 날짜
-            const diffDay = dayjs().diff(dayjs(comment.created_at), "day");
-
-            const displayTime =
-              diffDay === 0
-                ? "오늘"
-                : diffDay === 1
-                ? "어제"
-                : diffDay === 2
-                ? "2일 전"
-                : diffDay === 3
-                ? "3일 전"
-                : dayjs(comment.created_at).format("YYYY년 MM월 DD일");
-
             return (
               <div
                 key={comment.id}
-                className="flex items-start gap-3 min-h-[70px] py-2"
+                className="flex items-start gap-3 min-h-[70px] py-2 mt-1"
               >
                 <Image
                   src={comment.usersinfo.profile_img}
@@ -133,7 +119,9 @@ const PostLikeComment = ({
                         comment.usersinfo.original_name}
                     </p>
 
-                    <p className="text-[13px] text-[#6E8566]">{displayTime}</p>
+                    <p className="text-[13px] text-[#6E8566]">
+                      {diffDay(comment.created_at)}
+                    </p>
                   </div>
                   <p className="text-[14px] whitespace-pre-line">
                     {comment.content}
