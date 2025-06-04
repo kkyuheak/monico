@@ -8,10 +8,11 @@ interface PostData {
   user_id: string;
   usersinfo: UserInfoType;
   likes: string[];
-  coin_post_comments: CoinPostComment[];
+  coin_post_comments: PostComment[];
+  stock_post_comments: PostComment[];
 }
 
-interface CoinPostComment {
+interface PostComment {
   id: string;
   postId: number;
   userId: string;

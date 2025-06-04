@@ -16,10 +16,11 @@ interface CommentInputFormData {
 
 interface CommentInputProps {
   postId: string;
-  setCommentsList: Dispatch<SetStateAction<CoinPostComment[]>>;
+  setCommentsList: Dispatch<SetStateAction<PostComment[]>>;
+  type: "coin" | "stock";
 }
 
-const CommentInput = ({ postId, setCommentsList }: CommentInputProps) => {
+const CommentInput = ({ postId, setCommentsList, type }: CommentInputProps) => {
   const { data: userInfo } = useQuery({
     queryKey: ["userInfo"],
     queryFn: getUserInfo,
@@ -50,7 +51,7 @@ const CommentInput = ({ postId, setCommentsList }: CommentInputProps) => {
 
   const { mutate: commentMutate } = useMutation({
     mutationFn: (data: CommentInputFormData) =>
-      uploadComment(postId, data.comment.trim()),
+      uploadComment(postId, data.comment.trim(), type),
     onSuccess: (data) => {
       showToast("success", "댓글이 성공적으로 작성되었습니다.");
       const updateCommentState = { ...data, usersinfo: userInfo };

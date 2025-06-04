@@ -14,7 +14,7 @@ interface PostLikeCommentProps {
   type: "coin" | "stock";
   id: string;
   isLike: string[];
-  comments: CoinPostComment[];
+  comments: PostComment[];
 }
 
 const PostLikeComment = ({
@@ -93,7 +93,11 @@ const PostLikeComment = ({
       {/* 댓글 */}
       <div className="mt-5">
         <p className="font-bold text-[22px] text-[#121712]">댓글</p>
-        <CommentInput postId={id} setCommentsList={setCommentsList} />
+        <CommentInput
+          postId={id}
+          setCommentsList={setCommentsList}
+          type={type}
+        />
 
         <div className="mt-4">
           {commentsList.map((comment) => {

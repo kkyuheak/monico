@@ -1,8 +1,8 @@
 import { supabase } from "@/lib/supabase/supabase";
 
-export const getCoinPosts = async () => {
+export const getCoinPosts = async (tab: string) => {
   const { data, error } = await supabase
-    .from("coin_community")
+    .from(`${tab}_community`)
     .select("*, usersinfo(*)")
     .order("created_at", { ascending: false });
 
