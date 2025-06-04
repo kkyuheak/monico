@@ -4,8 +4,7 @@ export const postLike = async (id: string, type: "coin" | "stock") => {
   const { data: userInfo, error: getUserError } = await supabase.auth.getUser();
 
   if (getUserError) {
-    console.error(getUserError);
-    return;
+    throw new Error("로그인이 필요한 서비스입니다.");
   }
 
   const userId = userInfo.user.id;
@@ -18,8 +17,7 @@ export const postLike = async (id: string, type: "coin" | "stock") => {
     .single();
 
   if (postLikeError) {
-    console.error(postLikeError);
-    throw new Error(postLikeError.message);
+    throw new Error("잠시 후 다시 시도해주세요.");
   }
 
   const { likes } = postLikeData;
@@ -39,8 +37,7 @@ export const postLike = async (id: string, type: "coin" | "stock") => {
       .single();
 
   if (updatePostLikeError) {
-    console.error(updatePostLikeError);
-    throw new Error(updatePostLikeError.message);
+    throw new Error("잠시 후 다시 시도해주세요.");
   }
 
   return updatePostLikeData;

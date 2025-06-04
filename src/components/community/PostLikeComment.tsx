@@ -41,14 +41,12 @@ const PostLikeComment = ({
   const handleLikeClick = async () => {
     // 로딩 시 return
     if (userInfoLoading) {
-      showToast("info", "잠시 후 다시 시도해주세요.");
-      return;
+      throw new Error("잠시 후 다시 시도해주세요.");
     }
 
     // 비로그인 시 return
     if (!userInfo) {
-      showToast("error", "로그인이 필요한 서비스입니다.");
-      return;
+      throw new Error("로그인이 필요한 서비스입니다.");
     }
 
     await postLike(id, type);
@@ -64,8 +62,8 @@ const PostLikeComment = ({
       }
       setLike((prev) => !prev);
     },
-    onError: () => {
-      showToast("error", "잠시 후 다시 시도해주세요.");
+    onError: (error) => {
+      showToast("error", error.message);
     },
   });
 
