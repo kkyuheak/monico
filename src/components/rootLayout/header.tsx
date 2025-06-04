@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { showToast } from "@/utils/showToast";
 
 // 메뉴
 const HEADER_MENU = [
@@ -38,7 +39,7 @@ const Header = () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error(error);
-      alert("로그아웃 도중 에러가 발생했습니다.");
+      showToast("error", "로그아웃 도중 에러가 발생했습니다.");
       return;
     }
 
@@ -47,6 +48,8 @@ const Header = () => {
 
     // zustand 유저 정보 Null
     setUserInfo(null);
+
+    router.push("/");
   };
 
   const [isLoading, setIsLoading] = useState(true);

@@ -18,6 +18,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface AllCoinsPageType {
   coins: CoinTickerType[];
@@ -131,8 +132,10 @@ const CoinMainPage = () => {
       <table className="w-full m-auto border-t border-[#d8d8d8]">
         <thead className="h-[42px]">
           <tr>
-            <th className="pl-1"></th>
-            <th className="text-left pl-2">코인</th>
+            {isLoggedIn && <th className="pl-1"></th>}
+            <th className={twMerge("text-left pl-2", isLoggedIn ? "" : "pl-4")}>
+              코인
+            </th>
             <th className="">현재가</th>
             <th className=" w-[100px]">전일대비</th>
             <th className="">거래량(24H)</th>
