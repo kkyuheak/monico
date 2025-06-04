@@ -10,8 +10,8 @@ interface PostsWrapperProps {
 
 const PostsWrapper = ({ tab }: PostsWrapperProps) => {
   const { data: coinPosts } = useQuery({
-    queryKey: ["coin-community-posts"],
-    queryFn: getCoinPosts,
+    queryKey: ["community-posts", tab],
+    queryFn: () => getCoinPosts(tab),
   });
 
   useEffect(() => {

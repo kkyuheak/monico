@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { queryClient } from "../provider/QueryProvider";
 import { BTCprice } from "@/utils/coin/BTCprice";
+import { twMerge } from "tailwind-merge";
 
 interface CoinLiostBoxProps {
   coinName: string;
@@ -89,7 +90,10 @@ const CoinListBox = ({
           </div>
         </td>
       )}
-      <td className="w-[300px]" onClick={() => router.push(`/coin/${market}`)}>
+      <td
+        className={twMerge("w-[300px]", isLoggedIn ? "" : "pl-2")}
+        onClick={() => router.push(`/coin/${market}`)}
+      >
         <div className="flex h-full items-center gap-3 ml-2 cursor-pointer">
           <Image
             src={`https://static.upbit.com/logos/${coinSymbol}.png`}

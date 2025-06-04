@@ -6,14 +6,14 @@ import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface DetailCoinPostPageProps {
+interface DetailStockPostPageProps {
   params: Promise<{ id: string }>;
 }
 
-const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
+const DetailStockPostPage = async ({ params }: DetailStockPostPageProps) => {
   const { id } = await params;
 
-  const postData: PostData = await getPost(id, "coin");
+  const postData: PostData = await getPost(id, "stock");
 
   return (
     <div className="p-1">
@@ -68,12 +68,12 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
       {/* 좋아요, 댓글 */}
       <PostLikeComment
         id={id}
-        type="coin"
+        type="stock"
         isLike={postData.likes}
-        comments={postData.coin_post_comments}
+        comments={postData.stock_post_comments}
       />
     </div>
   );
 };
 
-export default DetailCoinPostPage;
+export default DetailStockPostPage;

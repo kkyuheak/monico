@@ -1,7 +1,7 @@
-import dayjs from "dayjs";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import HashTag from "./HashTag";
+import { diffDay } from "@/utils/diffDay";
 
 interface PostBoxProps {
   created_at: string | Date;
@@ -22,8 +22,6 @@ const PostBox = ({
   id,
   type,
 }: PostBoxProps) => {
-  const createdAtDate = dayjs(created_at).format("YYYY년 MM월 DD일");
-
   const router = useRouter();
 
   return (
@@ -44,7 +42,7 @@ const PostBox = ({
           <p className="font-semibold">
             {usersinfo.nickname || usersinfo.original_name}
           </p>
-          <p className="text-[14px] text-[#6e8566]">{createdAtDate}</p>
+          <p className="text-[14px] text-[#6e8566]">{diffDay(created_at)}</p>
         </div>
 
         {/* 게시글 제목 */}
