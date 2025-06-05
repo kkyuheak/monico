@@ -1,50 +1,50 @@
-"use client";
+// "use client";
 import MainButton from "@/components/common/buttons/MainButton";
-import { supabase } from "@/lib/supabase/supabase";
-import { useAuthStore } from "@/store/authStore";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+// import { supabase } from "@/lib/supabase/supabase";
+// import { useAuthStore } from "@/store/authStore";
+// import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
 
 const MainPage = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const setUserInfo = useAuthStore((state) => state.setUserInfo);
+  // const setUserInfo = useAuthStore((state) => state.setUserInfo);
 
-  useEffect(() => {
-    const handleOAuthCallback = async () => {
-      const { data } = await supabase.auth.getSession();
+  // useEffect(() => {
+  //   const handleOAuthCallback = async () => {
+  //     const { data } = await supabase.auth.getSession();
 
-      if (data.session === null) return;
+  //     if (data.session === null) return;
 
-      router.replace("/");
+  //     router.replace("/");
 
-      const { data: loginUserInfo, error } = await supabase.auth.getUser();
-      if (error) {
-        console.error(error);
-        alert("에러가 발생했습니다");
-        return;
-      }
+  //     const { data: loginUserInfo, error } = await supabase.auth.getUser();
+  //     if (error) {
+  //       console.error(error);
+  //       alert("에러가 발생했습니다");
+  //       return;
+  //     }
 
-      if (loginUserInfo.user !== null) {
-        const { data: userInfo, error } = await supabase
-          .from("usersinfo")
-          .select("*")
-          .eq("email", loginUserInfo.user.email)
-          .single();
-        console.log(userInfo);
+  //     if (loginUserInfo.user !== null) {
+  //       const { data: userInfo, error } = await supabase
+  //         .from("usersinfo")
+  //         .select("*")
+  //         .eq("email", loginUserInfo.user.email)
+  //         .single();
+  //       console.log(userInfo);
 
-        if (error) {
-          console.error(error);
-          alert("에러가 발생했습니다");
-          return;
-        }
+  //       if (error) {
+  //         console.error(error);
+  //         alert("에러가 발생했습니다");
+  //         return;
+  //       }
 
-        setUserInfo(userInfo);
-      }
-    };
+  //       setUserInfo(userInfo);
+  //     }
+  //   };
 
-    handleOAuthCallback();
-  }, []);
+  //   handleOAuthCallback();
+  // }, []);
 
   return (
     <div>
