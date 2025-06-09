@@ -1,10 +1,8 @@
 "use client";
 
 import { supabase } from "@/lib/supabase/supabase";
-import { useAuthStore } from "@/store/authStore";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +13,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
 import { showToast } from "@/utils/showToast";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "@/utils/getUserInfo";
+import { queryClient } from "../provider/QueryProvider";
 
 // 메뉴
 const HEADER_MENU = [
@@ -29,9 +30,6 @@ const HEADER_MENU = [
 ];
 
 const Header = () => {
-  const userInfo = useAuthStore((state) => state.userInfo);
-  const setUserInfo = useAuthStore((state) => state.setUserInfo);
-
   const router = useRouter();
 
   // 로그아웃 함수
@@ -43,43 +41,18 @@ const Header = () => {
       return;
     }
 
-    // 로그인 여부 false
-    setIsLoggedIn(false);
-
-    // zustand 유저 정보 Null
-    setUserInfo(null);
+    queryClient.invalidateQueries({
+      queryKey: ["userInfo"],
+    });
 
     router.push("/");
   };
 
-  const [isLoading, setIsLoading] = useState(true);
-
   // 로그인 인증여부
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const getIsLoggedIn = async () => {
-    const { data, error } = await supabase.auth.getSession();
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    if (data.session !== null) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
-
-  useEffect(() => {
-    getIsLoggedIn();
-  }, []);
+  const { data: userInfo, isLoading: userInfoLoading } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: getUserInfo,
+  });
 
   const handleFavoriteClick = async () => {
     const { data: getUser, error } = await supabase.auth.getUser();
@@ -121,8 +94,8 @@ const Header = () => {
 
       {/* 로그인, 회원가입 */}
       <ul className="flex gap-6 text-[16px] items-center">
-        {!isLoading ? (
-          !isLoggedIn ? (
+        {!userInfoLoading ? (
+          !userInfo ? (
             <>
               <li className="cursor-pointer">
                 <Link href={"/login"} className="block">
