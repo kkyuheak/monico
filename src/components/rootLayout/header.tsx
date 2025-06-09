@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { showToast } from "@/utils/showToast";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/utils/getUserInfo";
+import { queryClient } from "../provider/QueryProvider";
 
 // 메뉴
 const HEADER_MENU = [
@@ -39,6 +40,10 @@ const Header = () => {
       showToast("error", "로그아웃 도중 에러가 발생했습니다.");
       return;
     }
+
+    queryClient.invalidateQueries({
+      queryKey: ["userInfo"],
+    });
 
     router.push("/");
   };
