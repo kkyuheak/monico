@@ -91,8 +91,6 @@ const CoinMainPage = () => {
   });
 
   // 로그인 확인
-  // const isLoggedIn = useAuthStore((state) => state.userInfo);
-
   const { data: userInfo } = useQuery({
     queryKey: ["userInfo"],
     queryFn: getUserInfo,

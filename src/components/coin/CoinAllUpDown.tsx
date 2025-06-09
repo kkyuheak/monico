@@ -4,7 +4,6 @@ import CoinListBox from "@/components/coin/CoinListBox";
 import CoinListSkeleton from "@/components/coin/CoinListSkeleton";
 import Spinner from "@/components/Loading/Spinner";
 import { useInfiniteScrollQuery } from "@/hooks/useInfiniteScrollQuery";
-import { useAuthStore } from "@/store/authStore";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getAllUpDownCoinLists } from "@/utils/coin/getAllUpDownCoinLists";
 import { getCoinName } from "@/utils/coin/getCoinName";
@@ -13,6 +12,8 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import CoinRecommendBox from "./CoinRecommendBox";
 import CoinRecommendBoxSkeleton from "../skeleton/CoinRecommendBoxSkeleton";
+import { getUserInfo } from "@/utils/getUserInfo";
+import { twMerge } from "tailwind-merge";
 
 interface AllCoinsPageType {
   coins: CoinTickerType[];
@@ -51,7 +52,12 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
   });
 
   // 로그인 여부 확인
-  const isLoggedIn = useAuthStore((state) => state.userInfo);
+  const { data: userInfo } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: getUserInfo,
+  });
+
+  const isLoggedIn = !!userInfo;
 
   // 즐겨찾기 코인 확인
   const { data: userFavoriteCoin, isLoading: userCoinLoading } = useQuery<
@@ -103,8 +109,10 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
       <table className="w-full m-auto border-t border-[#d8d8d8] mt-5">
         <thead className="h-[42px]">
           <tr>
-            <th className="pl-1"></th>
-            <th className="text-left pl-2">코인</th>
+            {isLoggedIn && <th className="pl-1"></th>}
+            <th className={twMerge("text-left pl-2", isLoggedIn ? "" : "pl-4")}>
+              코인
+            </th>
             <th className="">현재가</th>
             <th className=" w-[100px]">전일대비</th>
             <th className="">거래량(24H)</th>
@@ -116,7 +124,6 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
           {coinName && allCoinList && !userCoinLoading
             ? allCoinList?.pages.map((page, index) => {
                 const coins = index === 0 ? page.coins.slice(5) : page.coins;
-                // const coins = page.coins;
 
                 return coins.map((coin) => {
                   const kr_name = coinName.find(
