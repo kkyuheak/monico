@@ -8,10 +8,10 @@ import Spinner from "@/components/Loading/Spinner";
 import SearchModal from "@/components/modal/Searchmodal";
 import RecentView from "@/components/recentView/RecentView";
 
-import { useAuthStore } from "@/store/authStore";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getAllCoinTicker } from "@/utils/coin/getAllCoinTicker";
 import { getCoinName } from "@/utils/coin/getCoinName";
+import { getUserInfo } from "@/utils/getUserInfo";
 import {
   QueryFunctionContext,
   useInfiniteQuery,
@@ -91,7 +91,14 @@ const CoinMainPage = () => {
   });
 
   // 로그인 확인
-  const isLoggedIn = useAuthStore((state) => state.userInfo);
+  // const isLoggedIn = useAuthStore((state) => state.userInfo);
+
+  const { data: userInfo } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: getUserInfo,
+  });
+
+  const isLoggedIn = !!userInfo;
 
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
