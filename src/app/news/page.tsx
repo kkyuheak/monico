@@ -6,11 +6,6 @@ const NewsPage = async () => {
 
   return (
     <div className="w-[608px]">
-      <h1 className="text-[28px] font-bold mt-4">뉴스룸</h1>
-      <p className="text-[16px] font-medium text-[#6e8566] my-2">
-        최신 뉴스를 확인할 수 있습니다.
-      </p>
-
       <div className="flex flex-col gap-1">
         {newsData?.map((newsItem) => {
           return (
@@ -20,6 +15,7 @@ const NewsPage = async () => {
               thumbnail_url={newsItem.thumbnail_url}
               content_url={newsItem.content_url}
               summary={newsItem.summary}
+              publishedAt={newsItem.published_at}
             />
           );
         })}
