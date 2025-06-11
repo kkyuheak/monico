@@ -5,7 +5,7 @@ export const getNewsData = async () => {
     const response = await newsApi.get("/v1/articles", {
       params: {
         page_size: 20,
-        keyword: "가상화폐 OR cripto OR 비트코인 OR 이더리움",
+        keyword: "cripto OR 비트코인 OR 이더리움",
       },
     });
     const { data }: { data: NewsDataType[] } = response.data;

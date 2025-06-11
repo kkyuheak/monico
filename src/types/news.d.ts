@@ -7,7 +7,7 @@ interface NewsDataType {
   summary: string;
   highlight: null;
   image_url: string;
-  thumbnail_url: string;
+  thumbnail_url: string | null;
   content_url: string;
   esg: null;
   companies: [];
