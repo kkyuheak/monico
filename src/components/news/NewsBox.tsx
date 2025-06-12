@@ -28,7 +28,9 @@ const NewsBox = ({
           {/* 뉴스 제목 */}
           <p className="font-bold text-[18px]">{title}</p>
           {/* 뉴스 내용 */}
-          <p className="text-[14px] text-[#61758A] mt-1">{summary}</p>
+          <p className="text-[14px] text-[#61758A] mt-1 line-clamp-3">
+            {summary}
+          </p>
         </div>
         <Image
           src={thumbnail_url ?? "/assets/img/newsBackground.png"}

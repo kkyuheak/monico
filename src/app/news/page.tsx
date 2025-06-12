@@ -1,12 +1,11 @@
 import NewsBox from "@/components/news/NewsBox";
+import NewsSection from "@/components/news/NewsSection";
 import { getNewsData } from "@/utils/news/getNewsData";
 
 const NewsPage = async () => {
-  const newsData = await getNewsData();
-
   return (
-    <div className="w-[608px]">
-      <div className="flex flex-col gap-1">
+    <div className="">
+      {/* <div className="flex flex-col gap-1">
         {newsData?.map((newsItem) => {
           return (
             <NewsBox
@@ -19,7 +18,8 @@ const NewsPage = async () => {
             />
           );
         })}
-      </div>
+      </div> */}
+      <NewsSection />
     </div>
   );
 };
