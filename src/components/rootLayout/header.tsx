@@ -24,6 +24,10 @@ const HEADER_MENU = [
     href: "/coin",
   },
   {
+    name: "뉴스룸",
+    href: "/news",
+  },
+  {
     name: "커뮤니티",
     href: "/community",
   },

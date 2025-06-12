@@ -4,16 +4,18 @@ import dayjs from "dayjs";
 const fromDate = dayjs().subtract(6, "month").format("YYYY-MM-DD");
 const nowDate = dayjs().format("YYYY-MM-DD");
 
-export const getNewsData = async (page: number): Promise<NewsDataType[]> => {
+export const getNewsData = async (
+  page: number,
+  type: string
+): Promise<NewsDataType[]> => {
   try {
     const response = await newsApi.get("/v1/articles", {
       params: {
         page,
         page_size: 10,
-        keyword: "블록체인 OR 비트코인",
+        keyword: type === "stock" ? "코스피 OR 코스닥 OR 증권시장" : "비트코인",
         date_from: fromDate,
         date_to: nowDate,
-        // order: "published_at",
       },
     });
     const { data }: { data: NewsDataType[] } = response.data;

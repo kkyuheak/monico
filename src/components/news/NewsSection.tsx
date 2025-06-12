@@ -5,12 +5,17 @@ import SimpleButton from "../common/buttons/SimpleButton";
 import NewsBox from "./NewsBox";
 import { getNewsData } from "@/utils/news/getNewsData";
 import NewsBoxSkeleton from "../skeleton/NewsBoxSkeleton";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
 
 const NewsSection = () => {
+  // 탭 상태 관리
+  const [tab, setTab] = useState("coin");
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery<NewsDataType[], Error, InfiniteData<NewsDataType[]>>({
-      queryKey: ["newsData"],
-      queryFn: ({ pageParam = 1 }) => getNewsData(pageParam as number),
+      queryKey: ["newsData", tab],
+      queryFn: ({ pageParam = 1 }) => getNewsData(pageParam as number, tab),
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
         // lastPage가 빈 배열이면 더이상 없음
@@ -21,7 +26,17 @@ const NewsSection = () => {
 
   return (
     <div className="flex flex-col gap-1 items-center">
-      <div className="flex flex-col gap-1 border border-gray-200 rounded-lg">
+      <div className="flex flex-col gap-1 ">
+        <Tabs
+          defaultValue={tab}
+          className="mb-1"
+          onValueChange={(value) => setTab(value)}
+        >
+          <TabsList>
+            <TabsTrigger value="coin">코인</TabsTrigger>
+            <TabsTrigger value="stock">주식</TabsTrigger>
+          </TabsList>
+        </Tabs>
         {isLoading &&
           Array.from({ length: 10 }).map((_, index) => (
             <NewsBoxSkeleton key={index} />
