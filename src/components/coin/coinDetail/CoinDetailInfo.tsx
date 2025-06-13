@@ -1,8 +1,8 @@
 import { queryClient } from "@/components/provider/QueryProvider";
-import { useAuthStore } from "@/store/authStore";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { getCoinKRName } from "@/utils/coin/getCoinKRName";
 import { favoriteCoin } from "@/utils/favoriteCoin";
+import { getUserInfo } from "@/utils/getUserInfo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 import Image from "next/image";
@@ -91,7 +91,12 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
     : [];
 
   // 로그인 여부
-  const isLoggedIn = useAuthStore((state) => state.userInfo);
+  const { data: userInfo } = useQuery({
+    queryKey: ["userInfo"],
+    queryFn: getUserInfo,
+  });
+
+  const isLoggedIn = !!userInfo;
 
   // 즐겨찾기
   const [isFavorited, setIsFavorited] = useState(false);

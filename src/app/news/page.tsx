@@ -1,6 +1,6 @@
 import NewsSection from "@/components/news/NewsSection";
 
-const NewsPage = async () => {
+const NewsPage = () => {
   return (
     <div className="">
       <NewsSection />

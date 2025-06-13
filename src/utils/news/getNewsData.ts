@@ -13,7 +13,10 @@ export const getNewsData = async (
       params: {
         page,
         page_size: 10,
-        keyword: type === "stock" ? "코스피 OR 코스닥 OR 증권시장" : "비트코인",
+        keyword:
+          type === "stock"
+            ? "코스피 OR 코스닥 OR 증권시장"
+            : "비트코인 OR 블록체인",
         date_from: fromDate,
         date_to: nowDate,
       },
