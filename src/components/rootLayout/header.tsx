@@ -115,7 +115,7 @@ const Header = () => {
           ) : (
             <>
               <li className="flex items-center">
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                   <DropdownMenuTrigger className="w-10 h-10 bg-gray-200 rounded-full cursor-pointer outline-none">
                     <img
                       src={userInfo?.profile_img}
