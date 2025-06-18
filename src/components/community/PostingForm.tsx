@@ -42,7 +42,7 @@ const PostingForm = () => {
     postingMutate(data);
   };
 
-  const { mutate: postingMutate } = useMutation({
+  const { mutate: postingMutate, status } = useMutation({
     mutationFn: (data: PostingFormValues) => posting(data),
     onSuccess: (newPost) => {
       showToast("success", "게시글이 성공적으로 작성되었습니다.");
@@ -83,7 +83,7 @@ const PostingForm = () => {
 
   return (
     <form
-      className=" flex flex-col gap-4 mt-4"
+      className="flex flex-col gap-4 mt-4"
       onSubmit={handleSubmit(onSubmit)}
     >
       <div>
@@ -248,6 +248,13 @@ const PostingForm = () => {
           올리기
         </SimpleButton>
       </div>
+
+      {/* 업로드 로딩 */}
+      {status === "pending" && (
+        <div className="absolute inset-0 bg-black/50 w-screen h-screen flex items-center justify-center">
+          <div className="loader"></div>
+        </div>
+      )}
     </form>
   );
 };

@@ -76,8 +76,16 @@ const CoinListBox = ({
     }
   }, [userFavoriteCoin, market]);
 
+  // 가격 변동률에 따른 색상
+  const priceStyle = () => {
+    if (changeRate > 0) {
+      return "text-[#FF3D00]";
+    } else if (changeRate < 0) {
+      return "text-[#1E90FF]";
+    }
+  };
   return (
-    <tr className="border-b border-[#d8d8d8] h-[68px]  tabular-nums">
+    <tr className="border-b border-[#d8d8d8] h-[68px] text-[#121712]  tabular-nums">
       {isLoggedIn && (
         <td className="pl-1">
           <div className="flex items-center justify-center">
@@ -105,18 +113,19 @@ const CoinListBox = ({
           <p className="font-semibold">{coinName}</p>
         </div>
       </td>
-      <td className="text-center text-[18px] font-semibold">
+      <td
+        className={twMerge(
+          "text-center text-[18px] font-semibold",
+          priceStyle()
+        )}
+      >
         {tabName === "KRW" ? price?.toLocaleString("ko-KR") : BTCprice(price)}
         <span className="text-[10px] font-medium">
           {" "}
           {tabName === "KRW" ? "KRW" : "BTC"}
         </span>
       </td>
-      <td
-        className={`w-[150px] text-center font-bold ${
-          changeRate > 0 ? "text-[#FF3D00]" : "text-[#1E90FF]"
-        }`}
-      >
+      <td className={`w-[150px] text-center font-bold ${priceStyle()}`}>
         {changeRate > 0 && "+"}
         {(changeRate * 100).toFixed(2)}%
       </td>
