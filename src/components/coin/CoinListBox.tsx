@@ -105,7 +105,12 @@ const CoinListBox = ({
           <p className="font-semibold">{coinName}</p>
         </div>
       </td>
-      <td className="text-center text-[18px] font-semibold">
+      <td
+        className={twMerge(
+          "text-center text-[18px] font-semibold",
+          changeRate > 0 ? "text-[#FF3D00]" : "text-[#1E90FF]"
+        )}
+      >
         {tabName === "KRW" ? price?.toLocaleString("ko-KR") : BTCprice(price)}
         <span className="text-[10px] font-medium">
           {" "}
