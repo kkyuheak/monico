@@ -1,5 +1,6 @@
 import { queryClient } from "@/components/provider/QueryProvider";
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
+import { BTCprice } from "@/utils/coin/BTCprice";
 import { getCoinKRName } from "@/utils/coin/getCoinKRName";
 import { favoriteCoin } from "@/utils/favoriteCoin";
 import { getUserInfo } from "@/utils/getUserInfo";
@@ -32,33 +33,20 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
     queryFn: () => getCoinKRName(coinName),
   });
 
-  const BTCprice = () => {
-    if (isKRW) return;
-
-    if (coinWsData) {
-      if (coinWsData.change_price.toString().includes("e")) {
-        const splitNum = coinWsData.change_price.toString().split("-")[1];
-        return coinWsData.change_price.toFixed(+splitNum);
-      } else {
-        return coinWsData.change_price;
-      }
-    }
-  };
-
   const coinInfoList = coinWsData
     ? [
         {
           title: "고가",
           data: isKRW
             ? coinWsData.high_price.toLocaleString()
-            : coinWsData.high_price,
+            : BTCprice(coinWsData.high_price),
           id: "high_price",
         },
         {
           title: "저가",
           data: isKRW
             ? coinWsData.low_price.toLocaleString()
-            : coinWsData.low_price,
+            : BTCprice(coinWsData.low_price),
           id: "low_price",
         },
         {
@@ -77,14 +65,14 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
           title: "52주 최고가",
           data: isKRW
             ? coinWsData.highest_52_week_price.toLocaleString()
-            : coinWsData.highest_52_week_price,
+            : BTCprice(coinWsData.highest_52_week_price),
           id: "highest_52_week_price",
         },
         {
           title: "52주 최저가",
           data: isKRW
             ? coinWsData.lowest_52_week_price.toLocaleString()
-            : coinWsData.lowest_52_week_price,
+            : BTCprice(coinWsData.lowest_52_week_price),
           id: "lowest_52_week_price",
         },
       ]
@@ -175,7 +163,7 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
               <p className="text-[30px] font-extrabold">
                 {isKRW
                   ? coinWsData.trade_price.toLocaleString()
-                  : coinWsData.trade_price}
+                  : BTCprice(coinWsData.trade_price)}
                 <span className="text-[16px] font-medium">
                   {isKRW ? "KRW" : "BTC"}
                 </span>
@@ -193,8 +181,10 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
                 )}
               >
                 {coinWsData.change === "RISE" ? "+" : "-"}
-                {isKRW ? coinWsData.change_price.toLocaleString() : BTCprice()}(
-                {(coinWsData.change_rate * 100).toFixed(2)}
+                {isKRW
+                  ? coinWsData.change_price.toLocaleString()
+                  : BTCprice(coinWsData.change_price)}
+                ({(coinWsData.change_rate * 100).toFixed(2)}
                 %)
               </p>
             </div>

@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 interface CoinCandleListProps {
   date: string;
-  price: string | number;
+  price: string | number | undefined;
   changePrice: string | number | undefined;
   changeRate: string;
   accTradeVolume: string;
@@ -20,7 +20,7 @@ const CoinCandleList = ({
   accTradeVolume,
   tabsValue,
 }: CoinCandleListProps) => {
-  const isMinus = changeRate.includes("-");
+  const isMinus = changeRate?.startsWith("-");
 
   return (
     <tr className="h-[55px] text-center border-b text-zinc-700 font-semibold">

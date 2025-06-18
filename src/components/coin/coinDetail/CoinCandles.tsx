@@ -87,7 +87,7 @@ const CoinCandles = ({ coinName, tabsValue }: CoinCandlesProps) => {
                   price={
                     isKRW
                       ? candleData.trade_price.toLocaleString()
-                      : candleData.trade_price
+                      : BTCprice(candleData.trade_price)
                   }
                   changePrice={
                     isKRW
@@ -97,7 +97,7 @@ const CoinCandles = ({ coinName, tabsValue }: CoinCandlesProps) => {
                   changeRate={
                     isKRW
                       ? (candleData.change_rate * 100).toFixed(2)
-                      : candleData.change_rate.toString()
+                      : candleData.change_rate?.toString()
                   }
                   accTradeVolume={candleData.candle_acc_trade_volume.toLocaleString()}
                   accTradePrice={candleData.candle_acc_trade_price.toLocaleString()}

@@ -76,6 +76,7 @@ const CoinListBox = ({
     }
   }, [userFavoriteCoin, market]);
 
+  // 가격 변동률에 따른 색상
   const priceStyle = () => {
     if (changeRate > 0) {
       return "text-[#FF3D00]";
