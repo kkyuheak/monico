@@ -82,15 +82,19 @@ const Header = () => {
   };
 
   return (
-    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-200 bg-white">
+    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-200 bg-white dark:bg-[#17171c]">
       <div className="flex items-center gap-8">
         <Link href={"/"} className="flex items-center">
           <Image
-            src={"/assets/monico_logo.svg"}
+            src={
+              theme === "light"
+                ? "/assets/monico_logo.svg"
+                : "/assets/dark_monico_logo.svg"
+            }
             alt="header_logo"
             width={100}
             height={40}
-            className="bg-white cursor-pointer"
+            className="cursor-pointer"
           />
         </Link>
 
