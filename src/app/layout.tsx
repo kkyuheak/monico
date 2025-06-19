@@ -4,6 +4,7 @@ import QueryProvider from "@/components/provider/QueryProvider";
 import Header from "@/components/rootLayout/header";
 import { ToastContainer } from "react-toastify";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Monico",
@@ -16,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko" suppressHydrationWarning>
       <head>
         <link
           rel="stylesheet"
@@ -25,16 +26,18 @@ export default function RootLayout({
       </head>
       <body className={`antialiased font-pretendard`}>
         <QueryProvider>
-          <Header />
-          {children}
-          <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            hideProgressBar={true}
-            stacked={true}
-            limit={3}
-          />
-          <ReactQueryDevtools initialIsOpen={false} />
+          <ThemeProvider attribute="class">
+            <Header />
+            {children}
+            <ToastContainer
+              position="top-center"
+              autoClose={2000}
+              hideProgressBar={true}
+              stacked={true}
+              limit={3}
+            />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </ThemeProvider>
         </QueryProvider>
       </body>
     </html>

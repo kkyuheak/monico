@@ -16,6 +16,7 @@ import { showToast } from "@/utils/showToast";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/utils/getUserInfo";
 import { queryClient } from "../provider/QueryProvider";
+import { useTheme } from "next-themes";
 
 // 메뉴
 const HEADER_MENU = [
@@ -73,6 +74,13 @@ const Header = () => {
     router.push(`/${userId}/favorite`);
   };
 
+  // 다크모드
+  const { theme, setTheme } = useTheme();
+
+  const handleDarkModeClick = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
     <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-200 bg-white">
       <div className="flex items-center gap-8">
@@ -98,6 +106,15 @@ const Header = () => {
 
       {/* 로그인, 회원가입 */}
       <ul className="flex gap-6 text-[16px] items-center">
+        <li>
+          <button
+            type="button"
+            className="cursor-pointer bg-red-100"
+            onClick={handleDarkModeClick}
+          >
+            다크모드
+          </button>
+        </li>
         {!userInfoLoading ? (
           !userInfo ? (
             <>
