@@ -67,7 +67,7 @@ const SearchModal = () => {
 
   return (
     <div
-      className="w-[600px] h-[500px] bg-white rounded-[15px] px-5 py-5 flex flex-col
+      className="w-[600px] h-[500px] bg-white dark:bg-[#2c2c35] rounded-[15px] px-5 py-5 flex flex-col
       transform-gpu"
       onClick={(e) => e.stopPropagation()}
     >
@@ -86,7 +86,7 @@ const SearchModal = () => {
           <p className="text-[15px] text-gray-500">검색 결과가 없습니다.</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-2 overflow-y-scroll flex-1 scrollbar-track-white/100 scrollbar-thumb-gray-300 scrollbar-thin">
+        <div className="flex flex-col gap-2 overflow-y-scroll flex-1 scrollbar-track-white/100 scrollbar-thumb-gray-300 dark:scrollbar-track-black/0 dark:scrollbar-thumb-gray-600 scrollbar-thin">
           {coinName &&
             coinData &&
             coinData.map((coin) => {

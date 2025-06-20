@@ -35,7 +35,7 @@ const SearchResultCoin = ({
 
   return (
     <div
-      className="flex items-center gap-2 justify-between px-2 py-2 rounded-md cursor-pointer bg-[#fafafa] hover:bg-[#ededed]"
+      className="flex items-center gap-2 justify-between px-2 py-2 rounded-md cursor-pointer bg-[#fafafa] dark:bg-black/20 hover:bg-[#ededed] dark:hover:bg-black/30"
       onClick={() => router.push(`/coin/${coinName}`)}
     >
       <div className="flex items-center gap-2">

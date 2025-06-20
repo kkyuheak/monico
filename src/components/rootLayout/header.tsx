@@ -17,6 +17,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "@/utils/getUserInfo";
 import { queryClient } from "../provider/QueryProvider";
 import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 
 // 메뉴
 const HEADER_MENU = [
@@ -76,20 +78,27 @@ const Header = () => {
 
   // 다크모드
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleDarkModeClick = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  if (!mounted) return null;
+
   return (
-    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-200 bg-white dark:bg-[#17171c]">
+    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-200 dark:border-gray-600 bg-white dark:bg-[#17171c]">
       <div className="flex items-center gap-8">
         <Link href={"/"} className="flex items-center">
           <Image
             src={
-              theme === "light"
-                ? "/assets/monico_logo.svg"
-                : "/assets/dark_monico_logo.svg"
+              theme === "dark"
+                ? "/assets/dark_monico_logo.svg"
+                : "/assets/monico_logo.svg"
             }
             alt="header_logo"
             width={100}
@@ -110,14 +119,11 @@ const Header = () => {
 
       {/* 로그인, 회원가입 */}
       <ul className="flex gap-6 text-[16px] items-center">
-        <li>
-          <button
-            type="button"
-            className="cursor-pointer bg-red-100"
-            onClick={handleDarkModeClick}
-          >
-            다크모드
-          </button>
+        <li
+          onClick={handleDarkModeClick}
+          className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full p-2"
+        >
+          {theme === "dark" ? <Sun /> : <Moon />}
         </li>
         {!userInfoLoading ? (
           !userInfo ? (
@@ -164,7 +170,9 @@ const Header = () => {
               </li>
             </>
           )
-        ) : null}
+        ) : (
+          <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
+        )}
       </ul>
     </header>
   );
