@@ -29,7 +29,7 @@ const PostingInput = ({
       <input
         placeholder={placeholder}
         className={twMerge(
-          "w-[448px] h-[56px] rounded-[12px] bg-[#f2f5f2] px-4 outline-none block",
+          "w-[448px] h-[56px] rounded-[12px] bg-[#f2f5f2] dark:bg-[#444444] px-4 outline-none block",
           css,
           errors[label] ? "border border-red-500" : ""
         )}
