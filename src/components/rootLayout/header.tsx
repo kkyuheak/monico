@@ -117,63 +117,83 @@ const Header = () => {
         </ul>
       </div>
 
-      {/* 로그인, 회원가입 */}
-      <ul className="flex gap-6 text-[16px] items-center">
-        <li
+      <div className="flex items-center gap-6">
+        <button
+          type="button"
+          className="relative w-10 h-10 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600 group
+          flex items-center justify-center cursor-pointer"
           onClick={handleDarkModeClick}
-          className="cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full p-2"
         >
-          {theme === "dark" ? <Sun /> : <Moon />}
-        </li>
-        {!userInfoLoading ? (
-          !userInfo ? (
-            <>
-              <li className="cursor-pointer">
-                <Link href={"/login"} className="block">
-                  로그인
-                </Link>
-              </li>
-              <li className="cursor-pointer">
-                <Link href={"/signup"} className="block">
-                  회원가입
-                </Link>
-              </li>
-            </>
+          {theme === "dark" ? <Sun size={25} /> : <Moon size={25} />}
+
+          <span
+            className="absolute w-[70px] -bottom-6 left-1/2 -translate-x-1/2 
+            opacity-0 group-hover:opacity-100 text-[12px] font-semibold
+          bg-gray-100 dark:bg-gray-600 px-[6px] py-[2px] rounded-[6px]"
+          >
+            {theme === "dark" ? "라이트 모드" : "다크 모드"}
+          </span>
+        </button>
+
+        {/* 로그인, 회원가입 */}
+        <ul className="flex gap-6 text-[16px] items-center">
+          {/* <p
+            className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 text-[15px] font-semibold
+            bg-gray-100 dark:bg-gray-600 px-2 py-[2px] rounded-full"
+          >
+            {theme === "dark" ? "라이트 모드" : "다크 모드"}
+          </p> */}
+
+          {!userInfoLoading ? (
+            !userInfo ? (
+              <>
+                <li className="cursor-pointer">
+                  <Link href={"/login"} className="block">
+                    로그인
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href={"/signup"} className="block">
+                    회원가입
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="flex items-center">
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger className="w-10 h-10 bg-gray-200 rounded-full cursor-pointer outline-none">
+                      <img
+                        src={userInfo?.profile_img}
+                        alt="프로필 이미지"
+                        className="rounded-full w-10 h-10"
+                      />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-[160px] mr-1">
+                      <DropdownMenuLabel>내 계정</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => router.push("/profile")}>
+                        프로필
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleFavoriteClick}>
+                        즐겨찾기
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="text-red-600 focus:text-red-600"
+                        onClick={logOut}
+                      >
+                        로그아웃
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </li>
+              </>
+            )
           ) : (
-            <>
-              <li className="flex items-center">
-                <DropdownMenu modal={false}>
-                  <DropdownMenuTrigger className="w-10 h-10 bg-gray-200 rounded-full cursor-pointer outline-none">
-                    <img
-                      src={userInfo?.profile_img}
-                      alt="프로필 이미지"
-                      className="rounded-full w-10 h-10"
-                    />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[160px] mr-1">
-                    <DropdownMenuLabel>내 계정</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => router.push("/profile")}>
-                      프로필
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleFavoriteClick}>
-                      즐겨찾기
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="text-red-600 focus:text-red-600"
-                      onClick={logOut}
-                    >
-                      로그아웃
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </li>
-            </>
-          )
-        ) : (
-          <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
-        )}
-      </ul>
+            <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse"></div>
+          )}
+        </ul>
+      </div>
     </header>
   );
 };

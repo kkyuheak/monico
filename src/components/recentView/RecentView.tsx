@@ -50,7 +50,7 @@ const RecentView = () => {
   }, []);
 
   return (
-    <div className="w-[120px] min-h-[330px] bg-[#fafafa] shadow opacity-95 fixed right-5 bottom-5 rounded-lg p-3 flex flex-col max-lg:hidden">
+    <div className="w-[120px] min-h-[330px] bg-[#fafafa] dark:bg-[#121712] shadow opacity-95 fixed right-5 bottom-5 rounded-lg p-3 flex flex-col max-lg:hidden">
       <h1 className="text-[17px] text-center font-semibold">최근 본 코인</h1>
       {recentCoinData.length > 0 ? (
         <ul className="flex flex-col gap-4 items-center mt-4">
@@ -59,7 +59,7 @@ const RecentView = () => {
             return (
               <li
                 key={index}
-                className="min-w-[90px] flex flex-col items-center gap-2 cursor-pointer hover:bg-gray-100 rounded-md py-1 px-2"
+                className="min-w-[90px] flex flex-col items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md py-1 px-2"
                 onClick={() => router.push(`/coin/${coin.market}`)}
               >
                 <Image

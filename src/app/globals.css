@@ -153,6 +153,11 @@
   }
 }
 
+/* button 커서 포인터 */
+button {
+  cursor: pointer;
+}
+
 /* toastify 커스텀 */
 .Toastify__toast {
   border-radius: 12px;
