@@ -19,7 +19,7 @@ interface CoinLiostBoxProps {
   accTradePrice24h: number;
   tabName?: string;
   userFavoriteCoin?: string[] | null | undefined;
-  isLoggedIn?: boolean;
+  isLoggedIn?: boolean | null;
 }
 
 const CoinListBox = ({

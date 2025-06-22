@@ -1,4 +1,4 @@
-const UserFavoritePageLayout = ({
+const UserFavoritesPageLayout = ({
   children,
 }: {
   children: React.ReactNode;
@@ -14,4 +14,4 @@ const UserFavoritePageLayout = ({
   );
 };
 
-export default UserFavoritePageLayout;
+export default UserFavoritesPageLayout;

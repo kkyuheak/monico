@@ -61,19 +61,8 @@ const Header = () => {
     queryFn: getUserInfo,
   });
 
-  const handleFavoriteClick = async () => {
-    const { data: getUser, error } = await supabase.auth.getUser();
-    if (error) {
-      console.error(error);
-      return;
-    }
-    console.log(getUser);
-
-    const { id: userId } = getUser.user;
-
-    // 추후에 usersinfo 테이블에서 해당 유저의 일치하는 이름을 가져와야함
-
-    router.push(`/${userId}/favorite`);
+  const handleFavoriteClick = () => {
+    router.push(`/favorites`);
   };
 
   // 다크모드
@@ -137,13 +126,6 @@ const Header = () => {
 
         {/* 로그인, 회원가입 */}
         <ul className="flex gap-6 text-[16px] items-center">
-          {/* <p
-            className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 text-[15px] font-semibold
-            bg-gray-100 dark:bg-gray-600 px-2 py-[2px] rounded-full"
-          >
-            {theme === "dark" ? "라이트 모드" : "다크 모드"}
-          </p> */}
-
           {!userInfoLoading ? (
             !userInfo ? (
               <>
