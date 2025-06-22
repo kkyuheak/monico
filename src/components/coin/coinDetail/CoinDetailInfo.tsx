@@ -132,7 +132,7 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
   });
 
   return (
-    <div className="w-[500px] h-full px-5 border-r border-gray-300">
+    <div className="w-[500px] h-full px-5 border-r border-gray-300 dark:border-gray-600">
       {!coinWsData ? (
         <div>로딩중</div>
       ) : (
@@ -194,15 +194,21 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
             {coinInfoList.map((coinInfo) => {
               return (
                 <li
-                  className="flex items-center justify-between h-[45px]  border-b border-gray-200"
+                  className="flex items-center justify-between h-[45px]  border-b border-gray-200 dark:border-gray-600"
                   key={coinInfo.id}
                 >
-                  <p className={`text-gray-500`}>{coinInfo.title}</p>
+                  <p className={`text-gray-500 dark:text-gray-400`}>
+                    {coinInfo.title}
+                  </p>
                   <p
                     className={twMerge(
-                      `text-gray-500 ${
-                        coinInfo.id === "high_price" && "text-coin-plus"
-                      } ${coinInfo.id === "low_price" && "text-coin-minus"}`
+                      `text-gray-500 dark:text-gray-300 ${
+                        coinInfo.id === "high_price" &&
+                        "text-coin-plus dark:text-coin-plus"
+                      } ${
+                        coinInfo.id === "low_price" &&
+                        "text-coin-minus dark:text-coin-minus"
+                      }`
                     )}
                   >
                     {coinInfo.data}
