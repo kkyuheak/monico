@@ -26,7 +26,11 @@ export default function RootLayout({
       </head>
       <body className={`antialiased font-pretendard`}>
         <QueryProvider>
-          <ThemeProvider attribute="class">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+          >
             <Header />
             {children}
             <ToastContainer

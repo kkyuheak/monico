@@ -77,23 +77,31 @@ const Header = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
-  if (!mounted) return null;
-
   return (
     <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-200 dark:border-gray-600 bg-white dark:bg-[#17171c]">
       <div className="flex items-center gap-8">
         <Link href={"/"} className="flex items-center">
-          <Image
-            src={
-              theme === "dark"
-                ? "/assets/dark_monico_logo.svg"
-                : "/assets/monico_logo.svg"
-            }
-            alt="header_logo"
-            width={100}
-            height={40}
-            className="cursor-pointer"
-          />
+          {mounted ? (
+            <Image
+              src={
+                theme === "dark"
+                  ? "/assets/dark_monico_logo.svg"
+                  : "/assets/monico_logo.svg"
+              }
+              alt="header_logo"
+              width={100}
+              height={40}
+              className="cursor-pointer"
+            />
+          ) : (
+            <Image
+              src={"/assets/monico_logo.svg"}
+              alt="header_logo"
+              width={100}
+              height={40}
+              className="cursor-pointer"
+            />
+          )}
         </Link>
 
         {/* 메뉴 */}
@@ -113,14 +121,15 @@ const Header = () => {
           flex items-center justify-center cursor-pointer"
           onClick={handleDarkModeClick}
         >
-          {theme === "dark" ? <Sun size={25} /> : <Moon size={25} />}
+          {mounted &&
+            (theme === "dark" ? <Sun size={25} /> : <Moon size={25} />)}
 
           <span
             className="absolute w-[70px] -bottom-6 left-1/2 -translate-x-1/2 
             opacity-0 group-hover:opacity-100 text-[12px] font-semibold
           bg-gray-100 dark:bg-gray-600 px-[6px] py-[2px] rounded-[6px]"
           >
-            {theme === "dark" ? "라이트 모드" : "다크 모드"}
+            {mounted && (theme === "dark" ? "라이트 모드" : "다크 모드")}
           </span>
         </button>
 
