@@ -73,11 +73,11 @@ const ProfilePage = () => {
   // 닉네임 input border
   const inputBorder = () => {
     if (isNickNameDuplicate === true) {
-      return "border-red-500 border-2";
+      return "border-red-500 dark:border-red-600 border-2";
     } else if (isNickNameDuplicate === false) {
-      return "border-green-600 border-2";
+      return "border-green-600 dark:border-green-600 border-2";
     } else {
-      return "border-gray-300";
+      return "border-gray-300 dark:border-gray-600";
     }
   };
 
@@ -119,7 +119,7 @@ const ProfilePage = () => {
       <h1 className="text-[24px] font-bold">프로필</h1>
 
       <div>
-        <p className="font-semibold text-[20px] text-gray-800 mt-2">
+        <p className="font-semibold text-[20px] text-gray-800 dark:text-gray-100 mt-2">
           프로필 이미지
         </p>
         <div className="flex items-center gap-4 mt-2">
@@ -129,14 +129,14 @@ const ProfilePage = () => {
               alt="profileImage"
               width={80}
               height={80}
-              className="w-20 h-20 rounded-full border-2 border-gray-500"
+              className="w-20 h-20 rounded-full border-2 border-gray-500 dark:border-gray-200"
             />
           ) : (
             <div className="w-20 h-20 rounded-full bg-gray-200 animate-pulse shadow"></div>
           )}
           <label
             htmlFor="profileImage"
-            className="cursor-pointer text-[15px] font-semibold text-gray-700 bg-gray-200 px-2 py-1 rounded-md"
+            className="cursor-pointer text-[15px] font-semibold text-gray-700 bg-gray-200 dark:bg-gray-600 dark:text-gray-100 px-2 py-1 rounded-md"
           >
             이미지 변경
           </label>
@@ -151,13 +151,15 @@ const ProfilePage = () => {
       </div>
 
       <div>
-        <p className="font-semibold text-[20px] text-gray-800 mt-2">닉네임</p>
+        <p className="font-semibold text-[20px] text-gray-800 dark:text-gray-100 mt-2">
+          닉네임
+        </p>
         <div className="flex items-center gap-2 mt-2">
           <input
             type="text"
             placeholder="닉네임"
-            className={twMerge(`w-[200px] h-[40px] border border-gray-300 rounded-md px-3 text-[15px]
-              disabled:bg-gray-200 ${inputBorder()}`)}
+            className={twMerge(`w-[200px] h-[40px] border border-gray-300 dark:border-gray-600 rounded-md px-3 text-[15px]
+              disabled:bg-gray-200 dark:disabled:bg-gray-600 ${inputBorder()}`)}
             value={userNickName}
             disabled={!isNickNameEdit || userInfoLoading}
             onChange={(e) => setUserNickName(e.target.value)}
@@ -209,7 +211,7 @@ const ProfilePage = () => {
       </div>
 
       <SimpleButton
-        css="bg-gray-900 text-white w-[80px]"
+        css="bg-gray-900 dark:bg-gray-700 text-white w-[80px]"
         onClick={updateUserInfoMutation}
       >
         저장하기

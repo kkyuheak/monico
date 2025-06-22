@@ -3,7 +3,7 @@ const CoinCandleSkeleton = () => {
     <tr className="h-[55px] text-center border-b animate-pulse">
       {Array.from({ length: 6 }).map((_, idx) => (
         <td key={idx}>
-          <div className="mx-auto h-4 w-20 rounded bg-gray-300" />
+          <div className="mx-auto h-4 w-20 rounded bg-gray-300 dark:bg-gray-600" />
         </td>
       ))}
     </tr>

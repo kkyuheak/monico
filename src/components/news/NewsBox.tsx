@@ -19,7 +19,7 @@ const NewsBox = ({
 }: NewsBoxProps) => {
   return (
     <Link href={content_url} target="_blank">
-      <div className="w-[960px] h-[203px] px-2 py-4 flex gap-4 cursor-pointer hover:bg-[#F3F3F3] transition-colors rounded-lg">
+      <div className="w-[960px] h-[203px] px-2 py-4 flex gap-4 cursor-pointer hover:bg-[#F3F3F3] dark:hover:bg-black/50 transition-colors rounded-lg">
         <div className="w-[608px]">
           {/* 뉴스 업로드 시간 */}
           <p className="text-[14px] text-[#121712]">

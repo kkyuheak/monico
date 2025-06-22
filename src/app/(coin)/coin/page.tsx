@@ -111,7 +111,7 @@ const CoinMainPage = () => {
 
       <div className="flex justify-between items-center mb-2">
         {/* KRW, BTC 탭 */}
-        <ul className="bg-[#e9e9e9] h-[35px] w-[100px] flex justify-center items-center rounded-[5px] px-1 py-1 mb-[5px]">
+        <ul className="bg-[#e9e9e9] dark:bg-[#373737] h-[35px] w-[100px] flex justify-center items-center rounded-[5px] px-1 py-1 mb-[5px]">
           <li
             className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
               tab === "KRW" ? "bg-white text-[#09090b]" : "text-[#71717a]"
@@ -134,7 +134,7 @@ const CoinMainPage = () => {
         <SearchBarButton onClick={() => setIsSearchModalOpen(true)} />
       </div>
 
-      <table className="w-full m-auto border-t border-[#d8d8d8]">
+      <table className="w-full m-auto border-t border-[#d8d8d8] dark:border-[#373737]">
         <thead className="h-[42px]">
           <tr>
             {isLoggedIn && <th className="pl-1"></th>}
@@ -146,7 +146,7 @@ const CoinMainPage = () => {
             <th className="">거래량(24H)</th>
             <th className="">거래대금(24H)</th>
           </tr>
-          <tr className="border-b border-[#d8d8d8]"></tr>
+          <tr className="border-b border-[#d8d8d8] dark:border-[#373737]"></tr>
         </thead>
         <tbody>
           {allCoinData && coinName && !userCoinLoading
@@ -189,7 +189,7 @@ const CoinMainPage = () => {
       )}
       {isSearchModalOpen && (
         <div
-          className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center"
+          className="fixed top-0 left-0 w-full h-full bg-black/50 dark:bg-black/80 flex items-center justify-center"
           onClick={() => setIsSearchModalOpen(false)}
         >
           <SearchModal />

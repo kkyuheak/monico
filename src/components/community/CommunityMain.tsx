@@ -42,7 +42,8 @@ const CommunityMain = () => {
           </TabsList>
         </Tabs>
         <SimpleButton
-          css="bg-white border border-[#6E8566] text-[#6E8566] hover:bg-[#6E8566] hover:text-white transition-colors rounded-md"
+          css="bg-white border border-[#6E8566] text-[#6E8566] dark:bg-transparent dark:text-white dark:border-white
+              hover:bg-[#6E8566] hover:text-white dark:hover:bg-black/80 transition-colors rounded-md"
           onClick={handleWriteClick}
         >
           글쓰기

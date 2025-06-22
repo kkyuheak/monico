@@ -23,7 +23,7 @@ const CoinCandleList = ({
   const isMinus = changeRate?.startsWith("-");
 
   return (
-    <tr className="h-[55px] text-center border-b text-zinc-700 font-semibold">
+    <tr className="h-[55px] text-center border-b text-zinc-700 dark:text-zinc-300 font-semibold">
       <td className="">{date}</td>
       <td className="pl-10">{price}</td>
       {tabsValue === "days" && (

@@ -112,7 +112,7 @@ const CoinCandles = ({ coinName, tabsValue }: CoinCandlesProps) => {
         <button
           type="button"
           onClick={moreBtnClick}
-          className="w-[300px] h-[50px] border text-gray-500 font-semibold rounded-md cursor-pointer hover:text-gray-800"
+          className="w-[300px] h-[50px] border text-gray-500 dark:text-gray-400 font-semibold rounded-md cursor-pointer hover:text-gray-800 dark:hover:text-gray-200"
         >
           더 보기
         </button>

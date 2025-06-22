@@ -55,7 +55,7 @@ const SearchBar = ({
         ref={inputRef}
       />
       <span
-        className="rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200"
+        className="rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-black/50"
         onClick={handleAllClear}
       >
         <X width={20} height={20} stroke="gray" />

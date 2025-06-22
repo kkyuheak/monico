@@ -19,7 +19,9 @@ const ProfilePostsPage = () => {
 
   return (
     <div className="flex-1 py-7 px-5">
-      <h1 className="text-[24px] font-bold text-[#121712] mb-4">내 게시글</h1>
+      <h1 className="text-[24px] font-bold text-[#121712] dark:text-white mb-4">
+        내 게시글
+      </h1>
 
       <Tabs
         defaultValue="coin"

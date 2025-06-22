@@ -20,7 +20,7 @@ const CoinRecommendBox = ({
 
   return (
     <div
-      className="w-[250px] h-[150px] bg-[#f3f3f3] rounded-md flex flex-col gap-3 justify-center px-3 py-2 cursor-pointer hover:bg-[#e5e5e5] shadow"
+      className="w-[250px] h-[150px] bg-[#f3f3f3] dark:bg-gray-600 rounded-md flex flex-col gap-3 justify-center px-3 py-2 cursor-pointer hover:bg-[#e5e5e5] dark:hover:bg-gray-500 shadow"
       onClick={() => router.push(`/coin/${coinName}`)}
     >
       <div className="flex items-center gap-2">

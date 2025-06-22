@@ -19,12 +19,11 @@ import SimpleButton from "@/components/common/buttons/SimpleButton";
 import { favoriteCoin } from "@/utils/favoriteCoin";
 import { queryClient } from "@/components/provider/QueryProvider";
 
-const UserFavoritePage = () => {
+const UserFavoritesPage = () => {
   const getUserFavoriteCoin = async () => {
     const favoriteCoin = await checkFavoriteCoin();
     if (favoriteCoin.length === 0) return [];
 
-    // console.log("first");
     const userFavoriteCoinNames = favoriteCoin.join(",");
 
     const favoriteCoinData = await getDetailTicker(userFavoriteCoinNames);
@@ -39,9 +38,8 @@ const UserFavoritePage = () => {
     });
 
   // KRW, BTC 필터링 데이터
-  const [filterdFavoriteCoinData, setFilterdFavoriteCoinData] = useState<
-    CoinTickerType[]
-  >([]);
+  const [filterdFavoriteCoinData, setFilterdFavoriteCoinData] =
+    useState<CoinTickerType[]>();
 
   const [selectedTab, setSelectedTab] = useState("KRW");
 
@@ -97,7 +95,7 @@ const UserFavoritePage = () => {
         </SimpleButton>
       </div>
 
-      <table className="w-full m-auto border-t border-[#d8d8d8] mt-5">
+      <table className="w-full m-auto border-t border-[#d8d8d8] dark:border-[#646464] mt-5">
         <thead className="h-[42px]">
           <tr>
             <th className="text-left pl-3">코인</th>
@@ -106,7 +104,7 @@ const UserFavoritePage = () => {
             <th>거래량(24H)</th>
             <th>거래대금(24H)</th>
           </tr>
-          <tr className="border-b border-[#d8d8d8]"></tr>
+          <tr className="border-b border-[#d8d8d8] dark:border-[#646464]"></tr>
         </thead>
         <tbody>
           {filterdFavoriteCoinData && coinName
@@ -154,7 +152,7 @@ const UserFavoritePage = () => {
             </CardHeader>
             <CardFooter className="flex justify-between">
               <SimpleButton
-                css="bg-gray-200 hover:bg-gray-200/80"
+                css="bg-gray-200 dark:bg-gray-600 hover:bg-gray-200/80 dark:hover:bg-gray-600/80"
                 onClick={() => setOpen(false)}
               >
                 취소
@@ -174,4 +172,4 @@ const UserFavoritePage = () => {
   );
 };
 
-export default UserFavoritePage;
+export default UserFavoritesPage;

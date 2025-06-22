@@ -96,7 +96,7 @@ const PostingForm = () => {
             <Select onValueChange={field.onChange} value={field.value}>
               <SelectTrigger
                 className={twMerge(
-                  "w-[180px] h-[56px] cursor-pointer border-[#dee3db]",
+                  "w-[180px] h-[56px] cursor-pointer border-[#dee3db] dark:border-[#5c5c5c]",
                   errors.category ? "border-red-500" : ""
                 )}
               >
@@ -130,7 +130,7 @@ const PostingForm = () => {
         <textarea
           placeholder="내용을 입력해주세요"
           className={twMerge(
-            "w-[448px] h-[200px] rounded-[12px] bg-[#f2f5f2] px-4 py-3 outline-none block resize-none",
+            "w-[448px] h-[200px] rounded-[12px] bg-[#f2f5f2] dark:bg-[#444444] px-4 py-3 outline-none block resize-none",
             errors.description ? "border border-red-500" : ""
           )}
           {...register("description", {
@@ -150,7 +150,7 @@ const PostingForm = () => {
         <div className="flex justify-end">
           <label
             htmlFor="imgUpload"
-            className="w-[84px] h-[40px] flex items-center justify-center font-bold text-[14px] bg-[#f2f5f2] rounded-[20px] cursor-pointer"
+            className="w-[84px] h-[40px] flex items-center justify-center font-bold text-[14px] bg-[#f2f5f2] dark:bg-[#444444] rounded-[20px] cursor-pointer"
           >
             이미지 추가
           </label>
@@ -169,18 +169,18 @@ const PostingForm = () => {
       {/* 이미지를 선택 안했을때 */}
       <div
         className={twMerge(
-          "w-full h-[232px] flex flex-col items-center justify-center gap-3 border border-dashed border-[#dee3db] rounded-[12px]",
+          "w-full h-[232px] flex flex-col items-center justify-center gap-3 border border-dashed border-[#dee3db] dark:border-[#5c5c5c] rounded-[12px]",
           imgPreview.length > 0 ? "items-start p-1" : ""
         )}
       >
         {imgPreview.length === 0 ? (
           <>
-            <p className="text-[18px] font-bold text-[#121712]">
+            <p className="text-[18px] font-bold text-[#121712] dark:text-[#f2f2f2]">
               이미지 추가하기
             </p>
             <label
               htmlFor="imgUpload"
-              className=" w-[84px] h-[40px] flex items-center justify-center font-bold text-[14px] bg-[#f2f5f2] rounded-[20px] cursor-pointer"
+              className=" w-[84px] h-[40px] flex items-center justify-center font-bold text-[14px] bg-[#f2f5f2] dark:bg-[#444444] rounded-[20px] cursor-pointer"
             >
               업로드
             </label>
@@ -214,7 +214,7 @@ const PostingForm = () => {
             {imgPreview.map((preview, index) => (
               <div
                 key={index}
-                className="h-full shrink-0 flex items-center justify-center bg-[#f2f5f2] border rounded-[12px] relative
+                className="h-full shrink-0 flex items-center justify-center bg-[#f2f5f2] dark:bg-[#444444] border rounded-[12px] relative
                 group"
               >
                 <Image
@@ -244,7 +244,10 @@ const PostingForm = () => {
       />
 
       <div className="flex justify-end">
-        <SimpleButton css="w-[84px] h-[40px] bg-[#e8f6e8]" type="submit">
+        <SimpleButton
+          css="w-[84px] h-[40px] bg-[#e8f6e8] dark:bg-[#444444]"
+          type="submit"
+        >
           올리기
         </SimpleButton>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useEffect } from "react";
 
 interface CoinGraphProps {
@@ -7,6 +8,8 @@ interface CoinGraphProps {
 }
 
 const CoinGraph = ({ coinName }: CoinGraphProps) => {
+  const { theme } = useTheme();
+
   useEffect(() => {
     const symbolName = coinName.split("-").reverse().join("");
     console.log(symbolName);
@@ -21,7 +24,7 @@ const CoinGraph = ({ coinName }: CoinGraphProps) => {
         symbol: `UPBIT:${symbolName}`,
         interval: "1",
         timezone: "Asia/Seoul",
-        theme: "light",
+        theme: theme,
         style: "1",
         locale: "kr",
         toolbar_bg: "#f1f3f6",
@@ -35,22 +38,28 @@ const CoinGraph = ({ coinName }: CoinGraphProps) => {
         popup_width: "1000",
         popup_height: "650",
         overrides: {
-          "mainSeriesProperties.candleStyle.upColor": "#FF0000",
-          "mainSeriesProperties.candleStyle.downColor": "#0000FF",
-          "mainSeriesProperties.candleStyle.borderUpColor": "#FF0000",
-          "mainSeriesProperties.candleStyle.borderDownColor": "#0000FF",
-          "mainSeriesProperties.candleStyle.wickUpColor": "#FF0000",
-          "mainSeriesProperties.candleStyle.wickDownColor": "#0000FF",
+          "mainSeriesProperties.candleStyle.upColor":
+            theme === "dark" ? "#e40000" : "#FF0000",
+          "mainSeriesProperties.candleStyle.downColor":
+            theme === "dark" ? "#3a3afe" : "#0000FF",
+          "mainSeriesProperties.candleStyle.borderUpColor":
+            theme === "dark" ? "#e40000" : "#FF0000",
+          "mainSeriesProperties.candleStyle.borderDownColor":
+            theme === "dark" ? "#3a3afe" : "#0000FF",
+          "mainSeriesProperties.candleStyle.wickUpColor":
+            theme === "dark" ? "#e40000" : "#FF0000",
+          "mainSeriesProperties.candleStyle.wickDownColor":
+            theme === "dark" ? "#3a3afe" : "#0000FF",
         },
         studies_overrides: {
-          "volume.volume.color.0": "#FF0000", // 하락 시 색상
-          "volume.volume.color.1": "#0000FF", // 상승 시 색상
+          "volume.volume.color.0": theme === "dark" ? "#e40000" : "#FF0000", // 하락 시 색상
+          "volume.volume.color.1": theme === "dark" ? "#3a3afe" : "#0000FF", // 상승 시 색상
           "volume.volume.transparency": 85, // 0 = 불투명, 100 = 완전 투명
         },
       });
     };
     document.body.appendChild(script);
-  }, []);
+  }, [coinName, theme]);
 
   return (
     <div className="w-full px-4 h-full">

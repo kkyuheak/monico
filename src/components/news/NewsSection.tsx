@@ -60,7 +60,7 @@ const NewsSection = () => {
         ))}
       {hasNextPage && (
         <SimpleButton
-          css="w-full bg-white border h-[48px]"
+          css="w-full bg-white border h-[48px] dark:bg-transparent dark:text-white"
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
         >

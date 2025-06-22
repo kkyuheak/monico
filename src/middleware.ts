@@ -48,24 +48,10 @@ export const middleware = async (request: NextRequest) => {
   if (
     !session &&
     (pathname.startsWith("/profile") ||
-      pathname.endsWith("/favorite") ||
+      pathname.startsWith("/favorites") ||
       pathname.startsWith("/community/write"))
   ) {
     return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  // 유저의 즐겨찾기 페이지 접근 시 해당 유저인지 확인
-  if (session !== null && pathname.endsWith("/favorite")) {
-    const userId = pathname.split("/")[1];
-    const { data: userData } = await supabase
-      .from("usersinfo")
-      .select("id")
-      .eq("id", userId)
-      .single();
-
-    if (userData?.id !== session.user.id) {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
   }
 
   return supabaseResponse;
@@ -76,7 +62,7 @@ export const config = {
     "/login",
     "/signup",
     "/profile/:path*",
-    "/:user/favorite",
+    "/favorites",
     "/community/write",
   ],
 };

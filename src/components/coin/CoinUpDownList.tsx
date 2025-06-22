@@ -32,7 +32,7 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
   };
 
   return (
-    <div className="w-[400px] h-[200px] rounded-lg border border-gray-200 px-3  pt-4 pb-1 flex flex-col justify-between">
+    <div className="w-[400px] h-[200px] rounded-lg border border-gray-200 dark:border-gray-600 px-3  pt-4 pb-1 flex flex-col justify-between">
       <div className="flex items-center justify-between px-2">
         <p className="font-bold text-[18px] ">
           {type === "UP" ? "🚀 상승 종목" : "🔥 하락 종목"}
@@ -55,7 +55,7 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
             <li
               key={coin.market}
               className="flex items-center justify-between h-[45px] rounded-md px-2
-              hover:bg-gray-100 cursor-pointer"
+              hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
               onClick={() => router.push(`/coin/${coin.market}`)}
             >
               <div className="flex items-center gap-2">

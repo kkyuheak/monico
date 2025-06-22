@@ -66,6 +66,8 @@
   animation: l38 0.5s infinite;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -102,7 +104,7 @@
 }
 
 .dark {
-  --background: oklch(0.13 0.028 261.692);
+  --background: #17171c;
   --foreground: oklch(0.985 0.002 247.839);
   --card: oklch(0.21 0.034 264.665);
   --card-foreground: oklch(0.985 0.002 247.839);
@@ -149,6 +151,11 @@
     font-variant-numeric: tabular-nums;
     font-feature-settings: "tnum";
   }
+}
+
+/* button 커서 포인터 */
+button {
+  cursor: pointer;
 }
 
 /* toastify 커스텀 */

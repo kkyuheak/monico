@@ -19,7 +19,7 @@ interface CoinLiostBoxProps {
   accTradePrice24h: number;
   tabName?: string;
   userFavoriteCoin?: string[] | null | undefined;
-  isLoggedIn?: boolean;
+  isLoggedIn?: boolean | null;
 }
 
 const CoinListBox = ({
@@ -85,7 +85,7 @@ const CoinListBox = ({
     }
   };
   return (
-    <tr className="border-b border-[#d8d8d8] h-[68px] text-[#121712]  tabular-nums">
+    <tr className="border-b border-[#d8d8d8] dark:border-[#373737] h-[68px] text-[#121712] dark:text-white dark:bg-[#1C2126] tabular-nums">
       {isLoggedIn && (
         <td className="pl-1">
           <div className="flex items-center justify-center">
