@@ -27,6 +27,10 @@ const HEADER_MENU = [
     href: "/coin",
   },
   {
+    name: "주식",
+    href: "/stock",
+  },
+  {
     name: "뉴스룸",
     href: "/news",
   },
@@ -66,7 +70,7 @@ const Header = () => {
   };
 
   // 다크모드
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -74,7 +78,7 @@ const Header = () => {
   }, []);
 
   const handleDarkModeClick = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
   };
 
   return (
@@ -84,7 +88,7 @@ const Header = () => {
           {mounted ? (
             <Image
               src={
-                theme === "dark"
+                resolvedTheme === "dark"
                   ? "/assets/dark_monico_logo.svg"
                   : "/assets/monico_logo.svg"
               }
@@ -122,14 +126,15 @@ const Header = () => {
           onClick={handleDarkModeClick}
         >
           {mounted &&
-            (theme === "dark" ? <Sun size={25} /> : <Moon size={25} />)}
+            (resolvedTheme === "dark" ? <Sun size={25} /> : <Moon size={25} />)}
 
           <span
             className="absolute w-[70px] -bottom-6 left-1/2 -translate-x-1/2 
             opacity-0 group-hover:opacity-100 text-[12px] font-semibold
           bg-gray-100 dark:bg-gray-600 px-[6px] py-[2px] rounded-[6px]"
           >
-            {mounted && (theme === "dark" ? "라이트 모드" : "다크 모드")}
+            {mounted &&
+              (resolvedTheme === "dark" ? "라이트 모드" : "다크 모드")}
           </span>
         </button>
 
