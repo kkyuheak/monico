@@ -18,6 +18,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { twMerge } from "tailwind-merge";
 
 interface AllCoinsPageType {
@@ -27,7 +28,7 @@ interface AllCoinsPageType {
 
 const CoinMainPage = () => {
   // KRW, BTC 탭
-  const [tab, setTab] = useState<"KRW" | "BTC">("KRW");
+  const [tab, setTab] = useState<string>("KRW");
 
   // coin api 호출 함수
   const fetchAllCoinName = async ({
@@ -111,24 +112,16 @@ const CoinMainPage = () => {
 
       <div className="flex justify-between items-center mb-2">
         {/* KRW, BTC 탭 */}
-        <ul className="bg-[#e9e9e9] dark:bg-[#373737] h-[35px] w-[100px] flex justify-center items-center rounded-[5px] px-1 py-1 mb-[5px]">
-          <li
-            className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
-              tab === "KRW" ? "bg-white text-[#09090b]" : "text-[#71717a]"
-            }`}
-            onClick={() => setTab("KRW")}
-          >
-            KRW
-          </li>
-          <li
-            className={`w-[50px] h-full flex items-center justify-center text-[14px] rounded-[5px] cursor-pointer transition-all ${
-              tab === "BTC" ? "bg-white text-[#09090b]" : "text-[#71717a]"
-            }`}
-            onClick={() => setTab("BTC")}
-          >
-            BTC
-          </li>
-        </ul>
+        <Tabs
+          defaultValue="KRW"
+          className=""
+          onValueChange={(value) => setTab(value)}
+        >
+          <TabsList>
+            <TabsTrigger value="KRW">KRW</TabsTrigger>
+            <TabsTrigger value="BTC">BTC</TabsTrigger>
+          </TabsList>
+        </Tabs>
 
         {/* 검색 */}
         <SearchBarButton onClick={() => setIsSearchModalOpen(true)} />
