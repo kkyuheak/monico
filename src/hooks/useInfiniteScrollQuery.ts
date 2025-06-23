@@ -24,26 +24,30 @@ export const useInfiniteScrollQuery = <TData>({
     getNextPageParam,
   });
 
+  const { hasNextPage, fetchNextPage } = queryResult;
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && queryResult.hasNextPage) {
-          queryResult.fetchNextPage();
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
         }
       },
       { threshold: 1 }
     );
 
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
+    const currentTarget = observerRef.current;
+
+    if (currentTarget) {
+      observer.observe(currentTarget);
     }
 
     return () => {
-      if (observerRef.current) {
-        observer.unobserve(observerRef.current);
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
       }
     };
-  }, [queryResult.hasNextPage, queryResult.fetchNextPage]);
+  }, [hasNextPage, fetchNextPage]);
 
   return {
     ...queryResult,

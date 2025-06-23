@@ -34,7 +34,7 @@ export const favoriteCoin = async (
       ? userTable.favorite.filter((coin: string) => coin !== coinName)
       : [];
 
-  const { data: updateUserTable, error: updateUserTableError } = await supabase
+  const { error: updateUserTableError } = await supabase
     .from("usersinfo")
     .update({ favorite: updateFavorite })
     .eq("id", id)

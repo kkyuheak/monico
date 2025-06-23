@@ -72,13 +72,15 @@ const CoinMainPage = () => {
       { threshold: 1 }
     );
 
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
+    const currentTarget = observerRef.current;
+
+    if (currentTarget) {
+      observer.observe(currentTarget);
     }
 
     return () => {
-      if (observerRef.current) {
-        observer.unobserve(observerRef.current);
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
       }
     };
   }, [hasNextPage, fetchNextPage]);
