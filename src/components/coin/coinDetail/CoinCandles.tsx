@@ -60,6 +60,11 @@ const CoinCandles = ({ coinName, tabsValue }: CoinCandlesProps) => {
     setMoreCount((prev) => prev + 20);
   };
 
+  // 탭 변경시 moreCount 초기화
+  useEffect(() => {
+    setMoreCount(20);
+  }, [tabsValue]);
+
   return (
     <div className="mt-2 flex flex-col items-center gap-3 pb-5">
       <table className="w-full">
@@ -108,15 +113,16 @@ const CoinCandles = ({ coinName, tabsValue }: CoinCandlesProps) => {
               ))}
         </tbody>
       </table>
-      {moreCount !== 200 && coinCandlesFilterLists.length > 0 && (
-        <button
-          type="button"
-          onClick={moreBtnClick}
-          className="w-[300px] h-[50px] border text-gray-500 dark:text-gray-400 font-semibold rounded-md cursor-pointer hover:text-gray-800 dark:hover:text-gray-200"
-        >
-          더 보기
-        </button>
-      )}
+      {moreCount !== coinCandlesData?.length &&
+        coinCandlesFilterLists.length > 0 && (
+          <button
+            type="button"
+            onClick={moreBtnClick}
+            className="w-[300px] h-[50px] border text-gray-500 dark:text-gray-400 font-semibold rounded-md cursor-pointer hover:text-gray-800 dark:hover:text-gray-200"
+          >
+            더 보기
+          </button>
+        )}
     </div>
   );
 };
