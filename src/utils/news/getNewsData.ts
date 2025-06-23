@@ -22,7 +22,7 @@ export const getNewsData = async (
       },
     });
     const { data }: { data: NewsDataType[] } = response.data;
-    console.log(data);
+
     return data;
   } catch (error) {
     console.error(error);

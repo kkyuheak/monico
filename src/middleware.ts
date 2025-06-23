@@ -32,7 +32,6 @@ export const middleware = async (request: NextRequest) => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-  console.log(session);
 
   const pathname = request.nextUrl.pathname;
 

@@ -60,7 +60,6 @@ const ProfilePage = () => {
       return;
     }
     const result = await checkNickName(userNickName);
-    console.log(result);
     if (result !== undefined) {
       setIsNickNameDuplicate(result);
     }

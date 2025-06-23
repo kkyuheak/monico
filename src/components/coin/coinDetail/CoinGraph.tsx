@@ -12,7 +12,6 @@ const CoinGraph = ({ coinName }: CoinGraphProps) => {
 
   useEffect(() => {
     const symbolName = coinName.split("-").reverse().join("");
-    console.log(symbolName);
 
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/tv.js";

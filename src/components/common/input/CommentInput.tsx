@@ -64,7 +64,6 @@ const CommentInput = ({ postId, setCommentsList, type }: CommentInputProps) => {
   });
 
   const onSubmit = async (data: CommentInputFormData) => {
-    console.log(data);
     commentMutate(data);
   };
 

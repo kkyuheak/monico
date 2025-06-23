@@ -14,7 +14,6 @@ export const updateUserInfo = async (
   const filePath = `profile-images/${fileName}`;
 
   if (profileImage) {
-    console.log(profileImage + "here");
     const { error: uploadError } = await supabase.storage
       .from("user-profile-images")
       .upload(filePath, profileImage);
@@ -27,8 +26,6 @@ export const updateUserInfo = async (
     const { data: uploadImageUrl } = supabase.storage
       .from("user-profile-images")
       .getPublicUrl(filePath);
-
-    console.log(uploadImageUrl);
 
     // 닉네임과 이미지 테이블 업데이트
     const { data: allUpdateData, error: allUpdateError } = await supabase
@@ -43,7 +40,7 @@ export const updateUserInfo = async (
       showToast("error", "닉네임 업데이트에 실패했습니다.");
       return;
     }
-    console.log(allUpdateData);
+
     return allUpdateData;
   }
 
@@ -61,8 +58,6 @@ export const updateUserInfo = async (
     showToast("error", "닉네임 업데이트에 실패했습니다.");
     return;
   }
-
-  console.log(nicknameUpdateData);
 
   return nicknameUpdateData;
 };

@@ -31,8 +31,6 @@ const CoinDetailPage = () => {
         { format: "DEFAULT" },
       ];
 
-      console.log("coinDetailPage open");
-
       ws.current?.send(JSON.stringify(subscribeMsg));
     };
 
@@ -49,7 +47,6 @@ const CoinDetailPage = () => {
 
     return () => {
       ws.current?.close();
-      console.log("coinDetailPage WS close");
     };
   }, [coinName]);
 

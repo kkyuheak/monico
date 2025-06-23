@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import PostBox from "./PostBox";
 import { getCoinPosts } from "@/utils/community/getCoinPosts";
-import { useEffect } from "react";
 import PostBoxSkeleton from "../skeleton/PostBoxSkeleton";
 
 interface PostsWrapperProps {
@@ -13,10 +12,6 @@ const PostsWrapper = ({ tab }: PostsWrapperProps) => {
     queryKey: ["community-posts", tab],
     queryFn: () => getCoinPosts(tab),
   });
-
-  useEffect(() => {
-    console.log(coinPosts);
-  }, [coinPosts]);
 
   return (
     <div className="flex flex-col gap-2 mt-3">

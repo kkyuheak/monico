@@ -27,8 +27,6 @@ export const favoriteCoin = async (
     return;
   }
 
-  console.log(userTable);
-
   const updateFavorite =
     type === "add"
       ? [...userTable.favorite, coinName]
@@ -47,5 +45,4 @@ export const favoriteCoin = async (
     console.error(updateUserTableError);
     return;
   }
-  console.log(updateUserTable);
 };
