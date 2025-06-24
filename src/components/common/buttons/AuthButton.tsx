@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
 interface AuthButtonProps {
@@ -17,7 +18,7 @@ const AuthButton = ({ css, text, iconImgSrc, onClick }: AuthButtonProps) => {
       )}
       onClick={onClick}
     >
-      <img src={iconImgSrc} alt="" className="w-5" />
+      {iconImgSrc && <Image src={iconImgSrc} width={20} height={20} alt="" />}
       {text}
     </button>
   );

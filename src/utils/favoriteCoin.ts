@@ -27,8 +27,6 @@ export const favoriteCoin = async (
     return;
   }
 
-  console.log(userTable);
-
   const updateFavorite =
     type === "add"
       ? [...userTable.favorite, coinName]
@@ -36,7 +34,7 @@ export const favoriteCoin = async (
       ? userTable.favorite.filter((coin: string) => coin !== coinName)
       : [];
 
-  const { data: updateUserTable, error: updateUserTableError } = await supabase
+  const { error: updateUserTableError } = await supabase
     .from("usersinfo")
     .update({ favorite: updateFavorite })
     .eq("id", id)
@@ -47,5 +45,4 @@ export const favoriteCoin = async (
     console.error(updateUserTableError);
     return;
   }
-  console.log(updateUserTable);
 };

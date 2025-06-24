@@ -106,7 +106,7 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
             ))}
       </div>
 
-      <table className="w-full m-auto border-t border-[#d8d8d8] mt-5">
+      <table className="w-full m-auto border-t border-[#d8d8d8] dark:border-[#505050] mt-5">
         <thead className="h-[42px]">
           <tr>
             {isLoggedIn && <th className="pl-1"></th>}
@@ -118,7 +118,7 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
             <th className="">거래량(24H)</th>
             <th className="">거래대금(24H)</th>
           </tr>
-          <tr className="border-b border-[#d8d8d8]"></tr>
+          <tr className="border-b border-[#d8d8d8] dark:border-[#505050]"></tr>
         </thead>
         <tbody>
           {coinName && allCoinList && !userCoinLoading

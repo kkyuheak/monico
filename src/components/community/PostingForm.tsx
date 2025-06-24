@@ -16,7 +16,7 @@ import { posting } from "@/utils/community/posting";
 import { useMutation } from "@tanstack/react-query";
 import { showToast } from "@/utils/showToast";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 
@@ -60,9 +60,7 @@ const PostingForm = () => {
 
     const files = e.target.files;
     if (files) {
-      console.log(files);
       const fileArray = Array.from(files);
-      console.log(fileArray);
       const previewArray = fileArray.map((file) => URL.createObjectURL(file));
       setImgPreview((prev) => [...prev, ...previewArray]);
     }
@@ -76,10 +74,6 @@ const PostingForm = () => {
       return newPreview;
     });
   };
-
-  useEffect(() => {
-    console.log(imgPreview);
-  }, [imgPreview]);
 
   return (
     <form

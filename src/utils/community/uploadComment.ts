@@ -30,7 +30,5 @@ export const uploadComment = async (
     return;
   }
 
-  console.log(commentData);
-
   return commentData;
 };

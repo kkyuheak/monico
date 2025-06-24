@@ -19,7 +19,5 @@ export const getMyPosts = async (tab: string) => {
     throw error;
   }
 
-  console.log(data);
-
   return data;
 };

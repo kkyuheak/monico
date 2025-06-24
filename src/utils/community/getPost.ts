@@ -15,7 +15,6 @@ export const getPost = async (id: string, type: "coin" | "stock") => {
     console.error(error);
     return;
   }
-  console.log(data);
 
   return data;
 };

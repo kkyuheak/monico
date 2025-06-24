@@ -7,10 +7,7 @@ export const checkNickName = async (nickName: string) => {
     .eq("nickname", nickName)
     .maybeSingle();
 
-  console.log(data);
-
   if (error && error.code !== "PGRST116") {
-    console.log(error);
     alert("에러가 발생했습니다.");
     return;
   }

@@ -4,7 +4,6 @@ import { ParamValue } from "next/dist/server/request/params";
 export const getDetailTicker = async (coinName: ParamValue) => {
   try {
     const response = await api.get(`ticker?markets=${coinName}`);
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
