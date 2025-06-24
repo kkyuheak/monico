@@ -1,19 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Image from "next/image";
-import Link from "next/link";
 import QueryProvider from "@/components/provider/QueryProvider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Header from "@/components/rootLayout/header";
+import { ToastContainer } from "react-toastify";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Monico",
@@ -26,32 +17,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="ko" suppressHydrationWarning>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+        />
+      </head>
+      <body className={`antialiased font-pretendard`}>
         <QueryProvider>
-          <header className="h-[53px] flex items-center justify-between px-6 border-b border-[#CFCFCF] bg-white">
-            <Link href={"/"} className="h-full">
-              <Image
-                src={"/assets/monico_logo.svg"}
-                alt="header_logo"
-                width={100}
-                height={40}
-                className="bg-white cursor-pointer h-full"
-              />
-            </Link>
-
-            <ul className="flex gap-6 text-[16px]">
-              <li className="cursor-pointer">
-                <Link href={"login"}>로그인</Link>
-              </li>
-              <li className="cursor-pointer">
-                <Link href={"register"}>회원가입</Link>
-              </li>
-            </ul>
-          </header>
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem={true}
+          >
+            <Header />
+            {children}
+            <ToastContainer
+              position="top-center"
+              autoClose={2000}
+              hideProgressBar={true}
+              stacked={true}
+              limit={3}
+            />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </ThemeProvider>
         </QueryProvider>
       </body>
     </html>
