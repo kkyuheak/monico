@@ -7,7 +7,7 @@ interface CoinGraphProps {
 }
 
 const CoinGraph = ({ coinName }: CoinGraphProps) => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
 
   const symbolName = coinName.split("-").reverse().join("");
   useEffect(() => {
@@ -22,7 +22,7 @@ const CoinGraph = ({ coinName }: CoinGraphProps) => {
           symbol: `UPBIT:${symbolName}`,
           interval: "1",
           timezone: "Asia/Seoul",
-          theme: theme,
+          theme: resolvedTheme,
           style: "1",
           locale: "kr",
           toolbar_bg: "#f1f3f6",
@@ -37,21 +37,23 @@ const CoinGraph = ({ coinName }: CoinGraphProps) => {
           popup_height: "650",
           overrides: {
             "mainSeriesProperties.candleStyle.upColor":
-              theme === "dark" ? "#e40000" : "#FF0000",
+              resolvedTheme === "dark" ? "#e40000" : "#FF0000",
             "mainSeriesProperties.candleStyle.downColor":
-              theme === "dark" ? "#3a3afe" : "#0000FF",
+              resolvedTheme === "dark" ? "#3a3afe" : "#0000FF",
             "mainSeriesProperties.candleStyle.borderUpColor":
-              theme === "dark" ? "#e40000" : "#FF0000",
+              resolvedTheme === "dark" ? "#e40000" : "#FF0000",
             "mainSeriesProperties.candleStyle.borderDownColor":
-              theme === "dark" ? "#3a3afe" : "#0000FF",
+              resolvedTheme === "dark" ? "#3a3afe" : "#0000FF",
             "mainSeriesProperties.candleStyle.wickUpColor":
-              theme === "dark" ? "#e40000" : "#FF0000",
+              resolvedTheme === "dark" ? "#e40000" : "#FF0000",
             "mainSeriesProperties.candleStyle.wickDownColor":
-              theme === "dark" ? "#3a3afe" : "#0000FF",
+              resolvedTheme === "dark" ? "#3a3afe" : "#0000FF",
           },
           studies_overrides: {
-            "volume.volume.color.0": theme === "dark" ? "#e40000" : "#FF0000", // 하락 시 색상
-            "volume.volume.color.1": theme === "dark" ? "#3a3afe" : "#0000FF", // 상승 시 색상
+            "volume.volume.color.0":
+              resolvedTheme === "dark" ? "#e40000" : "#FF0000", // 하락 시 색상
+            "volume.volume.color.1":
+              resolvedTheme === "dark" ? "#3a3afe" : "#0000FF", // 상승 시 색상
             "volume.volume.transparency": 85, // 0 = 불투명, 100 = 완전 투명
           },
         });
@@ -62,7 +64,7 @@ const CoinGraph = ({ coinName }: CoinGraphProps) => {
     return () => {
       document.body.removeChild(script);
     };
-  }, [symbolName, theme, coinName]);
+  }, [symbolName, resolvedTheme, coinName]);
 
   return (
     <div className="w-full px-4 h-full">
