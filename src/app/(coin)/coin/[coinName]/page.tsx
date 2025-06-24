@@ -90,7 +90,9 @@ const CoinDetailPage = () => {
       <div className="flex  mt-[20px] h-[600px]">
         <CoinDetailInfo coinName={coinName as string} coinWsData={coinWsData} />
 
-        <CoinGraph coinName={coinName as string} />
+        <div className="w-full pl-5">
+          <CoinGraph coinName={coinName as string} />
+        </div>
       </div>
 
       <div
