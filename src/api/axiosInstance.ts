@@ -1,12 +1,15 @@
 import axios from "axios";
 
+// 업비트 api
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: "/api/coin",
 });
 
-export const newsApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_NEWS_API_URL,
-  headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_NEWS_API_KEY}`,
-  },
+// 업비트 WS api
+export const upbitWsApi = axios.create({
+  baseURL: "/api/ws",
 });
+
+// export const newsApi = axios.create({
+//   baseURL: "/api/news",
+// });
