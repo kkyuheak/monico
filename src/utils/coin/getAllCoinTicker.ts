@@ -9,7 +9,7 @@ export const getAllCoinTicker = async (
   tab: string
 ) => {
   try {
-    const response = await api.get("ticker/all", {
+    const response = await api.get("/ticker/all", {
       params: {
         quote_currencies: "KRW,BTC",
       },

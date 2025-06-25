@@ -8,21 +8,21 @@ export const getNewsData = async (
   page: number,
   type: string
 ): Promise<NewsDataType[]> => {
+  const keyword =
+    type === "stock" ? "코스피 OR 코스닥 OR 증권시장" : "비트코인 OR 블록체인";
+
   try {
-    const response = await newsApi.get("/v1/articles", {
+    const res = await newsApi.get("/articles", {
       params: {
         page,
         page_size: 10,
-        keyword:
-          type === "stock"
-            ? "코스피 OR 코스닥 OR 증권시장"
-            : "비트코인 OR 블록체인",
+        keyword,
         date_from: fromDate,
         date_to: nowDate,
       },
     });
-    const { data }: { data: NewsDataType[] } = response.data;
-
+    console.log(res);
+    const data = await res.data.data;
     return data;
   } catch (error) {
     console.error(error);

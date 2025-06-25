@@ -26,6 +26,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/coin/:path*",
+        destination: "https://api.upbit.com/v1/:path*",
+      },
+      {
+        source: "/api/news/:path*",
+        destination: "https://api-v2.deepsearch.com/v1/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
