@@ -18,6 +18,10 @@ const CoinDetailPage = () => {
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    if (ws.current) {
+      ws.current.close();
+    }
+
     ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
     ws.current.binaryType = "arraybuffer";
 
@@ -46,7 +50,9 @@ const CoinDetailPage = () => {
     };
 
     return () => {
-      ws.current?.close();
+      if (ws.current?.readyState === WebSocket.OPEN) {
+        ws.current.close();
+      }
     };
   }, [coinName]);
 
