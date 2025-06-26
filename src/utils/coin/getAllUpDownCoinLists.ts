@@ -11,7 +11,7 @@ export const getAllUpDownCoinLists = async (
   type: "UP" | "DOWN"
 ) => {
   try {
-    const response = await api.get("ticker/all", {
+    const response = await api.get("/ticker/all", {
       params: {
         quote_currencies: "KRW",
       },

@@ -1,4 +1,6 @@
 import { queryClient } from "@/components/provider/QueryProvider";
+import CoinDetailSkeleton from "@/components/skeleton/CoinDetailSkeleton";
+
 import { checkFavoriteCoin } from "@/utils/checkFavoriteCoin";
 import { BTCprice } from "@/utils/coin/BTCprice";
 import { getCoinKRName } from "@/utils/coin/getCoinKRName";
@@ -134,7 +136,7 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
   return (
     <div className="w-[500px] h-full px-5 border-r border-gray-300 dark:border-gray-600">
       {!coinWsData ? (
-        <div>로딩중</div>
+        <CoinDetailSkeleton />
       ) : (
         <>
           <div>
