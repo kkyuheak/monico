@@ -1,11 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import axios from "axios";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const quoteCurrencies = searchParams.get("quote_currencies") || "KRW,BTC";
+
   try {
     const { data } = await axios.get("https://api.upbit.com/v1/ticker/all", {
       params: {
-        quote_currencies: "KRW,BTC",
+        quote_currencies: quoteCurrencies,
       },
     });
 
