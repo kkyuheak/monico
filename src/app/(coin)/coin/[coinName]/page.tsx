@@ -22,10 +22,10 @@ const CoinDetailPage = () => {
       ws.current.close();
     }
 
-    ws.current = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
-    ws.current.binaryType = "arraybuffer";
+    const socket = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
+    socket.binaryType = "arraybuffer";
 
-    ws.current.onopen = () => {
+    socket.onopen = () => {
       const subscribeMsg = [
         { ticket: "coin-detail" },
         {
@@ -35,10 +35,10 @@ const CoinDetailPage = () => {
         { format: "DEFAULT" },
       ];
 
-      ws.current?.send(JSON.stringify(subscribeMsg));
+      socket.send(JSON.stringify(subscribeMsg));
     };
 
-    ws.current.onmessage = async (event) => {
+    socket.onmessage = async (event) => {
       const data =
         event.data instanceof Blob
           ? await event.data.arrayBuffer()
@@ -48,6 +48,8 @@ const CoinDetailPage = () => {
 
       setCoinWsData(json);
     };
+
+    ws.current = socket;
 
     return () => {
       if (ws.current?.readyState === WebSocket.OPEN) {
