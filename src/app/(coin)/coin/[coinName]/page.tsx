@@ -96,7 +96,6 @@ const CoinDetailPage = () => {
 
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
       setCoinWsData(data);
     };
 
