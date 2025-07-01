@@ -4,6 +4,7 @@ import CoinCandles from "@/components/coin/coinDetail/CoinCandles";
 import CoinDetailInfo from "@/components/coin/coinDetail/CoinDetailInfo";
 import CoinGraph from "@/components/coin/coinDetail/CoinGraph";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import dayjs from "dayjs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -27,7 +28,7 @@ const CoinDetailPage = () => {
 
     socket.onopen = () => {
       const subscribeMsg = [
-        { ticket: "coin-detail" },
+        { ticket: `coinDetail-${dayjs()}-${Math.random()}` },
         {
           type: "ticker",
           codes: [coinName],
@@ -52,8 +53,11 @@ const CoinDetailPage = () => {
     ws.current = socket;
 
     return () => {
-      if (ws.current?.readyState === WebSocket.OPEN) {
-        ws.current.close();
+      if (
+        socket.readyState === WebSocket.OPEN ||
+        socket.readyState === WebSocket.CONNECTING
+      ) {
+        socket.close();
       }
     };
   }, [coinName]);
