@@ -4,11 +4,10 @@ import CoinCandles from "@/components/coin/coinDetail/CoinCandles";
 import CoinDetailInfo from "@/components/coin/coinDetail/CoinDetailInfo";
 import CoinGraph from "@/components/coin/coinDetail/CoinGraph";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import dayjs from "dayjs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const CoinDetailPage = () => {
   const { coinName } = useParams();
@@ -16,51 +15,51 @@ const CoinDetailPage = () => {
   const [coinWsData, setCoinWsData] = useState<CoinInfoType>();
 
   // 코인데이터 소켓
-  const ws = useRef<WebSocket | null>(null);
+  // const ws = useRef<WebSocket | null>(null);
 
-  useEffect(() => {
-    if (ws.current) {
-      ws.current.close();
-    }
+  // useEffect(() => {
+  //   if (ws.current) {
+  //     ws.current.close();
+  //   }
 
-    const socket = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
-    socket.binaryType = "arraybuffer";
+  //   const socket = new WebSocket(process.env.NEXT_PUBLIC_WS_API_URL!);
+  //   socket.binaryType = "arraybuffer";
 
-    socket.onopen = () => {
-      const subscribeMsg = [
-        { ticket: `coinDetail-${dayjs()}-${Math.random()}` },
-        {
-          type: "ticker",
-          codes: [coinName],
-        },
-        { format: "DEFAULT" },
-      ];
+  //   socket.onopen = () => {
+  //     const subscribeMsg = [
+  //       { ticket: `coinDetail-${dayjs()}-${Math.random()}` },
+  //       {
+  //         type: "ticker",
+  //         codes: [coinName],
+  //       },
+  //       { format: "DEFAULT" },
+  //     ];
 
-      socket.send(JSON.stringify(subscribeMsg));
-    };
+  //     socket.send(JSON.stringify(subscribeMsg));
+  //   };
 
-    socket.onmessage = async (event) => {
-      const data =
-        event.data instanceof Blob
-          ? await event.data.arrayBuffer()
-          : event.data;
-      const enc = new TextDecoder("utf-8");
-      const json = JSON.parse(enc.decode(data));
+  //   socket.onmessage = async (event) => {
+  //     const data =
+  //       event.data instanceof Blob
+  //         ? await event.data.arrayBuffer()
+  //         : event.data;
+  //     const enc = new TextDecoder("utf-8");
+  //     const json = JSON.parse(enc.decode(data));
 
-      setCoinWsData(json);
-    };
+  //     setCoinWsData(json);
+  //   };
 
-    ws.current = socket;
+  //   ws.current = socket;
 
-    return () => {
-      if (
-        socket.readyState === WebSocket.OPEN ||
-        socket.readyState === WebSocket.CONNECTING
-      ) {
-        socket.close();
-      }
-    };
-  }, [coinName]);
+  //   return () => {
+  //     if (
+  //       socket.readyState === WebSocket.OPEN ||
+  //       socket.readyState === WebSocket.CONNECTING
+  //     ) {
+  //       socket.close();
+  //     }
+  //   };
+  // }, [coinName]);
 
   // 일/주별 탭 value
   const [tabsValue, setTabsValue] = useState<"days" | "weeks">("days");
@@ -88,6 +87,27 @@ const CoinDetailPage = () => {
         );
       }
     }
+  }, [coinName]);
+
+  useEffect(() => {
+    const eventSource = new EventSource(
+      `${process.env.NEXT_PUBLIC_UPBIT_SSE_URL}/sse/${coinName}`
+    );
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log(data);
+      setCoinWsData(data);
+    };
+
+    eventSource.onerror = (err) => {
+      console.error("SSE error", err);
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
   }, [coinName]);
 
   return (
