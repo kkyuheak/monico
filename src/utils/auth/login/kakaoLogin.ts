@@ -4,7 +4,7 @@ export const kakaoLogin = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "kakao",
     options: {
-      redirectTo: "http://monico.vercel.app",
+      redirectTo: "https://monico.vercel.app",
     },
   });
 

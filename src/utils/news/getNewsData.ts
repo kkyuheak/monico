@@ -21,7 +21,7 @@ export const getNewsData = async (
         date_to: nowDate,
       },
     });
-    console.log(res);
+
     const data = await res.data.data;
     return data;
   } catch (error) {
