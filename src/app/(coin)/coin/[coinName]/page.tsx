@@ -71,19 +71,17 @@ const CoinDetailPage = () => {
       localStorage.setItem("recentlyViewedCoins", JSON.stringify([coinName]));
     } else {
       const parsedCoins = JSON.parse(recentlyViewedCoins);
+      parsedCoins.unshift(coinName);
       if (!parsedCoins.includes(coinName)) {
-        parsedCoins.push(coinName);
         localStorage.setItem(
           "recentlyViewedCoins",
           JSON.stringify(parsedCoins)
         );
       } else {
-        const index = parsedCoins.indexOf(coinName);
-        parsedCoins.splice(index, 1);
-        parsedCoins.unshift(coinName);
+        const setParsedCoins = [...new Set(parsedCoins)]; // 맨 앞에 추가 후 중복 제거
         localStorage.setItem(
           "recentlyViewedCoins",
-          JSON.stringify(parsedCoins)
+          JSON.stringify(setParsedCoins)
         );
       }
     }
