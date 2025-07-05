@@ -132,8 +132,13 @@ const CoinMainPage = () => {
       <table className="w-full m-auto border-t border-[#d8d8d8] dark:border-[#373737]">
         <thead className="h-[42px]">
           <tr>
-            {isLoggedIn && <th className="pl-1"></th>}
-            <th className={twMerge("text-left pl-2", isLoggedIn ? "" : "pl-4")}>
+            {isLoggedIn && allCoinData && <th className="pl-1"></th>}
+            <th
+              className={twMerge(
+                "text-left pl-2",
+                isLoggedIn && allCoinData ? "" : "pl-4"
+              )}
+            >
               코인
             </th>
             <th className="">현재가</th>
