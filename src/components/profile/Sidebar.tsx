@@ -13,9 +13,6 @@ const SIDEBAR_ITEMS = [
 
 const Sidebar = () => {
   const pathname = usePathname();
-  console.log(pathname);
-
-  const activeItem = SIDEBAR_ITEMS.find((item) => item.href === pathname);
 
   return (
     <div className="w-[250px] h-[calc(100vh-53px)] border-r border-gray-300 dark:border-gray-600 py-6">
@@ -26,7 +23,7 @@ const Sidebar = () => {
               href={item.href}
               className={twMerge(
                 "flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700",
-                activeItem === item ? "bg-gray-100 dark:bg-gray-700" : ""
+                pathname === item.href ? "bg-gray-100 dark:bg-gray-700" : ""
               )}
             >
               <item.icon size={20} />
