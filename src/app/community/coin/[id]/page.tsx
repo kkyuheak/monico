@@ -1,4 +1,5 @@
 import HashTag from "@/components/community/HashTag";
+import PostImages from "@/components/community/PostImages";
 import PostLikeComment from "@/components/community/PostLikeComment";
 import PostMoreBtn from "@/components/community/PostMoreBtn";
 import { getPost } from "@/utils/community/getPost";
@@ -51,15 +52,7 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
       <p className="text-[#121712] mt-2">{postData.description}</p>
 
       {/* 이미지 */}
-      {postData.images.length > 0 && (
-        <ul className="flex gap-2 mt-5 overflow-auto">
-          {postData.images.map((image, index) => (
-            <li key={index}>
-              <Image src={image} alt="postImage" width={240} height={620} />
-            </li>
-          ))}
-        </ul>
-      )}
+      {postData.images.length > 0 && <PostImages postData={postData} />}
 
       {/* 해시태그 */}
       {postData.hashTags.length > 0 && (
