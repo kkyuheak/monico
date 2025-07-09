@@ -43,7 +43,7 @@ const PostMoreBtn = ({ postData, type }: PostMoreBtnProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="outline-none">
-        <Ellipsis className="stroke-[#6E8566]" />
+        <Ellipsis className="stroke-[#6E8566] dark:stroke-[#ffffff]" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem
