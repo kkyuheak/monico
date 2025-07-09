@@ -1,5 +1,6 @@
 import HashTag from "@/components/community/HashTag";
 import PostLikeComment from "@/components/community/PostLikeComment";
+import PostMoreBtn from "@/components/community/PostMoreBtn";
 import { getPost } from "@/utils/community/getPost";
 import { diffDay } from "@/utils/diffDay";
 import { ArrowLeft } from "lucide-react";
@@ -26,18 +27,22 @@ const DetailStockPostPage = async ({ params }: DetailStockPostPageProps) => {
       </Link>
 
       {/* 유저 정보 */}
-      <div className="flex items-center gap-2 text-[#6E8566] mt-[18px] mb-3">
-        <Image
-          src={postData.usersinfo.profile_img}
-          alt="userProfileImage"
-          width={28}
-          height={28}
-          className="w-7 h-7 rounded-full"
-        />
-        <p className="text-[15px] font-bold">{postData.usersinfo.nickname}</p>
-        <p className="text-[13px] text-[#6E8566]">
-          {diffDay(postData.created_at)}
-        </p>
+      <div className="flex justify-between items-center gap-2 text-[#6E8566] dark:text-[#ededed] mt-[18px] mb-3">
+        <div className="flex items-center gap-2">
+          <Image
+            src={postData.usersinfo.profile_img}
+            alt="userProfileImage"
+            width={28}
+            height={28}
+            className="w-7 h-7 rounded-full"
+          />
+          <p className="text-[15px] font-bold">{postData.usersinfo.nickname}</p>
+          <p className="text-[13px]">{diffDay(postData.created_at)}</p>
+        </div>
+
+        <div className="">
+          <PostMoreBtn postData={postData} type="stock" />
+        </div>
       </div>
 
       <h1 className="text-[30px] font-bold">{postData.title}</h1>
