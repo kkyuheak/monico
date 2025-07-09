@@ -87,6 +87,7 @@ const CoinDetailPage = () => {
     }
   }, [coinName]);
 
+  // 코인데이터 SSE
   useEffect(() => {
     const eventSource = new EventSource(
       `${process.env.NEXT_PUBLIC_UPBIT_SSE_URL}/sse/${coinName}`
