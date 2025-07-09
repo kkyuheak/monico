@@ -139,7 +139,7 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
     } else if (coinWsData?.change === "FALL") {
       return "text-coin-minus";
     } else {
-      return "text-gray-500";
+      return "text-gray-500 dark:text-gray-300";
     }
   };
 
@@ -192,7 +192,9 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
               </p>
             </div>
             <div className="flex gap-3 items-center">
-              <p className="text-gray-500 text-[14px]">전일 대비</p>
+              <p className="text-gray-500 text-[14px] dark:text-gray-300">
+                전일 대비
+              </p>
               <p
                 className={twMerge(
                   `font-bold text-[16px] text-black ${coinChangeStyle()}`

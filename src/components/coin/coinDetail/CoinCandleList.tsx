@@ -34,7 +34,7 @@ const CoinCandleList = ({
           <td
             className={twMerge(
               `${isMinus ? "text-coin-minus" : "text-coin-plus"} ${
-                !changePrice ? "text-zinc-700" : ""
+                !changePrice ? "text-zinc-700 dark:text-zinc-300" : ""
               }`
             )}
           >
@@ -44,7 +44,9 @@ const CoinCandleList = ({
           <td
             className={twMerge(
               `${isMinus ? "text-coin-minus" : "text-coin-plus"} ${
-                Number(changeRate) === 0 ? "text-zinc-700" : ""
+                Number(changeRate) === 0
+                  ? "text-zinc-700 dark:text-zinc-300"
+                  : ""
               }`
             )}
           >
