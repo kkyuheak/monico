@@ -49,7 +49,9 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
       <h1 className="text-[30px] font-bold">{postData.title}</h1>
 
       {/* 게시글 내용 */}
-      <p className="text-[#121712] mt-2">{postData.description}</p>
+      <p className="text-[#121712] dark:text-[#ededed] mt-2">
+        {postData.description}
+      </p>
 
       {/* 이미지 */}
       {postData.images.length > 0 && <PostImages postData={postData} />}
