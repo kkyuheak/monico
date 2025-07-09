@@ -133,6 +133,26 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
       queryClient.invalidateQueries({ queryKey: ["userFavoriteCoin"] }),
   });
 
+  const coinChangeStyle = () => {
+    if (coinWsData?.change === "RISE") {
+      return "text-coin-plus";
+    } else if (coinWsData?.change === "FALL") {
+      return "text-coin-minus";
+    } else {
+      return "text-gray-500 dark:text-gray-300";
+    }
+  };
+
+  const coinChangePrice = () => {
+    if (coinWsData?.change === "RISE") {
+      return "+";
+    } else if (coinWsData?.change === "FALL") {
+      return "-";
+    } else {
+      return "";
+    }
+  };
+
   return (
     <div className="w-[500px] h-full px-5 border-r border-gray-300 dark:border-gray-600">
       {!coinWsData ? (
@@ -172,17 +192,15 @@ const CoinDetailInfo = ({ coinName, coinWsData }: CoinDetailInfoProps) => {
               </p>
             </div>
             <div className="flex gap-3 items-center">
-              <p className="text-gray-500 text-[14px]">전일 대비</p>
+              <p className="text-gray-500 text-[14px] dark:text-gray-300">
+                전일 대비
+              </p>
               <p
                 className={twMerge(
-                  `font-bold text-[16px] text-black ${
-                    coinWsData.change === "RISE"
-                      ? "text-coin-plus"
-                      : "text-coin-minus"
-                  }`
+                  `font-bold text-[16px] text-black ${coinChangeStyle()}`
                 )}
               >
-                {coinWsData.change === "RISE" ? "+" : "-"}
+                {coinChangePrice()}
                 {isKRW
                   ? coinWsData.change_price.toLocaleString()
                   : BTCprice(coinWsData.change_price)}

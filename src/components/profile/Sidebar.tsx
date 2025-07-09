@@ -2,6 +2,8 @@
 
 import { Inbox, Settings, User } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { twMerge } from "tailwind-merge";
 
 const SIDEBAR_ITEMS = [
   { label: "프로필", href: "/profile", icon: User },
@@ -10,6 +12,8 @@ const SIDEBAR_ITEMS = [
 ];
 
 const Sidebar = () => {
+  const pathname = usePathname();
+
   return (
     <div className="w-[250px] h-[calc(100vh-53px)] border-r border-gray-300 dark:border-gray-600 py-6">
       <ul className="flex flex-col gap-2 py-2 px-1">
@@ -17,7 +21,10 @@ const Sidebar = () => {
           <li key={item.label} className="">
             <Link
               href={item.href}
-              className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
+              className={twMerge(
+                "flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700",
+                pathname === item.href ? "bg-gray-100 dark:bg-gray-700" : ""
+              )}
             >
               <item.icon size={20} />
               {item.label}
