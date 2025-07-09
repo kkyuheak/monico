@@ -22,12 +22,15 @@ const CoinCandleList = ({
 }: CoinCandleListProps) => {
   const isMinus = changeRate?.startsWith("-");
 
+  const changePriceSign = changePrice?.toString().startsWith("-") ? "" : "+";
+
   return (
     <tr className="h-[55px] text-center border-b text-zinc-700 dark:text-zinc-300 font-semibold">
       <td className="">{date}</td>
       <td className="pl-10">{price}</td>
       {tabsValue === "days" && (
         <>
+          {/* 등락폭 */}
           <td
             className={twMerge(
               `${isMinus ? "text-coin-minus" : "text-coin-plus"} ${
@@ -35,8 +38,9 @@ const CoinCandleList = ({
               }`
             )}
           >
-            {!changePrice ? 0 : changePrice}
+            {!changePrice ? 0 : changePriceSign + changePrice}
           </td>
+          {/* 변동율 */}
           <td
             className={twMerge(
               `${isMinus ? "text-coin-minus" : "text-coin-plus"} ${
@@ -62,7 +66,9 @@ const CoinCandleList = ({
           </td>
         </>
       )}
+      {/* 누적 거래량 */}
       <td>{accTradeVolume}</td>
+      {/* 누적 거래 금액 */}
       <td>{accTradePrice}</td>
     </tr>
   );
