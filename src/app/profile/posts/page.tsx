@@ -6,6 +6,7 @@ import PostBoxSkeleton from "@/components/skeleton/PostBoxSkeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getMyPosts } from "@/utils/community/getMyPosts";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useState } from "react";
 
 const ProfilePostsPage = () => {
@@ -39,8 +40,9 @@ const ProfilePostsPage = () => {
       </Tabs>
 
       <div className="mt-3 flex flex-col gap-2">
-        {myPosts
-          ? myPosts.map((post) => (
+        {myPosts ? (
+          myPosts.length > 0 ? (
+            myPosts.map((post) => (
               <PostBox
                 key={post.id}
                 created_at={post.created_at}
@@ -52,9 +54,24 @@ const ProfilePostsPage = () => {
                 type={tab}
               />
             ))
-          : Array.from({ length: 5 }).map((_, index) => (
-              <PostBoxSkeleton key={index} />
-            ))}
+          ) : (
+            <div className="flex flex-col items-center gap-5">
+              <p className=" text-[#6e8566] text-[20px] font-semibold dark:text-[#9CABBA] mt-[10px]">
+                게시글이 없습니다.
+              </p>
+              <Link
+                href={"/community/write"}
+                className="px-4 py-2 rounded-md text-[#fff] bg-[#6e8566] text-[20px] font-semibold dark:text-[#338FF2]"
+              >
+                게시글을 등록해보세요!
+              </Link>
+            </div>
+          )
+        ) : (
+          Array.from({ length: 5 }).map((_, index) => (
+            <PostBoxSkeleton key={index} />
+          ))
+        )}
       </div>
     </div>
   );
