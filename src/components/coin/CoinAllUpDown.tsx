@@ -109,7 +109,7 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
       <table className="w-full m-auto border-t border-[#d8d8d8] dark:border-[#505050] mt-5">
         <thead className="h-[42px]">
           <tr>
-            {isLoggedIn && <th className="pl-1"></th>}
+            {isLoggedIn && allCoinList && <th className="pl-1"></th>}
             <th className={twMerge("text-left pl-2", isLoggedIn ? "" : "pl-4")}>
               코인
             </th>

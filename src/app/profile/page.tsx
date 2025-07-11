@@ -10,11 +10,8 @@ import { twMerge } from "tailwind-merge";
 import { updateUserInfo } from "@/utils/profile/updateUserInfo";
 import { showToast } from "@/utils/showToast";
 import { queryClient } from "@/components/provider/QueryProvider";
-import { useAuthStore } from "@/store/authStore";
 
 const ProfilePage = () => {
-  const setUserInfo = useAuthStore((state) => state.setUserInfo);
-
   const { data: userInfo, isLoading: userInfoLoading } = useQuery({
     queryKey: ["userInfo"],
     queryFn: getUserInfo,
@@ -91,8 +88,7 @@ const ProfilePage = () => {
     }
 
     try {
-      const updateData = await updateUserInfo(profileImage, userNickName);
-      setUserInfo(updateData as UserInfoType | null);
+      await updateUserInfo(profileImage, userNickName);
     } catch (error) {
       console.error(error);
       showToast("error", "프로필 업데이트에 실패했습니다.");

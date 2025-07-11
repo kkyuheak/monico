@@ -119,7 +119,7 @@ const PostLikeComment = ({
                   alt="userProfileImage"
                   width={35}
                   height={35}
-                  className="rounded-full"
+                  className="w-[35px] h-[35px] rounded-full"
                 />
 
                 <div className="text-[#121712] dark:text-[#ededed]">
