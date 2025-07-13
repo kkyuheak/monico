@@ -28,6 +28,9 @@ export interface PostingFormValues {
   images: File[];
 }
 
+const MAX_SIZE_MB = 10;
+const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+
 const PostingForm = () => {
   const router = useRouter();
 
@@ -70,7 +73,23 @@ const PostingForm = () => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
+      if (files.length > 10) {
+        showToast("error", "이미지는 최대 10장까지만 업로드할 수 있습니다.");
+        return;
+      }
+
       const newFiles = Array.from(files);
+
+      newFiles.forEach((file) => {
+        if (file.size > MAX_SIZE_BYTES) {
+          showToast(
+            "error",
+            `이미지 크기는 ${MAX_SIZE_MB}MB를 초과할 수 없습니다.`
+          );
+          return;
+        }
+      });
+
       const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
 
       const updatedFiles = [...imageFiles, ...newFiles];
