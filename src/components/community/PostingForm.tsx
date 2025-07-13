@@ -16,7 +16,7 @@ import { posting } from "@/utils/community/posting";
 import { useMutation } from "@tanstack/react-query";
 import { showToast } from "@/utils/showToast";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 
@@ -25,7 +25,7 @@ export interface PostingFormValues {
   description: string;
   tags: string;
   category: string;
-  images: FileList;
+  images: File[];
 }
 
 const PostingForm = () => {
@@ -36,7 +36,14 @@ const PostingForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PostingFormValues>();
+    setValue,
+  } = useForm<PostingFormValues>({
+    defaultValues: {
+      images: [],
+    },
+  });
+
+  const { ...imagesRegister } = register("images");
 
   const onSubmit: SubmitHandler<PostingFormValues> = (data) => {
     postingMutate(data);
@@ -52,27 +59,39 @@ const PostingForm = () => {
 
   // 이미지 미리보기
   const [imgPreview, setImgPreview] = useState<string[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+
+  useEffect(() => {
+    return () => {
+      imgPreview.forEach((preview) => URL.revokeObjectURL(preview));
+    };
+  }, [imgPreview]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (imgPreview.length > 0) {
-      imgPreview.forEach((preview) => URL.revokeObjectURL(preview));
-    }
-
     const files = e.target.files;
     if (files) {
-      const fileArray = Array.from(files);
-      const previewArray = fileArray.map((file) => URL.createObjectURL(file));
-      setImgPreview((prev) => [...prev, ...previewArray]);
+      const newFiles = Array.from(files);
+      const newPreviews = newFiles.map((file) => URL.createObjectURL(file));
+
+      const updatedFiles = [...imageFiles, ...newFiles];
+      setImageFiles(updatedFiles);
+      setImgPreview((prev) => [...prev, ...newPreviews]);
+      setValue("images", updatedFiles, { shouldValidate: true });
+
+      e.target.value = "";
     }
   };
 
   // 이미지 미리보기 삭제
   const handleImagePreviewDelete = (index: number) => {
-    setImgPreview((prev) => {
-      const newPreview = [...prev];
-      newPreview.splice(index, 1);
-      return newPreview;
-    });
+    URL.revokeObjectURL(imgPreview[index]);
+
+    const updatedFiles = imageFiles.filter((_, i) => i !== index);
+    const updatedPreviews = imgPreview.filter((_, i) => i !== index);
+
+    setImageFiles(updatedFiles);
+    setImgPreview(updatedPreviews);
+    setValue("images", updatedFiles, { shouldValidate: true });
   };
 
   return (
@@ -153,7 +172,7 @@ const PostingForm = () => {
             id="imgUpload"
             className="hidden"
             accept="image/*"
-            {...register("images")}
+            {...imagesRegister}
             onChange={handleImageChange}
             multiple
           />
@@ -178,29 +197,14 @@ const PostingForm = () => {
             >
               업로드
             </label>
-            <Controller
-              name="images"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <input
-                    type="file"
-                    id="imgUpload"
-                    className="hidden"
-                    accept="image/*"
-                    {...register("images")}
-                    onChange={(e) => {
-                      const files = e.target.files;
-                      if (!files) return;
-
-                      handleImageChange(e);
-
-                      field.onChange(files);
-                    }}
-                    multiple
-                  />
-                </>
-              )}
+            <input
+              type="file"
+              id="imgUpload"
+              className="hidden"
+              accept="image/*"
+              multiple
+              {...imagesRegister}
+              onChange={handleImageChange}
             />
           </>
         ) : (
