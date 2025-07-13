@@ -11,6 +11,9 @@ import { updateUserInfo } from "@/utils/profile/updateUserInfo";
 import { showToast } from "@/utils/showToast";
 import { queryClient } from "@/components/provider/QueryProvider";
 
+const MAX_SIZE_MB = 3;
+const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024;
+
 const ProfilePage = () => {
   const { data: userInfo, isLoading: userInfoLoading } = useQuery({
     queryKey: ["userInfo"],
@@ -28,6 +31,14 @@ const ProfilePage = () => {
     }
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (file.size > MAX_SIZE_BYTES) {
+      showToast(
+        "error",
+        `이미지 크기는 ${MAX_SIZE_MB}MB를 초과할 수 없습니다.`
+      );
+      return;
+    }
 
     const previewImg = URL.createObjectURL(file);
     setTempProfileImage(previewImg);
@@ -85,6 +96,15 @@ const ProfilePage = () => {
         showToast("warning", "닉네임 중복확인을 해주세요.");
         throw new Error("닉네임 중복확인을 해주세요.");
       }
+    }
+
+    // 이미지 크기 체크
+    if (profileImage && profileImage.size > MAX_SIZE_BYTES) {
+      showToast(
+        "error",
+        `이미지 크기는 ${MAX_SIZE_MB}MB를 초과할 수 없습니다.`
+      );
+      return;
     }
 
     try {
