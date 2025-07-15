@@ -20,7 +20,7 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
   return (
     <div className="p-1">
       <Link
-        href={"/community"}
+        href={"/community?category=coin"}
         className="w-[150px] cursor-pointer flex items-center gap-1 hover:underline"
       >
         <ArrowLeft className="w-5" />

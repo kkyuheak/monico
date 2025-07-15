@@ -4,11 +4,13 @@ import PostsWrapper from "@/components/community/PostsWrapper";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/lib/supabase/supabase";
 import { showToast } from "@/utils/showToast";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const CommunityMain = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
 
   const handleWriteClick = async () => {
     const { data: userInfo } = await supabase.auth.getUser();
@@ -21,7 +23,11 @@ const CommunityMain = () => {
     router.push("/community/write");
   };
 
-  const [tab, setTab] = useState("coin");
+  useEffect(() => {
+    if (!category || (category !== "coin" && category !== "stock")) {
+      router.replace("/community?category=coin");
+    }
+  }, [category, router]);
 
   return (
     <div>
@@ -30,7 +36,8 @@ const CommunityMain = () => {
         <Tabs
           defaultValue="coin"
           className="shadow rounded-2xl"
-          onValueChange={(value) => setTab(value)}
+          onValueChange={(value) => router.push(`/community?category=${value}`)}
+          value={category!}
         >
           <TabsList className="rounded-2xl">
             <TabsTrigger value="coin" className="rounded-2xl">
@@ -50,7 +57,7 @@ const CommunityMain = () => {
         </SimpleButton>
       </div>
 
-      <PostsWrapper tab={tab} />
+      <PostsWrapper />
     </div>
   );
 };

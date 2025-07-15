@@ -4,13 +4,13 @@ import Link from "next/link";
 
 const DetailStockPostLoading = () => {
   return (
-    <div>
+    <div className="p-1">
       <Link
-        href={"/community"}
+        href={"/community?category=stock"}
         className="w-[150px] cursor-pointer flex items-center gap-1 hover:underline"
       >
         <ArrowLeft className="w-5" />
-        <p className="font-semibold">목록으로 돌아가기</p>
+        <p className="font-semibold">커뮤니티</p>
       </Link>
       <DetailPostSkeleton />
     </div>
