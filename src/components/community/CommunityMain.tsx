@@ -25,7 +25,7 @@ const CommunityMain = () => {
 
   useEffect(() => {
     if (!category || (category !== "coin" && category !== "stock")) {
-      router.replace("/community?category=coin");
+      router.replace("/community?category=coin&page=1");
     }
   }, [category, router]);
 
@@ -36,7 +36,9 @@ const CommunityMain = () => {
         <Tabs
           defaultValue="coin"
           className="shadow rounded-2xl"
-          onValueChange={(value) => router.push(`/community?category=${value}`)}
+          onValueChange={(value) =>
+            router.push(`/community?category=${value}&page=1`)
+          }
           value={category!}
         >
           <TabsList className="rounded-2xl">

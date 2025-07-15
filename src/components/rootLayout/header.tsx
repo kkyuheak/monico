@@ -36,7 +36,7 @@ const HEADER_MENU = [
   },
   {
     name: "커뮤니티",
-    href: "/community?category=coin",
+    href: "/community?category=coin&page=1",
   },
 ];
 
