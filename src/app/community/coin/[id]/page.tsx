@@ -1,12 +1,11 @@
+import BackButton from "@/components/common/buttons/BackButton";
 import HashTag from "@/components/community/HashTag";
 import PostImages from "@/components/community/PostImages";
 import PostLikeComment from "@/components/community/PostLikeComment";
 import PostMoreBtn from "@/components/community/PostMoreBtn";
 import { getPost } from "@/utils/community/getPost";
 import { diffDay } from "@/utils/diffDay";
-import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 interface DetailCoinPostPageProps {
   params: Promise<{ id: string }>;
@@ -19,13 +18,7 @@ const DetailCoinPostPage = async ({ params }: DetailCoinPostPageProps) => {
 
   return (
     <div className="p-1">
-      <Link
-        href={"/community?category=coin"}
-        className="w-[150px] cursor-pointer flex items-center gap-1 hover:underline"
-      >
-        <ArrowLeft className="w-5" />
-        <p className="font-semibold">커뮤니티</p>
-      </Link>
+      <BackButton name="목록으로 돌아가기" />
 
       {/* 유저 정보 */}
       <div className="flex justify-between items-center gap-2 text-[#6E8566] dark:text-[#ededed] mt-[18px] mb-3">

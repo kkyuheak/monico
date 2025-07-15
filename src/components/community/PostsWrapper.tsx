@@ -55,11 +55,20 @@ const PostsWrapper = () => {
         <Pagination className="mt-6">
           <PaginationContent>
             {/* 이전 버튼 */}
-            <PaginationItem>
-              <PaginationPrevious
-                href={`?category=${category}&page=${Math.max(1, page - 1)}`}
-              />
-            </PaginationItem>
+            {page > 1 ? (
+              <PaginationItem>
+                <PaginationPrevious
+                  href={`?category=${category}&page=${Math.max(1, page - 1)}`}
+                />
+              </PaginationItem>
+            ) : (
+              <PaginationItem>
+                <PaginationPrevious
+                  href={"#"}
+                  className="pointer-events-none opacity-50 cursor-default"
+                />
+              </PaginationItem>
+            )}
 
             {/* 동적 페이지 버튼 */}
             {pageNumbers.map((p) => (
@@ -74,14 +83,23 @@ const PostsWrapper = () => {
             ))}
 
             {/* 다음 버튼 */}
-            <PaginationItem>
-              <PaginationNext
-                href={`?category=${category}&page=${Math.min(
-                  totalPages,
-                  page + 1
-                )}`}
-              />
-            </PaginationItem>
+            {page === totalPages ? (
+              <PaginationItem>
+                <PaginationNext
+                  href={"#"}
+                  className="pointer-events-none opacity-50 cursor-default"
+                />
+              </PaginationItem>
+            ) : (
+              <PaginationItem>
+                <PaginationNext
+                  href={`?category=${category}&page=${Math.min(
+                    totalPages,
+                    page + 1
+                  )}`}
+                />
+              </PaginationItem>
+            )}
           </PaginationContent>
         </Pagination>
       )}
