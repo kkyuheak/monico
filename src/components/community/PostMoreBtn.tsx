@@ -36,7 +36,7 @@ const PostMoreBtn = ({ postData, type }: PostMoreBtnProps) => {
     mutationFn: () => deletePost(postData.id, type),
     onSuccess: () => {
       showToast("success", "게시글이 삭제되었습니다.");
-      router.replace(`/community`);
+      router.replace(`/community?category=${type}&page=1`);
     },
   });
 
