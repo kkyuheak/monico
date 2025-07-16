@@ -48,11 +48,6 @@ const ProfilePostsPage = () => {
     }
   }, [category, page, router]);
 
-  useEffect(() => {
-    console.log(totalCount);
-    console.log(totalPages);
-  }, [totalCount, totalPages]);
-
   return (
     <div className="flex-1 py-7 px-5">
       <h1 className="text-[24px] font-bold text-[#121712] dark:text-white mb-4">
