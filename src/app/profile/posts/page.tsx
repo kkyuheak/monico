@@ -1,5 +1,6 @@
 "use client";
 
+import CustomPagination from "@/components/common/CustomPagination";
 import PostBox from "@/components/community/PostBox";
 import PostBoxSkeleton from "@/components/skeleton/PostBoxSkeleton";
 
@@ -7,16 +8,50 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getMyPosts } from "@/utils/community/getMyPosts";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+
+interface MyPosts {
+  data: PostData[];
+  count: number;
+}
 
 const ProfilePostsPage = () => {
-  const [tab, setTab] = useState("coin");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const category = searchParams.get("category");
+  const page = Number(searchParams.get("page"));
 
   // 내 게시글 가져오기
-  const { data: myPosts } = useQuery<PostData[]>({
-    queryKey: ["myPosts", tab],
-    queryFn: () => getMyPosts(tab),
+  const { data: myPosts, isLoading } = useQuery<MyPosts>({
+    queryKey: ["myPosts", category, page],
+    queryFn: () => getMyPosts(category as string, page),
   });
+
+  const totalCount = myPosts?.count || 0;
+  const totalPages = Math.ceil(totalCount / 5); // 전체 페이지
+
+  // 사용자가 총 페이지를 초과해서 접근 할 때
+  useEffect(() => {
+    if (page > totalPages && !isLoading) {
+      router.replace(`?category=${category}&page=1`);
+    }
+  }, [page, totalPages, category, router, isLoading]);
+
+  useEffect(() => {
+    if (
+      !category ||
+      (category !== "coin" && category !== "stock") ||
+      page < 1
+    ) {
+      router.replace("/profile/posts?category=coin&page=1");
+    }
+  }, [category, page, router]);
+
+  useEffect(() => {
+    console.log(totalCount);
+    console.log(totalPages);
+  }, [totalCount, totalPages]);
 
   return (
     <div className="flex-1 py-7 px-5">
@@ -27,7 +62,10 @@ const ProfilePostsPage = () => {
       <Tabs
         defaultValue="coin"
         className="rounded-2xl"
-        onValueChange={(value) => setTab(value)}
+        onValueChange={(value) => {
+          router.push(`/profile/posts?category=${value}&page=1`);
+        }}
+        value={category!}
       >
         <TabsList className="rounded-2xl">
           <TabsTrigger value="coin" className="rounded-2xl">
@@ -41,8 +79,8 @@ const ProfilePostsPage = () => {
 
       <div className="mt-3 flex flex-col gap-2">
         {myPosts ? (
-          myPosts.length > 0 ? (
-            myPosts.map((post) => (
+          myPosts.data.length > 0 ? (
+            myPosts.data.map((post) => (
               <PostBox
                 key={post.id}
                 created_at={post.created_at}
@@ -51,7 +89,7 @@ const ProfilePostsPage = () => {
                 hashTags={post.hashTags}
                 usersinfo={post.usersinfo}
                 id={post.id}
-                type={tab}
+                type={category as string}
               />
             ))
           ) : (
@@ -73,6 +111,7 @@ const ProfilePostsPage = () => {
           ))
         )}
       </div>
+      <CustomPagination totalCount={totalCount} pageSize={5} />
     </div>
   );
 };

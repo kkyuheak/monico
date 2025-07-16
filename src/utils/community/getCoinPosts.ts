@@ -12,8 +12,6 @@ export const getCoinPosts = async (tab: string, page: number) => {
     .order("created_at", { ascending: false })
     .range(from, to);
 
-  console.log(data, count);
-
   if (error) {
     console.error(error);
     return;

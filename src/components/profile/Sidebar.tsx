@@ -7,7 +7,7 @@ import { twMerge } from "tailwind-merge";
 
 const SIDEBAR_ITEMS = [
   { label: "프로필", href: "/profile", icon: User },
-  { label: "내 글", href: "/profile/posts", icon: Inbox },
+  { label: "내 글", href: "/profile/posts?category=coin&page=1", icon: Inbox },
   { label: "설정", href: "/profile/settings", icon: Settings },
 ];
 
