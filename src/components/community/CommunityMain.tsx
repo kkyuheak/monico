@@ -11,6 +11,7 @@ const CommunityMain = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
+  const page = Number(searchParams.get("page"));
 
   const handleWriteClick = async () => {
     const { data: userInfo } = await supabase.auth.getUser();
@@ -24,10 +25,14 @@ const CommunityMain = () => {
   };
 
   useEffect(() => {
-    if (!category || (category !== "coin" && category !== "stock")) {
+    if (
+      !category ||
+      (category !== "coin" && category !== "stock") ||
+      page < 1
+    ) {
       router.replace("/community?category=coin&page=1");
     }
-  }, [category, router]);
+  }, [category, page, router]);
 
   return (
     <div>

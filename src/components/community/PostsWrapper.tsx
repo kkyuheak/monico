@@ -2,24 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import PostBox from "./PostBox";
 import { getCoinPosts } from "@/utils/community/getCoinPosts";
 import PostBoxSkeleton from "../skeleton/PostBoxSkeleton";
-import { useSearchParams } from "next/navigation";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-
-const MAX_PAGE_BUTTONS = 10;
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import CustomPagination from "../common/CustomPagination";
 
 const PostsWrapper = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const page = Number(searchParams.get("page")); // 현재 페이지
 
-  const { data: coinPosts } = useQuery({
+  const { data: coinPosts, isLoading } = useQuery({
     queryKey: ["community-posts", category, page],
     queryFn: () => getCoinPosts(category as string, page),
   });
@@ -27,18 +20,12 @@ const PostsWrapper = () => {
   const totalCount = coinPosts?.count || 0;
   const totalPages = Math.ceil(totalCount / 10); // 전체 페이지
 
-  // 페이지 번호 계산
-  const currentBlockStart =
-    Math.floor((page - 1) / MAX_PAGE_BUTTONS) * MAX_PAGE_BUTTONS + 1;
-  const currentBlockEnd = Math.min(
-    currentBlockStart + MAX_PAGE_BUTTONS - 1,
-    totalPages
-  );
-
-  const pageNumbers = Array.from(
-    { length: currentBlockEnd - currentBlockStart + 1 },
-    (_, i) => currentBlockStart + i
-  );
+  // 사용자가 총 페이지를 초과해서 접근 할 때
+  useEffect(() => {
+    if (page > totalPages && !isLoading) {
+      router.replace(`?category=${category}&page=1`);
+    }
+  }, [page, totalPages, category, router, isLoading]);
 
   return (
     <>
@@ -51,58 +38,7 @@ const PostsWrapper = () => {
               <PostBoxSkeleton key={index} />
             ))}
       </div>
-      {totalPages > 1 && (
-        <Pagination className="mt-6">
-          <PaginationContent>
-            {/* 이전 버튼 */}
-            {page > 1 ? (
-              <PaginationItem>
-                <PaginationPrevious
-                  href={`?category=${category}&page=${Math.max(1, page - 1)}`}
-                />
-              </PaginationItem>
-            ) : (
-              <PaginationItem>
-                <PaginationPrevious
-                  href={"#"}
-                  className="pointer-events-none opacity-50 cursor-default"
-                />
-              </PaginationItem>
-            )}
-
-            {/* 동적 페이지 버튼 */}
-            {pageNumbers.map((p) => (
-              <PaginationItem key={p}>
-                <PaginationLink
-                  href={`?category=${category}&page=${p}`}
-                  isActive={p === page}
-                >
-                  {p}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-
-            {/* 다음 버튼 */}
-            {page === totalPages ? (
-              <PaginationItem>
-                <PaginationNext
-                  href={"#"}
-                  className="pointer-events-none opacity-50 cursor-default"
-                />
-              </PaginationItem>
-            ) : (
-              <PaginationItem>
-                <PaginationNext
-                  href={`?category=${category}&page=${Math.min(
-                    totalPages,
-                    page + 1
-                  )}`}
-                />
-              </PaginationItem>
-            )}
-          </PaginationContent>
-        </Pagination>
-      )}
+      <CustomPagination totalCount={totalCount} />
     </>
   );
 };
