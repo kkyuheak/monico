@@ -36,7 +36,7 @@ const HEADER_MENU = [
   },
   {
     name: "커뮤니티",
-    href: "/community",
+    href: "/community?category=coin&page=1",
   },
 ];
 
@@ -112,7 +112,9 @@ const Header = () => {
         <ul className="flex gap-6 text-[16px] items-center">
           {HEADER_MENU.map((menu) => (
             <li key={menu.name} className="cursor-pointer font-semibold">
-              <Link href={menu.href}>{menu.name}</Link>
+              <Link href={menu.href} className="block w-full h-full">
+                {menu.name}
+              </Link>
             </li>
           ))}
         </ul>

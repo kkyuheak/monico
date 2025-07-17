@@ -7,7 +7,7 @@ interface PostingParams {
   description: string;
   tags: string;
   category: string;
-  images: FileList;
+  images: File[];
 }
 
 export const posting = async ({

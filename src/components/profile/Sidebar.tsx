@@ -7,7 +7,11 @@ import { twMerge } from "tailwind-merge";
 
 const SIDEBAR_ITEMS = [
   { label: "프로필", href: "/profile", icon: User },
-  { label: "내 글", href: "/profile/posts", icon: Inbox },
+  {
+    label: "내 글",
+    href: "/profile/posts?category=coin&page=1",
+    icon: Inbox,
+  },
   { label: "설정", href: "/profile/settings", icon: Settings },
 ];
 
@@ -23,7 +27,9 @@ const Sidebar = () => {
               href={item.href}
               className={twMerge(
                 "flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700",
-                pathname === item.href ? "bg-gray-100 dark:bg-gray-700" : ""
+                pathname === item.href.split("?")[0]
+                  ? "bg-gray-100 dark:bg-gray-700"
+                  : ""
               )}
             >
               <item.icon size={20} />

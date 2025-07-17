@@ -1,13 +1,15 @@
 import { PostingFormValues } from "@/components/community/PostingForm";
 import { inputTrimValidationFn } from "@/utils/inputTrimValidationFn";
-import { FieldErrors, Path, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
+
+type PostingField = keyof PostingFormValues;
 
 interface PostingInputProps {
   placeholder: string;
   css?: string;
   register: UseFormRegister<PostingFormValues>;
-  label: Path<PostingFormValues>;
+  label: PostingField;
   errors: FieldErrors<PostingFormValues>;
 }
 
