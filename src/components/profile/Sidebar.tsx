@@ -19,7 +19,7 @@ const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="w-[250px] h-[calc(100vh-53px)] border-r border-gray-300 dark:border-gray-600 py-6">
+    <div className="w-[250px] h-[calc(100vh-53px)] border-r border-gray-200 dark:border-gray-800 py-6">
       <ul className="flex flex-col gap-2 py-2 px-1">
         {SIDEBAR_ITEMS.map((item) => (
           <li key={item.label} className="">
