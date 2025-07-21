@@ -19,6 +19,7 @@ import { queryClient } from "../provider/QueryProvider";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import SimpleButton from "../common/buttons/SimpleButton";
 
 // 메뉴
 const HEADER_MENU = [
@@ -144,18 +145,14 @@ const Header = () => {
         <ul className="flex gap-6 text-[16px] items-center">
           {!userInfoLoading ? (
             !userInfo ? (
-              <>
-                <li className="cursor-pointer">
-                  <Link href={"/login"} className="block">
-                    로그인
-                  </Link>
-                </li>
-                <li className="cursor-pointer">
-                  <Link href={"/signup"} className="block">
-                    회원가입
-                  </Link>
-                </li>
-              </>
+              <li className="cursor-pointer">
+                <SimpleButton
+                  onClick={() => router.push("/login")}
+                  css="bg-[#53a83c] w-[64px] h-[32px] rounded-[8px] text-[14px] text-white"
+                >
+                  로그인
+                </SimpleButton>
+              </li>
             ) : (
               <>
                 <li className="flex items-center">
