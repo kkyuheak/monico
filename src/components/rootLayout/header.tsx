@@ -82,7 +82,7 @@ const Header = () => {
   };
 
   return (
-    <header className="h-[53px] flex items-center justify-between px-6 border-b border-gray-200 dark:border-gray-600 bg-white dark:bg-[#17171c]">
+    <header className="w-full h-[53px] fixed top-0 z-50 flex items-center justify-between px-6 border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-[#17171c]">
       <div className="flex items-center gap-8">
         <Link href={"/"} className="flex items-center">
           {mounted ? (

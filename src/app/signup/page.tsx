@@ -10,7 +10,7 @@ const SignUpPage = () => {
   const router = useRouter();
 
   return (
-    <div className="max-w-[850px] bg-gray-50 dark:bg-[#1C2126] m-auto h-[calc(100vh-53px)] flex flex-col justify-center gap-15">
+    <div className="max-w-[850px] bg-gray-50 dark:bg-[#1C2126] m-auto mt-[53px] h-[calc(100vh-53px)] flex flex-col justify-center gap-15">
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-[27px] font-bold">
           Monico에 오신 것을 환영합니다!
