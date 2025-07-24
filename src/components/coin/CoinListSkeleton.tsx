@@ -1,6 +1,6 @@
 const CoinListSkeleton = () => {
   return (
-    <tr className="border-b border-[#d8d8d8] dark:border-[#373737] h-[68px] animate-pulse">
+    <tr className="border-b border-[#e8e8e8] dark:border-[#373737] h-[64px] animate-pulse">
       <td className="pl-3">
         <div className="flex h-full items-center gap-3">
           <div className="w-[30px] h-[30px] rounded-full bg-gray-300 dark:bg-gray-600" />
