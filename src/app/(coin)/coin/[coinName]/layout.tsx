@@ -3,9 +3,9 @@ import { Metadata } from "next";
 export async function generateMetadata({
   params,
 }: {
-  params: { coinName: string };
+  params: Promise<{ coinName: string }>;
 }): Promise<Metadata> {
-  const coinName = params.coinName;
+  const { coinName } = await params;
 
   return {
     title: `Monico | ${coinName}`,
