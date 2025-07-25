@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "Monico - 즐겨찾기",
+  description: "내가 즐겨찾는 코인들을 확인할 수 있는 페이지",
+};
+
 const UserFavoritesPageLayout = ({
   children,
 }: {

@@ -1,3 +1,8 @@
+export const metadata = {
+  title: "Monico - 뉴스룸",
+  description: "최신 뉴스를 확인할 수 있는 페이지",
+};
+
 const NewsPageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="max-w-[960px] m-auto py-2 mt-[53px]">
