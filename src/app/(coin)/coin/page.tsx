@@ -129,7 +129,7 @@ const CoinMainPage = () => {
         <SearchBarButton onClick={() => setIsSearchModalOpen(true)} />
       </div>
 
-      <table className="w-full m-auto border-t border-[#d8d8d8] dark:border-[#373737]">
+      <table className="w-full m-auto border-t border-[#e8e8e8] dark:border-[#373737]">
         <thead className="h-[42px]">
           <tr>
             {isLoggedIn && allCoinData && <th className="pl-1"></th>}
@@ -146,7 +146,7 @@ const CoinMainPage = () => {
             <th className="">거래량(24H)</th>
             <th className="">거래대금(24H)</th>
           </tr>
-          <tr className="border-b border-[#d8d8d8] dark:border-[#373737]"></tr>
+          <tr className="border-b border-[#e8e8e8] dark:border-[#373737]"></tr>
         </thead>
         <tbody>
           {allCoinData && coinName && !userCoinLoading
