@@ -193,7 +193,7 @@ const Header = () => {
       <div className="md:hidden">
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
+            <button className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
               <Menu size={24} />
             </button>
           </DropdownMenuTrigger>
@@ -242,7 +242,16 @@ const Header = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleDarkModeClick}>
               {mounted &&
-                (resolvedTheme === "dark" ? "라이트 모드" : "다크 모드")}
+                (resolvedTheme === "dark" ? (
+                  <span className="flex justify-center items-center gap-1">
+                    <Sun /> 라이트 모드
+                  </span>
+                ) : (
+                  <span className="flex justify-center items-center gap-1">
+                    <Moon />
+                    다크 모드
+                  </span>
+                ))}
             </DropdownMenuItem>
             {userInfo && (
               <DropdownMenuItem
