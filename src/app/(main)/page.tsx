@@ -24,15 +24,15 @@ const MAIN_FEATBOX_DATA = [
 
 const MainPage = () => {
   return (
-    <div className="dark:bg-[#17171c]">
+    <div className="dark:bg-[#17171c] max-lg:px-3">
       <div
         className="w-[1024px] h-[512px] p-4 mt-5 rounded-xl text-white
           bg-[url(/assets/img/mainBackground.png)] bg-center bg-cover bg-no-repeat
-          relative flex flex-col justify-end"
+          relative flex flex-col justify-end max-lg:w-full"
       >
         <div className="absolute inset-0 w-full h-full rounded-xl bg-linear-to-b from-black/10 to-black/40"></div>
-        <div className="z-10  pl-8 ">
-          <h1 className="text-[48px] font-extrabold leading-[60px]">
+        <div className="z-10  pl-8 max-md:px-3">
+          <h1 className="text-[48px] font-extrabold leading-[60px] max-md:text-[32px] max-md:leading-[40px]">
             복잡한 금융 시장, 한 곳에서 쉽게 파악하세요.
           </h1>
           <p className="leading-[24px] mt-2">
@@ -49,14 +49,14 @@ const MainPage = () => {
       </div>
 
       <section className="text-[#121712] mt-[40px] dark:text-white">
-        <h2 className="text-[36px] font-extrabold mb-2">
+        <h2 className="text-[36px] font-extrabold mb-2 max-md:text-[28px]">
           모니코가 제공하는 서비스
         </h2>
-        <p className="max-w-[720px]">
+        <p className="max-w-[720px] max-md:text-[14px]">
           시장 흐름을 놓치지 않도록 설계된, 스마트한 도구들을 만나보세요.
         </p>
 
-        <div className="flex justify-between items-center gap-4 mt-[40px]">
+        <div className="flex justify-between items-center gap-4 mt-[40px] max-md:flex-col ">
           {MAIN_FEATBOX_DATA.map((item) => (
             <FeatBox
               key={item.title}
@@ -69,7 +69,7 @@ const MainPage = () => {
       </section>
 
       <section className="mt-[100px] text-[#121712] text-center dark:text-white">
-        <h3 className="text-[36px] font-extrabold mb-1">
+        <h3 className="text-[36px] font-extrabold mb-1 max-md:text-[28px]">
           시작할 준비가 되셨나요?
         </h3>
         <p className="mb-5">시장을 탐색하고 새로운 투자 기회를 발견하세요.</p>

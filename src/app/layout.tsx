@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import QueryProvider from "@/components/provider/QueryProvider";
-import Header from "@/components/rootLayout/header";
 import { ToastContainer } from "react-toastify";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
+import Header from "@/components/rootLayout/Header";
 
 export const metadata: Metadata = {
   title: "Monico",
