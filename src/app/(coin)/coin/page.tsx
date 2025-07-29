@@ -196,7 +196,7 @@ const CoinMainPage = () => {
           className="fixed top-0 left-0 w-full h-screen bg-black/50 dark:bg-black/60 z-50 flex items-center justify-center"
           onClick={() => setIsSearchModalOpen(false)}
         >
-          <SearchModal />
+          <SearchModal setIsSearchModalOpen={setIsSearchModalOpen} />
         </div>
       )}
     </div>
