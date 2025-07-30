@@ -14,6 +14,7 @@ import CoinRecommendBox from "./CoinRecommendBox";
 import CoinRecommendBoxSkeleton from "../skeleton/CoinRecommendBoxSkeleton";
 import { getUserInfo } from "@/utils/getUserInfo";
 import { twMerge } from "tailwind-merge";
+import MobileTopCoin from "./mobile/MobileTopCoin";
 
 interface AllCoinsPageType {
   coins: CoinTickerType[];
@@ -72,19 +73,20 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
 
   return (
     <div>
-      <h1 className="text-[28px] font-bold my-[20px]">
+      <h1 className="text-[28px] font-bold my-[20px] max-md:text-[24px]">
         {type === "UP" ? "상승중인 코인" : "하락중인 코인"}
       </h1>
 
       <Link
         href={"/coin"}
-        className="w-[150px] mt-5 cursor-pointer flex items-center gap-1 hover:underline"
+        className="w-[150px] mt-5 cursor-pointer flex items-center gap-1 hover:underline max-md:hidden"
       >
         <ArrowLeft className="w-5" />
         <p className="font-semibold">목록으로 돌아가기</p>
       </Link>
 
-      <div className="flex items-center gap-5 justify-center mt-10 mb-5">
+      {/* Desktop Top5 */}
+      <div className="flex items-center gap-5 justify-center mt-10 mb-5 max-md:hidden">
         {coinName && allCoinList && !userCoinLoading
           ? top5Coin?.map((coin) => {
               const kr_name = coinName.find(
@@ -106,16 +108,25 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
             ))}
       </div>
 
+      {/* Mobile Top5 */}
+      <div>
+        <h2 className="text-[20px] font-bold mb-2">실시간 상승률 TOP 5</h2>
+
+        <MobileTopCoin top5Coin={top5Coin} type={type} coinName={coinName} />
+      </div>
+
       <table className="w-full m-auto border-t border-[#e8e8e8] dark:border-[#505050] mt-5">
         <thead className="h-[42px]">
-          <tr>
-            {isLoggedIn && allCoinList && <th className="pl-1"></th>}
+          <tr className="max-md:text-[12px]">
+            {isLoggedIn && allCoinList && (
+              <th className="pl-1 max-md:hidden"></th>
+            )}
             <th className={twMerge("text-left pl-2", isLoggedIn ? "" : "pl-4")}>
               코인
             </th>
             <th className="">현재가</th>
             <th className=" w-[100px]">전일대비</th>
-            <th className="">거래량(24H)</th>
+            <th className="max-md:hidden">거래량(24H)</th>
             <th className="">거래대금(24H)</th>
           </tr>
           <tr className="border-b border-[#e8e8e8] dark:border-[#505050]"></tr>

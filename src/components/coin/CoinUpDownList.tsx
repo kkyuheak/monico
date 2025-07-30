@@ -32,7 +32,10 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
   };
 
   return (
-    <div className="w-[400px] max-md:w-[370px] h-[200px] rounded-lg border border-gray-200 dark:border-gray-600 px-3  pt-4 pb-1 flex flex-col justify-between">
+    <div
+      className="w-[400px] max-md:w-[370px] h-[200px] rounded-lg border border-gray-200 dark:border-gray-600
+                    px-3 pt-4 pb-1 flex flex-col justify-between max-md:p-2 max-md:h-[180px]"
+    >
       <div className="flex items-center justify-between px-2">
         <p className="font-bold text-[18px] ">
           {type === "UP" ? "🚀 상승 종목" : "🔥 하락 종목"}

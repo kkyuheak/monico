@@ -1,5 +1,3 @@
-"use client";
-
 import CoinAllUpDown from "@/components/coin/CoinAllUpDown";
 
 const GainersPage = () => {
