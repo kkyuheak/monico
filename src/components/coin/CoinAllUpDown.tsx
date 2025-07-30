@@ -110,7 +110,9 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
 
       {/* Mobile Top5 */}
       <div>
-        <h2 className="text-[20px] font-bold mb-2">실시간 상승률 TOP 5</h2>
+        <h2 className="text-[20px] font-bold mb-2">
+          실시간 {type === "UP" ? "상승" : "하락"}률 TOP 5
+        </h2>
 
         <MobileTopCoin top5Coin={top5Coin} type={type} coinName={coinName} />
       </div>
