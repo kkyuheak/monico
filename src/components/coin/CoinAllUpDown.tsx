@@ -116,7 +116,7 @@ const CoinAllUpDown = ({ type }: CoinAllUpDownProps) => {
       </div>
 
       <table className="w-full m-auto border-t border-[#e8e8e8] dark:border-[#505050] mt-5">
-        <thead className="h-[42px]">
+        <thead className="h-[42px] max-md:h-[32px]">
           <tr className="max-md:text-[12px]">
             {isLoggedIn && allCoinList && (
               <th className="pl-1 max-md:hidden"></th>
