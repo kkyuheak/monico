@@ -104,22 +104,24 @@ const CoinMainPage = () => {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   return (
-    <div>
-      <h1 className="text-[28px] font-bold my-[20px]">암호화페 시세</h1>
+    <div className="">
+      <h1 className="text-[28px] font-bold my-[20px] max-md:hidden">
+        암호화페 시세
+      </h1>
       {/* 상승, 하락 */}
-      <div className="mb-5 flex gap-2 justify-around">
+      <div className="mb-5 flex gap-2 justify-around max-md:flex-col max-md:items-center">
         <CoinUpDownList type="UP" />
         <CoinUpDownList type="DOWN" />
       </div>
 
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-2 max-md:flex-col-reverse max-md:gap-3">
         {/* KRW, BTC 탭 */}
         <Tabs
           defaultValue="KRW"
-          className=""
+          className="max-md:w-full"
           onValueChange={(value) => setTab(value)}
         >
-          <TabsList>
+          <TabsList className="max-md:w-full">
             <TabsTrigger value="KRW">KRW</TabsTrigger>
             <TabsTrigger value="BTC">BTC</TabsTrigger>
           </TabsList>
@@ -130,9 +132,11 @@ const CoinMainPage = () => {
       </div>
 
       <table className="w-full m-auto border-t border-[#e8e8e8] dark:border-[#373737]">
-        <thead className="h-[42px]">
-          <tr>
-            {isLoggedIn && allCoinData && <th className="pl-1"></th>}
+        <thead className="h-[42px] max-md:h-[32px]">
+          <tr className="max-md:text-[12px]">
+            {isLoggedIn && allCoinData && (
+              <th className="pl-1 max-md:hidden"></th>
+            )}
             <th
               className={twMerge(
                 "text-left pl-2",
@@ -143,12 +147,12 @@ const CoinMainPage = () => {
             </th>
             <th className="">현재가</th>
             <th className=" w-[100px]">전일대비</th>
-            <th className="">거래량(24H)</th>
+            <th className="max-md:hidden">거래량(24H)</th>
             <th className="">거래대금(24H)</th>
           </tr>
           <tr className="border-b border-[#e8e8e8] dark:border-[#373737]"></tr>
         </thead>
-        <tbody>
+        <tbody className="">
           {allCoinData && coinName && !userCoinLoading
             ? allCoinData?.pages.map((page) => {
                 return page.coins.map((coin) => {
@@ -192,7 +196,7 @@ const CoinMainPage = () => {
           className="fixed top-0 left-0 w-full h-screen bg-black/50 dark:bg-black/60 z-50 flex items-center justify-center"
           onClick={() => setIsSearchModalOpen(false)}
         >
-          <SearchModal />
+          <SearchModal setIsSearchModalOpen={setIsSearchModalOpen} />
         </div>
       )}
     </div>

@@ -38,7 +38,7 @@ const SearchBar = ({
   };
 
   return (
-    <div className="flex items-center gap-1 border rounded-[10px] px-2 py-1">
+    <div className="flex items-center gap-1 border rounded-[10px] px-2 py-1 max-md:mt-7">
       <span>
         <Search stroke="gray" width={20} height={20} />
       </span>
@@ -55,7 +55,7 @@ const SearchBar = ({
         ref={inputRef}
       />
       <span
-        className="rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-black/50"
+        className="rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200 dark:hover:bg-black/50 max-md:hidden"
         onClick={handleAllClear}
       >
         <X width={20} height={20} stroke="gray" />

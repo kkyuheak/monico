@@ -6,8 +6,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getCoinName } from "@/utils/coin/getCoinName";
 import { getDetailTicker } from "@/utils/coin/getDetailTicker";
 import SearchResultCoinSkeleton from "../skeleton/SearchResuiltCoinSkeleton";
+import { X } from "lucide-react";
 
-const SearchModal = () => {
+interface SearchModalProps {
+  setIsSearchModalOpen: (value: boolean) => void;
+}
+
+const SearchModal = ({ setIsSearchModalOpen }: SearchModalProps) => {
   // 모달이 열리면 스크롤 금지
   useDisableScroll(true);
 
@@ -68,9 +73,15 @@ const SearchModal = () => {
   return (
     <div
       className="w-[600px] h-[500px] bg-white dark:bg-[#2c2c35] rounded-[15px] px-5 py-5 flex flex-col
-      transform-gpu"
+      transform-gpu max-md:w-full max-md:h-dvh max-md:rounded-none"
       onClick={(e) => e.stopPropagation()}
     >
+      <X
+        className="hidden max-md:block absolute right-5"
+        size={19}
+        onClick={() => setIsSearchModalOpen(false)}
+      />
+
       <SearchBar setUserSearchValue={setUserSearchValue} />
 
       <p className="text-[12px] font-semibold my-[10px]">검색 결과</p>

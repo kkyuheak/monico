@@ -32,7 +32,10 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
   };
 
   return (
-    <div className="w-[400px] h-[200px] rounded-lg border border-gray-200 dark:border-gray-600 px-3  pt-4 pb-1 flex flex-col justify-between">
+    <div
+      className="w-[400px] max-md:w-[370px] h-[200px] rounded-lg border border-gray-200 dark:border-gray-600
+                    px-3 pt-4 pb-1 flex flex-col justify-between max-md:p-2 max-md:h-[180px]"
+    >
       <div className="flex items-center justify-between px-2">
         <p className="font-bold text-[18px] ">
           {type === "UP" ? "🚀 상승 종목" : "🔥 하락 종목"}
@@ -55,7 +58,7 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
             <li
               key={coin.market}
               className="flex items-center justify-between h-[45px] rounded-md px-2
-              hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+              hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer max-md:h-[42px]"
               onClick={() => router.push(`/coin/${coin.market}`)}
             >
               <div className="flex items-center gap-2">
@@ -66,17 +69,17 @@ const CoinUpDownList = ({ type }: CoinUpDownListProps) => {
                   alt={coin.market.split("-")[1] + "icon"}
                   width={30}
                   height={30}
-                  className="w-[30px] h-[30px] rounded-full"
+                  className="w-[30px] h-[30px] rounded-full max-md:w-[25px] max-md:h-[25px]"
                 />
-                <p>{KRCoinName?.korean_name}</p>
+                <p className="max-md:text-[14px]">{KRCoinName?.korean_name}</p>
               </div>
               <div className="flex gap-3 font-semibold">
-                <p className="text-[17px]">
+                <p className="text-[17px] max-md:text-[14px]">
                   {coin?.trade_price.toLocaleString()}{" "}
                   <span className="text-[13px]">KRW</span>
                 </p>
                 <p
-                  className={`${
+                  className={`max-md:text-[14px] ${
                     coin?.change === "RISE"
                       ? "text-[#FF3D00]"
                       : "text-[#1E90FF]"
